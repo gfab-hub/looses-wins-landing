@@ -1,0 +1,1659 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>LOOSES &amp; WINS</title>
+<meta name="description" content="El beneficio real de cada pedido de tu tienda Shopify: coste del proveedor, anuncios, comisiones, devoluciones y contracargos. De todas tus tiendas, cada hora. Empieza gratis.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LOOSES &amp; WINS · Vendes mucho. ¿Cuánto te queda?">
+<meta property="og:description" content="Contabilidad y beneficio real para dropshipping. Empieza gratis, sin tarjeta.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: the app's own look (Geist, blue-grey canvas, white cards, brand blue, green/red money) on a marketing page, with glass, blur and light glows. Mobile-first: bottom-sheet checkout, swipeable plans, sticky CTA. Light-only by choice. */
+:root {
+  --canvas: oklch(0.982 0.003 255);
+  --card: oklch(1 0 0);
+  --ink: oklch(0.145 0 0);
+  --muted: oklch(0.556 0 0);
+  --border: oklch(0.925 0.004 255);
+  --brand: oklch(0.52 0.13 255);
+  --brand-deep: oklch(0.42 0.13 258);
+  --brand-glow: oklch(0.72 0.12 245);
+  --positive: oklch(0.5 0.13 152);
+  --negative: oklch(0.55 0.19 25);
+  --warning: #b77900;
+  --night: oklch(0.155 0.006 255);
+  --sans: "Geist", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --mono: "Geist Mono", ui-monospace, Consolas, monospace;
+  --r: 14px;
+  --shadow: 0 1px 2px 0 rgb(15 23 42 / .04), 0 4px 14px -6px rgb(15 23 42 / .08);
+  --shadow-lg: 0 1px 2px rgb(15 23 42 / .05), 0 24px 60px -24px rgb(15 23 42 / .28);
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  color-scheme: light;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+[id] { scroll-margin-top: 76px; }
+@media (max-width: 420px) { .nav-cta { padding: 9px 12px; font-size: .8rem; min-height: 38px; } .logo-text { font-size: .86rem; } .logo { gap: 8px; } .nav .wrap { gap: 6px; } }
+@media (max-width: 350px) { .logo-text { display: none; } }
+body { background: var(--canvas); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+body.locked { overflow: hidden; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--canvas); }
+a { color: var(--brand); text-decoration: none; }
+p { margin: 0; }
+button { font-family: inherit; }
+h1, h2, h3 { margin: 0; letter-spacing: -0.035em; line-height: 1.05; text-wrap: balance; font-weight: 700; }
+h1 { font-size: clamp(2.35rem, 6.6vw, 4.8rem); }
+h2 { font-size: clamp(1.75rem, 4.4vw, 3.1rem); }
+h3 { font-size: 1.15rem; letter-spacing: -0.02em; line-height: 1.25; font-weight: 600; }
+.pos { color: var(--positive); }
+.neg { color: var(--negative); }
+.mutedt { color: var(--muted); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.section { padding-block: clamp(64px, 10vw, 120px); position: relative; }
+.pt0 { padding-top: 0 !important; }
+.head { display: grid; gap: 14px; justify-items: center; text-align: center; margin: 0 auto clamp(32px, 6vw, 60px); max-width: 760px; }
+.head p { color: var(--muted); font-size: clamp(1rem, 1.8vw, 1.2rem); max-width: 54ch; }
+.chip { display: inline-flex; align-items: center; gap: 8px; font-size: .8rem; font-weight: 500; color: var(--brand); background: color-mix(in oklch, var(--brand) 9%, white); border: 1px solid color-mix(in oklch, var(--brand) 18%, white); padding: 5px 12px; border-radius: 999px; justify-self: start; }
+.head .chip { justify-self: center; }
+.chip i { width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
+:focus-visible { outline: 3px solid color-mix(in oklch, var(--brand) 50%, transparent); outline-offset: 3px; }
+
+/* Buttons */
+.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 600 .98rem/1 var(--sans); padding: 14px 22px; min-height: 48px; border-radius: 12px; border: 0; cursor: pointer; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease, background .18s ease, opacity .18s ease; }
+.btn-primary { overflow: hidden; color: #fff; background: linear-gradient(180deg, color-mix(in oklch, var(--brand) 88%, white), var(--brand)); box-shadow: 0 1px 0 rgb(255 255 255 / .25) inset, 0 8px 22px -8px color-mix(in oklch, var(--brand) 70%, transparent); }
+.btn-primary::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 35%, rgb(255 255 255 / .38) 50%, transparent 65%); transform: translateX(-130%); pointer-events: none; }
+.btn-ghost { background: rgb(255 255 255 / .7); color: var(--ink); border: 1px solid var(--border); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.btn-soft { background: var(--canvas); color: var(--ink); border: 1px solid var(--border); }
+.btn-sm { padding: 10px 16px; min-height: 40px; font-size: .88rem; border-radius: 10px; }
+.btn:active { transform: scale(.98); }
+.btn:disabled { opacity: .42; cursor: not-allowed; box-shadow: none; transform: none; }
+.btn:disabled::after { display: none; }
+@media (hover: hover) {
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 1px 0 rgb(255 255 255 / .25) inset, 0 14px 30px -10px color-mix(in oklch, var(--brand) 80%, transparent); }
+  .btn-ghost:hover, .btn-soft:hover { background: #fff; }
+}
+.linkbtn { font: 600 .9rem/1 var(--sans); background: none; border: 0; color: var(--brand); cursor: pointer; padding: 8px 0; white-space: nowrap; }
+.linkbtn:hover { text-decoration: underline; }
+.cta-inline { display: flex; flex-wrap: wrap; gap: 10px 16px; justify-content: center; align-items: center; margin-top: 28px; font-size: .85rem; color: var(--muted); }
+.cta-inline.left { margin-top: 6px; }
+@media (max-width: 760px) { .cta-inline { flex-direction: column; gap: 8px; } .cta-inline .btn { width: 100%; } }
+/* Every section title, chip and intro centred */
+.loss-copy, .how > div:first-child, .founder, .loyal > div:first-child { text-align: center; justify-items: center; }
+.chip { justify-self: center !important; }
+.steps { justify-self: center; max-width: 460px; text-align: left; }
+.founder .sig { justify-content: center; }
+
+/* Logo */
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+.logo-mark { width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg, #2f6fc0, #4b3fa6); display: grid; place-items: center; color: #fff; font: 800 .72rem/1 "Segoe UI", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.03em; box-shadow: 0 6px 16px -6px rgb(75 63 166 / .7), inset 0 1px 0 rgb(255 255 255 / .25); flex: none; }
+.logo-mark.sm { width: 24px; height: 24px; border-radius: 7px; font-size: .56rem; }
+
+/* Nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgb(255 255 255 / .62); backdrop-filter: saturate(180%) blur(18px); -webkit-backdrop-filter: saturate(180%) blur(18px); border-bottom: 1px solid rgb(15 23 42 / .06); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 60px; }
+.nav-links { display: flex; gap: 26px; font-size: .9rem; }
+.nav-links a { color: var(--muted); font-weight: 500; }
+.nav-links a:hover { color: var(--ink); }
+.nav-right { display: flex; align-items: center; gap: 8px; }
+.burger { display: none; width: 44px; height: 44px; border: 0; background: none; border-radius: 10px; cursor: pointer; place-items: center; color: var(--ink); }
+.menu { position: absolute; left: var(--gutter-l); right: var(--gutter-r); top: calc(100% + 8px); background: rgb(255 255 255 / .9); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-lg); padding: 8px; display: grid; }
+.menu a { padding: 14px 14px; border-radius: 10px; color: var(--ink); font-weight: 500; }
+.menu a:active { background: var(--canvas); }
+@media (max-width: 760px) {
+  .nav-links { display: none; }
+  .burger { display: grid; }
+  .logo-text { font-size: .95rem; }
+}
+
+/* Hero */
+.hero { position: relative; overflow: hidden; padding-block: clamp(44px, 9vw, 110px) clamp(48px, 8vw, 96px); }
+.aurora { position: absolute; inset: -20% -10% auto; height: 900px; pointer-events: none; z-index: 0; }
+.aurora span { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .55; }
+.aurora .a1 { width: 620px; height: 620px; left: 8%; top: 0; background: color-mix(in oklch, var(--brand) 55%, white); }
+.aurora .a2 { width: 520px; height: 520px; right: 6%; top: 80px; background: oklch(0.85 0.09 205); }
+.aurora .a3 { width: 420px; height: 420px; left: 42%; top: 300px; background: oklch(0.88 0.08 290); opacity: .45; }
+.grid-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; background-image: linear-gradient(rgb(15 23 42 / .045) 1px, transparent 1px), linear-gradient(90deg, rgb(15 23 42 / .045) 1px, transparent 1px); background-size: 56px 56px; -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, #000 30%, transparent 75%); }
+.hero .wrap { position: relative; z-index: 1; }
+.hero-copy { display: grid; gap: 20px; justify-items: center; text-align: center; }
+.hero-copy .chip { justify-self: center; }
+.grad { background: linear-gradient(100deg, var(--brand-deep), var(--brand) 45%, oklch(0.62 0.12 220)); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero .sub { font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--muted); max-width: 46ch; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.fine { font-size: .85rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 18px; justify-content: center; }
+.fine span::before { content: "✓ "; color: var(--positive); font-weight: 700; }
+@media (max-width: 760px) {
+  .aurora { height: 620px; }
+  .aurora span { filter: blur(60px); }
+  .aurora .a1 { width: 340px; height: 340px; left: -60px; }
+  .aurora .a2 { width: 300px; height: 300px; right: -80px; }
+  .aurora .a3 { width: 260px; height: 260px; left: 30%; top: 260px; }
+  .ctas { width: 100%; }
+  .ctas .btn { flex: 1 1 100%; }
+}
+
+/* Product mock */
+.stage { position: relative; margin-top: clamp(40px, 7vw, 76px); perspective: 1600px; }
+.glass-frame { position: relative; border-radius: 22px; padding: 10px; background: rgb(255 255 255 / .45); border: 1px solid rgb(255 255 255 / .8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: var(--shadow-lg); transform-origin: 50% 0; }
+.app { background: var(--canvas); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; display: grid; grid-template-columns: 190px 1fr; }
+.app-side { background: var(--card); border-right: 1px solid var(--border); padding: 16px 12px; display: grid; gap: 4px; align-content: start; font-size: .82rem; }
+.app-side .brandrow { display: flex; align-items: center; gap: 8px; font-weight: 700; padding: 4px 8px 14px; letter-spacing: -0.01em; }
+.app-side .it { padding: 8px 10px; border-radius: 8px; color: var(--muted); font-weight: 500; }
+.app-side .it.on { background: color-mix(in oklch, var(--brand) 9%, white); color: var(--brand); }
+.app-main { padding: 18px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.app-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
+.app-top h4 { margin: 0; font-size: 1.15rem; letter-spacing: -0.02em; }
+.seg-mini { display: inline-flex; background: var(--card); border: 1px solid var(--border); border-radius: 9px; padding: 3px; font-size: .75rem; }
+.seg-mini span { padding: 5px 10px; border-radius: 6px; color: var(--muted); }
+.seg-mini span.on { background: var(--canvas); color: var(--ink); font-weight: 600; box-shadow: var(--shadow); }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; box-shadow: var(--shadow); min-width: 0; }
+.stat .lab { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: .72rem; color: var(--muted); font-weight: 500; }
+.ic { width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; font-size: .7rem; font-weight: 700; flex: none; }
+.ic.b { background: color-mix(in oklch, var(--brand) 11%, white); color: var(--brand); }
+.ic.p { background: color-mix(in oklch, var(--positive) 12%, white); color: var(--positive); }
+.ic.n { background: color-mix(in oklch, var(--negative) 12%, white); color: var(--negative); }
+.stat .val { font-size: clamp(.95rem, 2vw, 1.35rem); font-weight: 600; letter-spacing: -0.02em; margin-top: 4px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stat .hint { font-size: .7rem; color: var(--muted); margin-top: 2px; }
+.stat.feat { background: color-mix(in oklch, var(--positive) 6%, white); border-color: color-mix(in oklch, var(--positive) 25%, white); }
+.chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; box-shadow: var(--shadow); }
+.chart-card .t { display: flex; justify-content: space-between; font-size: .78rem; color: var(--muted); font-weight: 500; margin-bottom: 10px; }
+.chart-card svg { display: block; width: 100%; height: 150px; }
+.float { position: absolute; z-index: 2; width: 270px; border-radius: 18px; padding: 12px 14px; display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: center; background: rgb(255 255 255 / .72); border: 1px solid rgb(255 255 255 / .9); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%); box-shadow: 0 18px 40px -16px rgb(15 23 42 / .3); }
+.float .ico { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: .85rem; }
+.float .meta { display: flex; justify-content: space-between; font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; font-weight: 600; }
+.float .msg { font-size: .82rem; font-weight: 500; }
+.float .amt-big { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.float.f1 { left: -28px; top: 18%; }
+.float.f2 { right: -28px; top: 52%; }
+.stage-caption { text-align: center; color: var(--muted); font-size: .82rem; margin-top: 18px; }
+@media (max-width: 1000px) {
+  .floats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .float { position: static; width: auto; }
+}
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; }
+  .app-side { display: none; }
+  .app-main { padding: 12px; gap: 10px; }
+  .stats { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat { padding: 10px 11px; }
+  .chart-card svg { height: 110px; }
+  .glass-frame { padding: 6px; border-radius: 18px; }
+  .float { padding: 10px; grid-template-columns: 28px 1fr; gap: 8px; border-radius: 14px; }
+  .float .ico { width: 28px; height: 28px; border-radius: 8px; font-size: .75rem; }
+  .float .ico svg { width: 18px; height: 18px; }
+  .float .meta span:last-child { display: none; }
+  .float .msg { font-size: .72rem; }
+  .float .amt-big { font-size: 1.02rem; }
+}
+
+/* Marquee */
+.marquee { overflow: hidden; margin-top: 40px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.track { display: flex; gap: 44px; width: max-content; font-weight: 600; font-size: 1.05rem; color: oklch(0.62 0 0); letter-spacing: -0.01em; }
+.track span { display: inline-flex; align-items: center; gap: 44px; white-space: nowrap; }
+.track span::after { content: "•"; color: var(--brand); opacity: .5; }
+
+/* Cards */
+.card { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); padding: clamp(18px, 3vw, 28px); overflow: hidden; min-width: 0; }
+.card.spot::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s ease; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--brand) 10%, transparent), transparent 60%); }
+@media (hover: hover) { .card.spot:hover::before { opacity: 1; } }
+.card > * { position: relative; }
+
+/* Pain */
+.pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.pain-grid .card { display: grid; gap: 10px; align-content: start; }
+.pain-grid .q { font-size: 1.05rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.4; }
+.pain-grid .tag { font-family: var(--mono); font-size: .72rem; color: var(--negative); }
+.verdict { text-align: center; margin-top: 40px; font-size: clamp(1.35rem, 3vw, 2.1rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; }
+.verdict span { color: var(--brand); }
+@media (max-width: 860px) { .pain-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) {
+  .pain-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin: 0 calc(-1 * var(--gutter-r)) 0 calc(-1 * var(--gutter-l)); padding: 4px var(--gutter-r) 12px var(--gutter-l); scrollbar-width: none; }
+  .pain-grid::-webkit-scrollbar { display: none; }
+  .pain-grid .card { flex: 0 0 78%; scroll-snap-align: center; }
+}
+
+/* Loss */
+.loss-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 56px); align-items: center; }
+.loss-copy { display: grid; gap: 16px; min-width: 0; }
+.loss-copy p { color: var(--muted); font-size: 1.08rem; }
+.row { display: flex; justify-content: space-between; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: .95rem; font-variant-numeric: tabular-nums; }
+.row span:last-child { font-weight: 600; white-space: nowrap; }
+.total-loss { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 10px; padding-top: 18px; }
+.total-loss small { display: block; color: var(--muted); font-size: .8rem; }
+.total-loss .big { font-size: clamp(2.3rem, 6vw, 3.4rem); font-weight: 700; letter-spacing: -0.04em; color: var(--negative); font-variant-numeric: tabular-nums; line-height: 1; }
+.note { font-size: .78rem; color: var(--muted); margin-top: 10px; }
+@media (max-width: 820px) { .loss-wrap { grid-template-columns: 1fr; } .row { font-size: .9rem; } }
+
+/* How */
+.how { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: start; }
+.steps li::before { counter-increment: s; content: counter(s); width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-weight: 700; font-size: .9rem; color: #fff; background: linear-gradient(135deg, var(--brand-glow), var(--brand-deep)); box-shadow: 0 6px 14px -6px color-mix(in oklch, var(--brand) 70%, transparent); }
+.steps strong { display: block; font-size: 1.05rem; letter-spacing: -0.01em; }
+.steps span { color: var(--muted); }
+.receipt .rh { display: flex; justify-content: space-between; font-size: .75rem; color: var(--muted); font-family: var(--mono); padding-bottom: 10px; border-bottom: 1px dashed var(--border); }
+.receipt .rt { display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; }
+.receipt .rt b { font-size: 2.2rem; letter-spacing: -0.03em; color: var(--positive); }
+@media (max-width: 820px) { .how { grid-template-columns: 1fr; } }
+
+/* Bento */
+.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.bento .card { display: grid; gap: 10px; align-content: start; }
+.bento .s2 { grid-column: span 2; } .bento .s3 { grid-column: span 3; } .bento .s4 { grid-column: span 4; }
+.bento p { color: var(--muted); font-size: .95rem; }
+.ficon { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; }
+.ficon svg { width: 18px; height: 18px; }
+.roas { display: grid; gap: 8px; margin-top: 6px; }
+.roas div { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; background: var(--canvas); border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; font-size: .88rem; font-variant-numeric: tabular-nums; }
+.badge { font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 999px; }
+.badge.g { background: color-mix(in oklch, var(--positive) 13%, white); color: var(--positive); }
+.badge.w { background: #fdf1d6; color: var(--warning); }
+.badge.r { background: color-mix(in oklch, var(--negative) 12%, white); color: var(--negative); }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pills span { font-size: .8rem; font-weight: 500; border: 1px solid var(--border); background: var(--canvas); padding: 5px 10px; border-radius: 999px; }
+@media (max-width: 860px) { .bento .s2, .bento .s3, .bento .s4 { grid-column: span 6; } }
+@media (max-width: 860px) and (min-width: 561px) { .bento .s2 { grid-column: span 3; } }
+
+/* Night bands */
+.night { background: var(--night); color: #fff; overflow: hidden; }
+.night .glow { position: absolute; width: 700px; height: 700px; border-radius: 50%; left: 50%; top: -350px; transform: translateX(-50%); background: color-mix(in oklch, var(--brand) 70%, transparent); filter: blur(120px); opacity: .45; pointer-events: none; }
+.night .wrap { position: relative; display: grid; gap: 20px; justify-items: center; text-align: center; }
+.night p { color: oklch(0.78 0 0); font-size: clamp(1.02rem, 2vw, 1.25rem); max-width: 52ch; }
+.shield { width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; background: rgb(255 255 255 / .08); border: 1px solid rgb(255 255 255 / .15); }
+.night-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 860px; margin-top: 12px; text-align: left; }
+.night-cards div { background: rgb(255 255 255 / .05); border: 1px solid rgb(255 255 255 / .1); border-radius: 14px; padding: 16px 18px; display: grid; gap: 4px; }
+.night-cards b { font-size: .95rem; }
+.night-cards span { color: oklch(0.72 0 0); font-size: .88rem; }
+@media (max-width: 760px) { .night-cards { grid-template-columns: 1fr; } .night .glow { width: 420px; height: 420px; top: -220px; filter: blur(80px); } }
+
+/* Before / after */
+.ba { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ba ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.ba li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; }
+.ba .before li { color: var(--muted); }
+.ba .before li::before { content: "✕"; color: var(--negative); font-weight: 700; }
+.ba .after { background: linear-gradient(160deg, color-mix(in oklch, var(--brand) 92%, white), var(--brand-deep)); color: #fff; border-color: transparent; box-shadow: 0 24px 50px -24px color-mix(in oklch, var(--brand) 80%, transparent); }
+.ba .after li::before { content: "✓"; color: oklch(0.88 0.12 160); font-weight: 700; }
+.ba h3 { margin-bottom: 14px; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; }
+.ba .before h3 { color: var(--muted); }
+@media (max-width: 720px) { .ba { grid-template-columns: 1fr; } }
+
+/* Founder */
+.founder { max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
+.founder p { font-size: 1.12rem; line-height: 1.65; color: oklch(0.3 0 0); }
+.sig { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
+.avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--brand-glow), var(--brand-deep)); display: grid; place-items: center; color: #fff; font-weight: 700; }
+
+/* Segmented switch with glass pill */
+.seg { position: relative; display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px; border-radius: 12px; border: 1px solid var(--border); background: color-mix(in oklch, var(--brand) 7%, rgb(255 255 255 / .55)); }
+.seg.block { display: grid; }
+.seg .ind { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 9px; background: linear-gradient(180deg, rgb(255 255 255 / .92), rgb(255 255 255 / .55)); border: 1px solid rgb(255 255 255 / .95); backdrop-filter: blur(12px) saturate(180%); -webkit-backdrop-filter: blur(12px) saturate(180%); box-shadow: inset 0 1px 0 #fff, inset 0 -1px 1px rgb(255 255 255 / .45), 0 6px 16px -8px rgb(15 23 42 / .35), 0 0 0 .5px rgb(15 23 42 / .06); transition: transform .5s cubic-bezier(.3,1.5,.4,1), width .5s cubic-bezier(.3,1.5,.4,1); z-index: 0; }
+.seg .ind.instant { transition: none; }
+.seg button { position: relative; z-index: 1; border: 0; background: transparent; color: var(--muted); font: 600 .9rem/1 var(--sans); padding: 11px 18px; min-height: 40px; border-radius: 9px; cursor: pointer; transition: color .25s ease; white-space: nowrap; }
+.seg button.on { color: var(--ink); }
+
+/* Pricing */
+.period-row { display: flex; justify-content: center; margin-bottom: 32px; }
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; max-width: 1000px; margin: 0 auto; }
+.plan { display: grid; grid-template-rows: auto auto auto 1fr auto; gap: 16px; padding: clamp(22px, 3vw, 32px) !important; }
+.plan .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 26px; }
+.plan .for { color: var(--muted); font-size: .9rem; min-height: 2.8em; margin-top: 4px; }
+.pop { font-size: .72rem; font-weight: 600; color: #fff; background: var(--brand); padding: 4px 10px; border-radius: 999px; }
+.price-line { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.price-line .now { font-size: 3rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.price-line .per { color: var(--muted); font-size: .88rem; }
+.was { position: relative; display: inline-block; color: var(--muted); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+.was::after { content: ""; position: absolute; left: -2px; right: -2px; top: 52%; height: 2px; border-radius: 2px; background: var(--negative); transform-origin: left center; }
+.billed { font-size: .8rem; color: var(--muted); margin-top: 6px; min-height: 1.2em; }
+.billed b { display: inline-block; color: var(--positive); font-weight: 600; }
+.plan ul { list-style: none; padding: 16px 0 0; margin: 0; border-top: 1px solid var(--border); display: grid; gap: 9px; font-size: .92rem; align-content: start; }
+.plan li { display: grid; grid-template-columns: 18px 1fr; gap: 8px; }
+.plan li::before { content: "✓"; color: var(--positive); font-weight: 700; }
+.addon-note { align-self: end; font-size: .82rem; color: var(--muted); }
+.plan .btn { width: 100%; }
+.plan.pick { border: 1.5px solid transparent; background: linear-gradient(var(--card), var(--card)) padding-box, conic-gradient(from var(--angle, 0deg), var(--brand-glow), var(--brand-deep), oklch(0.8 0.1 200), var(--brand-glow)) border-box; box-shadow: 0 24px 60px -28px color-mix(in oklch, var(--brand) 80%, transparent); }
+@property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+.loyal-line { text-align: center; margin-top: 26px; font-size: .95rem; }
+.loyal-line a { font-weight: 600; }
+.more-row { max-width: 1000px; margin: 18px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.more-row > div { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; padding: 14px 18px; border: 1px dashed var(--border); border-radius: 12px; font-size: .86rem; color: var(--muted); }
+.more-row b { color: var(--ink); font-weight: 600; }
+.vat { text-align: center; color: var(--muted); font-size: .8rem; margin-top: 18px; }
+.mplans { max-width: 480px; margin: 0 auto; display: grid; gap: 14px; }
+.mplans .seg button { font-size: .88rem; min-height: 44px; }
+.mcard { display: grid; }
+@media (prefers-reduced-motion: no-preference) {
+  .mcard.from-r { animation: cardR .38s cubic-bezier(.2,.9,.3,1) both; }
+  .mcard.from-l { animation: cardL .38s cubic-bezier(.2,.9,.3,1) both; }
+}
+@keyframes cardR { from { opacity: 0; transform: translateX(28px) scale(.98); } }
+@keyframes cardL { from { opacity: 0; transform: translateX(-28px) scale(.98); } }
+@media (max-width: 900px) {
+  .more-row { grid-template-columns: 1fr; }
+  .plan .for { min-height: 0; }
+  .plan .top { justify-content: center; }
+  .mcard .plan { text-align: center; }
+  .mcard .price-line { justify-content: center; }
+  .mcard .plan ul { justify-items: center; }
+}
+
+/* Loyalty */
+.loyal { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: .9fr 1.1fr; gap: 24px 40px; align-items: center; }
+.loyal h3 { font-size: 1.45rem; }
+.loyal p { color: var(--muted); margin-top: 8px; }
+.timeline { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding-top: 30px; }
+.timeline .bar { position: absolute; top: 9px; left: 12.5%; right: 12.5%; height: 4px; border-radius: 4px; background: var(--border); overflow: hidden; }
+.timeline .bar i { position: absolute; inset: 0; background: linear-gradient(90deg, var(--brand-glow), var(--brand), var(--positive)); transform-origin: left; }
+.timeline .step { text-align: center; display: grid; gap: 2px; justify-items: center; position: relative; }
+.timeline .step::before { content: ""; position: absolute; top: -27px; width: 16px; height: 16px; border-radius: 50%; background: var(--card); border: 3px solid var(--brand); box-shadow: 0 0 0 4px color-mix(in oklch, var(--brand) 12%, transparent); }
+.timeline .step:last-child::before { border-color: var(--positive); box-shadow: 0 0 0 4px color-mix(in oklch, var(--positive) 15%, transparent); }
+.timeline .when { font-size: .78rem; color: var(--muted); }
+.timeline .off { font-size: clamp(1.1rem, 4vw, 1.5rem); font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.timeline .step:last-child .off { color: var(--positive); }
+@media (max-width: 800px) { .loyal { grid-template-columns: 1fr; } }
+
+/* FAQ */
+.faq { max-width: 780px; margin: 0 auto; display: grid; gap: 10px; }
+.faq details { background: var(--card); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); padding: 0 18px; }
+.faq summary { cursor: pointer; list-style: none; padding: 18px 0; min-height: 56px; font-weight: 600; letter-spacing: -0.01em; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--brand); font-size: 1.4rem; line-height: 1; transition: transform .2s ease; flex: none; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { padding-bottom: 18px; color: var(--muted); max-width: 66ch; }
+
+/* Closing + footer */
+.closing { background: var(--night); color: #fff; overflow: hidden; }
+.closing .glow { position: absolute; width: 900px; height: 500px; left: 50%; bottom: -320px; transform: translateX(-50%); background: color-mix(in oklch, var(--brand) 75%, transparent); filter: blur(110px); opacity: .55; border-radius: 50%; pointer-events: none; }
+.closing .wrap { position: relative; display: grid; gap: 20px; justify-items: center; text-align: center; }
+.closing p { color: oklch(0.78 0 0); font-size: 1.12rem; max-width: 44ch; }
+.closing .ps { font-size: .9rem; color: oklch(0.65 0 0); border-top: 1px solid rgb(255 255 255 / .12); padding-top: 20px; max-width: 56ch; }
+footer { background: var(--night); color: oklch(0.6 0 0); font-size: .8rem; padding-block: 24px calc(24px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid rgb(255 255 255 / .08); }
+footer { padding-top: clamp(40px, 6vw, 64px) !important; }
+.foot { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 28px 24px; padding-bottom: 32px; }
+.foot-brand { display: grid; gap: 12px; align-content: start; justify-items: start; }
+.foot-brand .logo { color: #fff; }
+.foot-brand p { color: oklch(0.65 0 0); font-size: .86rem; max-width: 30ch; }
+.foot-col { display: grid; gap: 10px; align-content: start; justify-items: start; }
+.foot-col h4 { margin: 0 0 4px; color: #fff; font-size: .82rem; font-weight: 600; letter-spacing: .02em; }
+footer a, .foot-btn { color: oklch(0.7 0 0); font-size: .86rem; }
+footer a:hover, .foot-btn:hover { color: #fff; }
+.foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; padding-top: 20px; border-top: 1px solid rgb(255 255 255 / .08); font-size: .76rem; color: oklch(0.55 0 0); }
+@media (max-width: 860px) { .foot { grid-template-columns: 1fr 1fr; } .foot-brand { grid-column: 1 / -1; } }
+@media (max-width: 340px) { .foot { grid-template-columns: 1fr; } }
+.foot-col .foot-btn { font-size: .86rem; text-align: left; }
+@media (max-width: 760px) { .foot-col a, .foot-col .foot-btn { padding: 4px 0; } }
+@media (max-width: 760px) { footer { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); } }
+
+/* Mobile sticky CTA */
+.mcta { position: fixed; z-index: 25; left: 0; right: 0; bottom: 0; padding: 10px var(--gutter-r) calc(10px + env(safe-area-inset-bottom, 0px)) var(--gutter-l); background: rgb(255 255 255 / .78); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%); border-top: 1px solid rgb(15 23 42 / .08); display: none; gap: 10px; transform: translateY(110%); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.mcta.show { transform: none; }
+.mcta .btn { flex: 1; }
+@media (max-width: 760px) { .mcta { display: flex; } }
+
+/* Modals */
+.overlay { position: fixed; inset: 0; z-index: 40; background: rgb(15 23 42 / .35); backdrop-filter: blur(10px) saturate(140%); -webkit-backdrop-filter: blur(10px) saturate(140%); display: grid; place-items: center; padding: calc(16px + env(safe-area-inset-top, 0px)) var(--gutter-r) calc(16px + env(safe-area-inset-bottom, 0px)) var(--gutter-l); }
+.sheet { position: relative; width: 100%; max-width: 780px; max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; background: var(--card); border-radius: 18px; border: 1px solid var(--border); box-shadow: 0 40px 100px -30px rgb(15 23 42 / .5); display: grid; grid-template-columns: 1fr 1.1fr; }
+.sheet.single { max-width: 600px; grid-template-columns: 1fr; }
+.x { position: absolute; top: 10px; right: 10px; z-index: 3; width: 36px; height: 36px; border: 0; background: none; font-size: 1.5rem; line-height: 1; color: var(--muted); cursor: pointer; transition: color .2s ease, transform .2s ease; }
+.x:hover { color: var(--negative); transform: scale(1.1); }
+.grabber { display: none; width: 40px; height: 5px; border-radius: 99px; background: var(--border); margin: 8px auto 0; grid-column: 1 / -1; }
+.sum { background: var(--canvas); border-right: 1px solid var(--border); padding: 20px; display: grid; gap: 11px; align-content: start; min-width: 0; }
+.frm { padding: 20px; display: grid; gap: 11px; align-content: start; min-width: 0; }
+.sum h3, .frm h3 { font-size: 1.02rem; }
+.grp { display: grid; gap: 5px; }
+.grp > span { font-size: .72rem; font-weight: 600; color: var(--muted); }
+.sheet .seg { padding: 3px; border-radius: 10px; }
+.sheet .seg .ind { top: 3px; bottom: 3px; border-radius: 8px; }
+.sheet .seg button { padding: 7px 4px; min-height: 34px; font-size: .78rem; }
+.glass-plan { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 14px; background: linear-gradient(135deg, rgb(255 255 255 / .75), rgb(255 255 255 / .3)); border: 1px solid rgb(255 255 255 / .9); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%); box-shadow: inset 0 1px 0 rgb(255 255 255 / .95), inset 0 -1px 0 rgb(255 255 255 / .35), 0 14px 34px -16px color-mix(in oklch, var(--brand) 60%, transparent); }
+.glass-plan > div { display: grid; gap: 2px; min-width: 0; }
+.acc { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.2,.8,.2,1); }
+.acc.open { grid-template-rows: 1fr; }
+.acc-in { overflow: hidden; min-height: 0; display: grid; gap: 11px; }
+.acc:not(.open) .acc-in { visibility: hidden; transition: visibility 0s .35s; }
+.chev svg, .brk svg { transition: transform .3s ease; }
+.chev svg.up, .brk svg.up { transform: rotate(180deg); }
+.sum-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding-right: 30px; }
+.promo { display: flex; gap: 8px; }
+.promo input { flex: 1; min-width: 0; font: 500 .84rem var(--sans); letter-spacing: .04em; text-transform: uppercase; padding: 8px 10px; border-radius: 9px; border: 1px dashed oklch(0.85 0.01 255); background: var(--card); color: var(--ink); min-height: 36px; }
+.promo input::placeholder { text-transform: none; letter-spacing: 0; color: var(--muted); }
+.promo input:focus { outline: none; border-color: var(--brand); border-style: solid; box-shadow: 0 0 0 4px color-mix(in oklch, var(--brand) 14%, transparent); }
+.promo .btn { min-height: 36px; padding: 8px 14px; }
+.promo-msg { font-size: .72rem; color: var(--negative); min-height: 1em; }
+.promo-msg.ok { color: var(--positive); font-weight: 600; }
+@media (min-width: 761px) { .m-only { display: none !important; } .sum .then { order: 2; } }
+@media (max-width: 760px) {
+  .glass-plan { padding: 14px 16px; }
+  .gp-name { font-size: 1.15rem; }
+  .gp-price .amt { font-size: 1.45rem; }
+  .chev { display: inline-flex; align-items: center; gap: 4px; font-size: .74rem; font-weight: 600; color: var(--brand); background: color-mix(in oklch, var(--brand) 10%, white); padding: 6px 9px; border-radius: 999px; flex: none; }
+  .acc.open .acc-in { padding-top: 2px; }
+  .total-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 0 2px; font-variant-numeric: tabular-nums; }
+  .total-row span:first-child { font-weight: 500; font-size: .82rem; color: var(--muted); }
+  .total-row .amt { font-size: .95rem; font-weight: 700; }
+  .promo-t { justify-self: start; font-size: .8rem; padding: 2px 0; }
+  .promo input { font-size: 16px; min-height: 42px; }
+  .promo .btn { min-height: 42px; }
+  .sum-head .chev { border: 0; cursor: pointer; font-family: inherit; }
+  .brk { justify-self: center; display: inline-flex; align-items: center; gap: 5px; font-size: .82rem; padding: 4px 0; }
+  .acc-brk .lines { border-top: 0; padding-top: 0; }
+}
+.gp-name { font-size: 1.02rem; font-weight: 700; letter-spacing: -0.02em; }
+.gp-sub { font-size: .72rem; color: var(--muted); }
+.gp-price { text-align: right; white-space: nowrap; }
+.gp-price .amt { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.gp-price small { color: var(--muted); font-size: .8rem; margin-left: 2px; }
+.lines { display: grid; gap: 4px; border-top: 1px solid var(--border); padding-top: 10px; font-size: .82rem; font-variant-numeric: tabular-nums; }
+.lines div { display: flex; justify-content: space-between; gap: 12px; }
+.lines .sv { color: var(--positive); }
+.lines .tot { font-weight: 700; font-size: .98rem; border-top: 1px solid var(--border); padding-top: 8px; margin-top: 2px; }
+.then { font-size: .72rem; color: var(--muted); min-height: 2.4em; }
+.ghost { visibility: hidden; }
+.fld { display: grid; gap: 4px; }
+.fld label { font-size: .72rem; font-weight: 600; color: var(--muted); }
+.fld input, .fld select { font: 400 .86rem var(--sans); padding: 9px 10px; border-radius: 9px; border: 1px solid oklch(0.91 0.004 255); background: var(--card); color: var(--ink); width: 100%; min-height: 38px; }
+.fld input:focus, .fld select:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 4px color-mix(in oklch, var(--brand) 14%, transparent); }
+.r2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.chk { display: flex; gap: 8px; align-items: flex-start; font-size: .8rem; cursor: pointer; }
+.chk input { appearance: none; -webkit-appearance: none; margin: 0; width: 17px; height: 17px; flex: none; border-radius: 5px; border: 1.5px solid oklch(0.85 0.01 255); background: var(--card); display: grid; place-items: center; cursor: pointer; transition: background .2s ease, border-color .2s ease, transform .25s cubic-bezier(.3,1.6,.4,1); }
+.chk input::after { content: ""; width: 8px; height: 4px; margin-top: -3px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) scale(0); transition: transform .3s cubic-bezier(.3,1.6,.4,1); }
+.chk input:checked { background: linear-gradient(180deg, color-mix(in oklch, var(--brand) 82%, white), var(--brand)); border-color: var(--brand); box-shadow: inset 0 1px 0 rgb(255 255 255 / .3), 0 4px 10px -4px color-mix(in oklch, var(--brand) 75%, transparent); }
+.chk input:checked::after { transform: rotate(-45deg) scale(1); }
+.chk input:active { transform: scale(.88); }
+.opt { align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 12px; background: rgb(255 255 255 / .7); transition: border-color .2s ease, background .2s ease, box-shadow .2s ease; }
+.opt:has(input:checked) { border-color: color-mix(in oklch, var(--brand) 45%, white); background: color-mix(in oklch, var(--brand) 5%, white); box-shadow: 0 0 0 3px color-mix(in oklch, var(--brand) 12%, transparent); }
+.opt .opt-t { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.opt .opt-t b { font-size: .86rem; font-weight: 600; }
+.opt .opt-t small { color: var(--muted); font-size: .74rem; }
+.opt .opt-p { font-weight: 600; font-size: .86rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.opt .opt-p s { color: var(--muted); font-weight: 400; margin-right: 5px; text-decoration-color: var(--negative); }
+.legal { display: grid; gap: 8px; background: var(--canvas); border: 1px solid var(--border); border-radius: 10px; padding: 10px; }
+.legal .chk { font-size: .74rem; color: oklch(0.35 0 0); }
+.err { min-height: 1em; font-size: .78rem; color: var(--negative); }
+.err.hint { color: var(--muted); }
+.paybar { display: grid; gap: 8px; }
+.paybar .btn { width: 100%; padding: 12px 18px; font-size: .9rem; }
+.secure { font-size: .7rem; color: var(--muted); text-align: center; }
+.done { grid-column: 1 / -1; padding: 32px 24px; display: grid; gap: 14px; justify-items: center; align-content: center; text-align: center; }
+.done .ok { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; font-size: 1.8rem; font-weight: 700; color: var(--positive); background: color-mix(in oklch, var(--positive) 12%, white); }
+.done p { color: var(--muted); max-width: 46ch; }
+@media (max-width: 760px) {
+  .overlay { place-items: end center; padding: 0; }
+  .sheet { grid-template-columns: 1fr; max-width: none; max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px)); border-radius: 22px 22px 0 0; border-bottom: 0; }
+  .grabber { display: block; }
+  .sum { border-right: 0; border-bottom: 1px solid var(--border); padding: 12px var(--gutter-r) 16px var(--gutter-l); }
+  .frm { padding: 16px var(--gutter-r) 0 var(--gutter-l); }
+  .r2 { grid-template-columns: 1fr; }
+  .fld input, .fld select { font-size: 16px; min-height: 46px; }
+  .sheet .seg button { min-height: 40px; font-size: .82rem; }
+  .chk input { width: 22px; height: 22px; border-radius: 6px; }
+  .chk input::after { width: 10px; height: 5px; }
+  .legal .chk, .chk { font-size: .82rem; }
+  .sheet .ghost { display: none; }
+  .paybar { position: sticky; bottom: 0; margin: 0 calc(-1 * var(--gutter-r)) 0 calc(-1 * var(--gutter-l)); padding: 10px var(--gutter-r) calc(12px + env(safe-area-inset-bottom, 0px)) var(--gutter-l); background: rgb(255 255 255 / .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--border); }
+  .paybar .btn { min-height: 50px; font-size: 1rem; }
+  .then { min-height: 0; }
+  .x { top: 8px; }
+}
+
+/* Legal viewer */
+.legal-ov { z-index: 50; }
+.legal-sheet { max-width: 980px; height: min(86dvh, 860px); grid-template-columns: 210px 1fr; overflow: hidden; }
+.legal-nav { background: var(--canvas); border-right: 1px solid var(--border); padding: 18px 10px; display: grid; gap: 2px; align-content: start; overflow-y: auto; }
+.legal-nav button { text-align: left; border: 0; background: none; padding: 9px 12px; border-radius: 9px; font: 500 .86rem/1.3 var(--sans); color: var(--muted); cursor: pointer; }
+.legal-nav button:hover { color: var(--ink); background: rgb(255 255 255 / .7); }
+.legal-nav button.on { color: var(--brand); background: var(--card); box-shadow: var(--shadow); font-weight: 600; }
+.legal-doc { overflow-y: auto; padding: 28px 34px 40px; min-width: 0; overscroll-behavior: contain; }
+.legal-doc h2 { font-size: 1.6rem; padding-right: 40px; }
+.draft { margin-top: 10px; font-size: .78rem; color: #7a5a00; background: #fff6d6; border: 1px solid #f3e2a6; padding: 8px 12px; border-radius: 9px; }
+.legal-body { font-size: .92rem; line-height: 1.65; color: oklch(0.3 0 0); }
+.legal-body h2 { font-size: 1.12rem; margin: 26px 0 8px; letter-spacing: -0.015em; }
+.legal-body h3 { font-size: .98rem; margin: 18px 0 6px; }
+.legal-body p, .legal-body ul, .legal-body ol { margin: 8px 0; }
+.legal-body ul, .legal-body ol { padding-left: 1.2em; }
+.legal-body li { margin: 4px 0; }
+.legal-body em { color: var(--muted); }
+.legal-body .tbl { overflow-x: auto; margin: 10px 0; border: 1px solid var(--border); border-radius: 10px; }
+.legal-body table { border-collapse: collapse; width: 100%; font-size: .82rem; }
+.legal-body th, .legal-body td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.legal-body th { background: var(--canvas); font-weight: 600; }
+.legal-body tr:last-child td { border-bottom: 0; }
+.legal-body code { font-family: var(--mono); font-size: .8rem; background: var(--canvas); padding: 1px 5px; border-radius: 5px; }
+mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 4px; }
+@media (max-width: 760px) {
+  .legal-sheet { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; height: calc(100dvh - 24px - env(safe-area-inset-top, 0px)); }
+  .legal-nav { display: flex; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--border); padding: 10px var(--gutter-r) 10px var(--gutter-l); gap: 6px; scrollbar-width: none; }
+  .legal-nav::-webkit-scrollbar { display: none; }
+  .legal-nav button { white-space: nowrap; flex: none; border: 1px solid var(--border); background: var(--card); padding: 8px 12px; }
+  .legal-doc { padding: 18px var(--gutter-r) calc(28px + env(safe-area-inset-bottom, 0px)) var(--gutter-l); }
+  .legal-doc h2 { font-size: 1.35rem; }
+}
+
+/* Cookie banner */
+.cookie { position: fixed; z-index: 35; left: max(16px, env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); width: min(440px, calc(100vw - 32px)); background: rgb(255 255 255 / .9); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-lg); padding: 16px; display: grid; gap: 12px; font-size: .84rem; color: oklch(0.3 0 0); }
+.cookie a { font-weight: 600; }
+.cookie-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.cookie-btns .btn { padding: 9px 8px; font-size: .8rem; min-height: 40px; }
+.btn-dark { background: var(--ink); color: #fff; }
+@media (hover: hover) { .btn-dark:hover { background: oklch(0.28 0 0); } }
+.cookie-opts { display: grid; gap: 8px; }
+.tgl { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); cursor: pointer; }
+.tgl span { display: grid; gap: 1px; }
+.tgl small { color: var(--muted); font-size: .74rem; }
+.tgl input { appearance: none; -webkit-appearance: none; width: 40px; height: 24px; border-radius: 99px; background: oklch(0.88 0.005 255); position: relative; flex: none; cursor: pointer; transition: background .2s ease; margin: 0; }
+.tgl input::after { content: ""; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgb(0 0 0 / .25); transition: transform .25s cubic-bezier(.3,1.4,.4,1); }
+.tgl input:checked { background: var(--brand); }
+.tgl input:checked::after { transform: translateX(16px); }
+.tgl input:disabled { opacity: .6; cursor: default; }
+@media (max-width: 760px) { .cookie { left: 8px; right: 8px; width: auto; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); } .cookie-btns .btn { min-height: 44px; } }
+@media (prefers-reduced-motion: no-preference) { .cookie { animation: fadeUp .5s .6s cubic-bezier(.2,.8,.2,1) both; } }
+.foot-btn { background: none; border: 0; padding: 0; font: inherit; color: oklch(0.7 0 0); cursor: pointer; }
+.foot-btn:hover { color: #fff; }
+
+/* Calculator */
+.calc { display: grid; grid-template-columns: 1.1fr .9fr; gap: 0; padding: 0 !important; max-width: 1000px; margin: 0 auto; }
+.calc-in { padding: clamp(20px, 3vw, 30px); display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; align-content: start; border-right: 1px solid var(--border); }
+.calc-in .fld { align-content: end; }
+.sfx { position: relative; }
+.sfx input { padding-right: 30px !important; font-variant-numeric: tabular-nums; }
+.sfx span { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: .82rem; pointer-events: none; }
+.calc-out { padding: clamp(20px, 3vw, 30px); display: grid; gap: 12px; align-content: start; background: linear-gradient(180deg, color-mix(in oklch, var(--brand) 5%, white), var(--card)); }
+.co-row { display: flex; justify-content: space-between; gap: 12px; font-size: .9rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.co-row .amt { color: var(--ink); font-weight: 600; white-space: nowrap; }
+.co-row.warn .amt { color: var(--negative); font-weight: 700; }
+.co-main { display: grid; gap: 2px; padding: 14px 16px; border-radius: 14px; background: var(--card); border: 1px solid var(--border); box-shadow: var(--shadow); }
+.co-main span:first-child { font-size: .82rem; color: var(--muted); font-weight: 500; }
+.co-main .amt { font-size: clamp(2rem, 5vw, 2.6rem); font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.co-roas { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding: 10px 0; border-block: 1px solid var(--border); }
+.co-roas div { display: grid; }
+.co-roas small { font-size: .72rem; color: var(--muted); }
+.co-roas .amt { font-size: 1.2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.co-roas .badge { margin-left: auto; }
+@media (max-width: 820px) { .calc { grid-template-columns: 1fr; } .calc-in { border-right: 0; border-bottom: 1px solid var(--border); } }
+@media (max-width: 760px) { .calc-in .fld input { font-size: 16px; min-height: 46px; } .calc-out .btn { width: 100%; } }
+
+.glass-plan > .gp-price { display: flex; align-items: baseline; justify-content: flex-end; gap: 2px; }
+@media (max-width: 760px) { .legal-nav { padding-right: 56px !important; } .legal-sheet .x { top: 14px; background: var(--card); border-radius: 50%; } }
+
+/* Comparison */
+.cmp { max-width: 1000px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); overflow: hidden; }
+.cmp-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.1fr; border-bottom: 1px solid var(--border); align-items: stretch; }
+.cmp-row:last-child { border-bottom: 0; }
+.cmp-row > span { padding: 14px 16px; font-size: .9rem; display: flex; align-items: center; }
+.cmp-h > span { font-weight: 700; font-size: .88rem; gap: 8px; }
+.cmp-t { font-weight: 600; }
+.cmp .us { background: color-mix(in oklch, var(--brand) 6%, white); }
+.cmp-h .us { color: var(--brand); }
+.mk { display: inline-flex; align-items: center; gap: 8px; }
+.mk i { font-style: normal; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: .72rem; font-weight: 800; flex: none; }
+.mk-yes i { background: color-mix(in oklch, var(--positive) 15%, white); color: var(--positive); }
+.mk-mid i { background: #fdf1d6; color: var(--warning); }
+.mk-no i { background: color-mix(in oklch, var(--negative) 12%, white); color: var(--negative); }
+.mk-no span, .mk-mid span { color: var(--muted); }
+.mk-yes span { color: var(--ink); }
+.us .mk-yes span { font-weight: 600; }
+@media (max-width: 760px) {
+  .cmp-row { grid-template-columns: repeat(3, 1fr); }
+  .cmp-row > span { padding: 10px 8px; font-size: .74rem; justify-content: center; text-align: center; }
+  .cmp-row > .cmp-t { grid-column: 1 / -1; justify-content: flex-start; text-align: left; padding: 12px 14px 4px; font-size: .86rem; background: none; }
+  .cmp-h > .cmp-t { display: none; }
+  .cmp-h { position: sticky; top: calc(60px + env(safe-area-inset-top, 0px)); z-index: 2; background: var(--card); }
+  .cmp-h > span { font-size: .72rem; justify-content: center; padding: 10px 6px; }
+  .cmp-h .us-name { display: none; }
+  .cmp-h .us::after { content: "L&W"; font-weight: 800; }
+  .cmp-h .us .logo-mark { display: none; }
+  .mk { flex-direction: column; gap: 4px; }
+  .mk i { width: 22px; height: 22px; }
+  .cmp { overflow: visible; }
+}
+
+/* Rolling numbers + motion */
+.amt { display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  .amt.up { animation: rollUp .45s cubic-bezier(.2,1.25,.3,1) both; }
+  .amt.down { animation: rollDown .45s cubic-bezier(.2,1.25,.3,1) both; }
+  .was.draw::after { animation: strike .55s .2s cubic-bezier(.6,0,.2,1) both; }
+  .billed b { animation: popIn .6s .2s cubic-bezier(.2,1.6,.3,1) both; }
+  .aurora .a1 { animation: drift1 18s ease-in-out infinite alternate; }
+  .aurora .a2 { animation: drift2 22s ease-in-out infinite alternate; }
+  .aurora .a3 { animation: drift1 26s ease-in-out infinite alternate-reverse; }
+  .grad { animation: sheen 7s ease-in-out infinite alternate; }
+  .track { animation: marquee 38s linear infinite; }
+  .btn-primary::after { animation: shine 4.2s ease-in-out infinite; }
+  .hero-copy > * { animation: fadeUp .9s cubic-bezier(.2,.8,.2,1) both; }
+  .hero-copy > *:nth-child(2) { animation-delay: .08s; }
+  .hero-copy > *:nth-child(3) { animation-delay: .16s; }
+  .hero-copy > *:nth-child(4) { animation-delay: .24s; }
+  .hero-copy > *:nth-child(5) { animation-delay: .32s; }
+  .stage { animation: fadeUp 1.1s .35s cubic-bezier(.2,.8,.2,1) both; }
+  .glass-frame { transform: rotateX(7deg); transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+  .chart-line { stroke-dasharray: 1000; animation: draw 2s .7s cubic-bezier(.3,.7,.2,1) both; }
+  .chart-dot { animation: fadeUp .4s 2.4s both; }
+  .stat { animation: fadeUp .7s both; }
+  .stat:nth-child(1) { animation-delay: .55s; } .stat:nth-child(2) { animation-delay: .65s; } .stat:nth-child(3) { animation-delay: .75s; } .stat:nth-child(4) { animation-delay: .85s; }
+  .float.f1 { animation: bob 6s ease-in-out infinite; }
+  .float.f2 { animation: bob 7s ease-in-out infinite reverse; }
+  .plan.pick { animation: spin 6s linear infinite; }
+  .night .glow, .closing .glow { animation: breathe 7s ease-in-out infinite alternate; }
+  .ficon { animation: floaty 5s ease-in-out infinite; }
+  .chip i { animation: ping 2.4s ease-out infinite; }
+  .logo-mark { transition: transform .4s cubic-bezier(.3,1.6,.4,1); }
+  .logo:hover .logo-mark { transform: rotate(-8deg) scale(1.08); }
+  .menu { animation: drop .25s cubic-bezier(.2,.9,.3,1.1); }
+  .sheet { animation: pop .3s cubic-bezier(.2,.9,.3,1.15); }
+  @supports (animation-timeline: view()) {
+    .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 60%; }
+    .timeline .bar i { animation: grow linear both; animation-timeline: view(); animation-range: entry 20% cover 45%; }
+  }
+  @media (hover: hover) {
+    .card.spot { transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; }
+    .card.spot:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgb(15 23 42 / .05), 0 18px 40px -20px rgb(15 23 42 / .25); }
+    .stage:hover .glass-frame { transform: rotateX(0deg); }
+  }
+  @media (max-width: 760px) {
+    .glass-frame { transform: none; }
+    .sheet { animation: slideUp .4s cubic-bezier(.2,.9,.3,1); }
+    .float.f1, .float.f2 { animation: none; }
+  }
+}
+@keyframes rollUp { from { transform: translateY(80%); opacity: 0; filter: blur(3px); } }
+@keyframes rollDown { from { transform: translateY(-80%); opacity: 0; filter: blur(3px); } }
+@keyframes strike { from { transform: scaleX(0); } }
+@keyframes popIn { from { transform: scale(.4); opacity: 0; } }
+@keyframes drift1 { to { transform: translate(80px, 40px) scale(1.08); } }
+@keyframes drift2 { to { transform: translate(-90px, 60px) scale(.94); } }
+@keyframes sheen { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes shine { 0%, 55% { transform: translateX(-130%); } 100% { transform: translateX(130%); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } }
+@keyframes draw { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
+@keyframes bob { 50% { transform: translateY(-8px); } }
+@keyframes spin { to { --angle: 360deg; } }
+@keyframes breathe { from { opacity: .35; transform: translateX(-50%) scale(.9); } to { opacity: .6; transform: translateX(-50%) scale(1.08); } }
+@keyframes floaty { 50% { transform: translateY(-4px); } }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--brand) 45%, transparent); } 100% { box-shadow: 0 0 0 9px transparent; } }
+@keyframes rise { from { opacity: .15; transform: translateY(36px) scale(.97); } }
+@keyframes grow { from { transform: scaleX(0); } }
+@keyframes drop { from { opacity: 0; transform: translateY(-8px) scale(.98); } }
+@keyframes pop { from { transform: translateY(14px) scale(.98); opacity: .6; } }
+@keyframes slideUp { from { transform: translateY(100%); } }
+</style>
+
+<div id="root"></div>
+
+<script type="application/json" id="legal-data">{"aviso":{"title":"Aviso legal","html":"<p><em>Última actualización: <mark class=\"pend\">[PENDIENTE: fecha de publicación]<\/mark><\/em><\/p>\n<h2>1. Titular del sitio web<\/h2>\n<p>En cumplimiento del artículo 10 de la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio\nElectrónico (LSSI-CE), se informa de los datos del titular de este sitio web y del servicio LOOSES &amp; WINS:<\/p>\n<ul>\n<li><strong>Titular:<\/strong> <mark class=\"pend\">[PENDIENTE: nombre y apellidos o razón social]<\/mark><\/li>\n<li><strong>NIF / CIF:<\/strong> <mark class=\"pend\">[PENDIENTE]<\/mark><\/li>\n<li><strong>Domicilio:<\/strong> <mark class=\"pend\">[PENDIENTE: dirección completa]<\/mark><\/li>\n<li><strong>Correo electrónico de contacto:<\/strong> <mark class=\"pend\">[PENDIENTE: p. ej. <a href=\"mailto:hola@dominio.com\">hola@dominio.com<\/a>]<\/mark><\/li>\n<li><strong>Datos registrales:<\/strong> <mark class=\"pend\">[PENDIENTE: Registro Mercantil, tomo, folio, hoja — solo si es una sociedad]<\/mark><\/li>\n<\/ul>\n<p>En adelante, «LOOSES &amp; WINS», «nosotros» o «el titular».<\/p>\n<h2>2. Objeto<\/h2>\n<p>Este sitio web presenta y comercializa LOOSES &amp; WINS, un software en la nube (SaaS) de contabilidad y cálculo del\nbeneficio real para tiendas online. El uso del servicio contratado se rige por las\n<a href=\"#legal-condiciones\">Condiciones de uso<\/a>. Este aviso legal regula el uso del sitio web.<\/p>\n<h2>3. Condiciones de uso del sitio web<\/h2>\n<p>Acceder al sitio web implica aceptar este aviso legal. Te comprometes a:<\/p>\n<ul>\n<li>Usar el sitio de forma lícita y de buena fe.<\/li>\n<li>No intentar acceder a zonas restringidas, alterar su funcionamiento ni introducir código malicioso.<\/li>\n<li>No usar los contenidos con fines ilícitos o que perjudiquen a terceros o al titular.<\/li>\n<\/ul>\n<h2>4. Propiedad intelectual e industrial<\/h2>\n<p>Los textos, diseños, gráficos, logotipos, código fuente y demás elementos del sitio y del software son titularidad de\nLOOSES &amp; WINS o se usan con licencia. Queda prohibida su reproducción, distribución, comunicación pública o\ntransformación sin autorización expresa.<\/p>\n<p>Las marcas de terceros que aparecen en el sitio (por ejemplo, Shopify, Meta, TikTok, Google, AliExpress, PayPal,\nRevolut o Wise) pertenecen a sus respectivos titulares y se citan únicamente para indicar con qué servicios se puede\nconectar LOOSES &amp; WINS. Su mención no implica patrocinio, asociación ni respaldo por su parte.<\/p>\n<h2>5. Ejemplos y cifras<\/h2>\n<p>Las cifras, pedidos, campañas y pantallas que aparecen en el sitio web son <strong>ejemplos ilustrativos<\/strong>. No son resultados\nde clientes ni garantizan ningún resultado económico.<\/p>\n<h2>6. Responsabilidad<\/h2>\n<p>El titular trabaja para que el sitio esté disponible y sus contenidos sean correctos, pero no garantiza la ausencia de\ninterrupciones o errores. No responde de los daños derivados del uso indebido del sitio, de causas ajenas a su control\nni de los contenidos de sitios de terceros enlazados.<\/p>\n<h2>7. Enlaces a terceros<\/h2>\n<p>Los enlaces a sitios de terceros se ofrecen solo como referencia. El titular no controla esos sitios ni responde de\nsus contenidos o políticas.<\/p>\n<h2>8. Protección de datos y cookies<\/h2>\n<p>El tratamiento de datos personales se explica en la <a href=\"#legal-privacidad\">Política de privacidad<\/a> y el uso de cookies, en\nla <a href=\"#legal-cookies\">Política de cookies<\/a>.<\/p>\n<h2>9. Legislación aplicable y jurisdicción<\/h2>\n<p>Este aviso legal se rige por la legislación española. Para cualquier controversia, las partes se someten a los juzgados\ny tribunales de <mark class=\"pend\">[PENDIENTE: ciudad]<\/mark>, salvo que la ley establezca otro fuero (por ejemplo, el del domicilio del\nconsumidor).<\/p>\n"},"condiciones":{"title":"Condiciones de uso","html":"<p><em>Última actualización: <mark class=\"pend\">[PENDIENTE: fecha de publicación]<\/mark><\/em><\/p>\n<p>Estas condiciones regulan la contratación y el uso de LOOSES &amp; WINS (el «Servicio»), prestado por\n<mark class=\"pend\">[PENDIENTE: titular, NIF y domicilio]<\/mark> («nosotros»). Al crear una cuenta o contratar un plan aceptas estas condiciones,\nla <a href=\"#legal-devoluciones\">Política de devoluciones<\/a>, la <a href=\"#legal-pagos\">Política de pagos y contracargos<\/a> y el\n<a href=\"#legal-encargo\">Acuerdo de encargo del tratamiento<\/a>. Lee también la <a href=\"#legal-privacidad\">Política de privacidad<\/a>.<\/p>\n<h2>1. Qué es el Servicio<\/h2>\n<p>LOOSES &amp; WINS es un software en la nube que cruza los datos de tus tiendas y de los servicios que conectes (por ejemplo,\nShopify, tu proveedor, plataformas de anuncios, pasarelas de pago o bancos) para calcular el beneficio real por pedido,\nproducto, campaña, tienda y día, y para ayudarte a organizar facturas, impuestos y el cierre de mes.<\/p>\n<p>El Servicio está dirigido principalmente a <strong>empresas y profesionales<\/strong> (autónomos y sociedades) que venden online.<\/p>\n<h2>2. Cuenta<\/h2>\n<ul>\n<li>Para usar el Servicio necesitas una cuenta con un e-mail válido. Los datos que nos des deben ser veraces.<\/li>\n<li>Eres responsable de guardar tus credenciales y de la actividad de tu cuenta y de los usuarios que invites.<\/li>\n<li>Debes activar las medidas de seguridad disponibles (por ejemplo, la verificación en dos pasos) cuando lo consideres\nnecesario. Avísanos si sospechas un acceso no autorizado.<\/li>\n<\/ul>\n<h2>3. Planes y precios<\/h2>\n<ul>\n<li><strong>Plan Gratis:<\/strong> 1 tienda, hasta 50 pedidos al mes y 30 días de historial. Sin tarjeta. Podemos modificar o retirar el\nplan gratuito avisando con antelación razonable.<\/li>\n<li><strong>Planes de pago<\/strong> (Starter, Growth y Scale): con los límites de tiendas, pedidos, facturas y usuarios publicados en la\nweb en el momento de la contratación. Se pagan de forma <strong>mensual o anual<\/strong>, por adelantado.<\/li>\n<li><strong>Enterprise:<\/strong> condiciones y precio a medida, por presupuesto.<\/li>\n<li><strong>Precios sin IVA.<\/strong> El IVA u otros impuestos aplicables se añaden en el pago según tu país y tus datos fiscales.<\/li>\n<li><strong>Límites:<\/strong> si superas de forma continuada el límite de pedidos de tu plan, te avisaremos y podremos pasarte al plan\nsiguiente a partir del siguiente periodo de facturación, previo aviso.<\/li>\n<\/ul>\n<h2>4. Precio congelado y descuento por antigüedad<\/h2>\n<ul>\n<li>Mientras tu suscripción siga activa sin interrupción, <strong>mantenemos el precio de tu plan<\/strong> aunque cambiemos las tarifas\npara nuevos clientes.<\/li>\n<li>Con la suscripción activa y sin interrupción, se aplica un descuento por antigüedad sobre el precio del plan:\n<strong>−5 % a partir de los 6 meses, −10 % a partir de 1 año y −15 % a partir de 2 años<\/strong>.<\/li>\n<li>Si cancelas y vuelves a contratar, la antigüedad empieza de cero y se aplican las tarifas vigentes en ese momento.<\/li>\n<li>El descuento por antigüedad no se acumula con otras promociones salvo que se indique lo contrario.<\/li>\n<\/ul>\n<h2>5. Códigos de descuento y promociones<\/h2>\n<p>Los códigos de descuento tienen las condiciones que se indiquen en cada promoción (importe o porcentaje, planes a los\nque se aplican, número de usos, duración y fecha de caducidad). Salvo que se diga otra cosa, un código se aplica solo al\nprimer pago. No son canjeables por dinero.<\/p>\n<h2>6. Asistente IA (opcional)<\/h2>\n<ul>\n<li>El asistente IA es un complemento opcional con una cantidad de créditos al mes según la modalidad (Básico o Pro). Los\ncréditos del mes no se acumulan al mes siguiente. Si se agotan, puedes comprar packs adicionales.<\/li>\n<li>Las respuestas del asistente se generan automáticamente a partir de tus datos y <strong>pueden contener errores<\/strong>. No son\nasesoramiento fiscal, contable, legal ni financiero. Revisa la información antes de tomar decisiones.<\/li>\n<li>Para generar las respuestas, los datos necesarios se envían a un proveedor de inteligencia artificial que actúa como\nsubencargado del tratamiento (ver <a href=\"#legal-encargo\">Acuerdo de encargo del tratamiento<\/a>).<\/li>\n<\/ul>\n<h2>7. Puesta en marcha («Te lo dejamos montado»)<\/h2>\n<p>Servicio opcional de configuración por videollamada: conexión de tus tiendas e importación de tu historial. Precio\npublicado en el momento de la contratación (149 €, o 49 € con un plan anual, sin IVA). Necesitamos tu colaboración y los\naccesos que tú autorices; no incluye trabajos de contabilidad ni de asesoría fiscal.<\/p>\n<h2>8. Conexiones con servicios de terceros<\/h2>\n<ul>\n<li>El Servicio se conecta, con tu autorización, a servicios de terceros (por ejemplo, Shopify, plataformas de anuncios,\npasarelas de pago, bancos, proveedores o Google Drive). El uso de esos servicios se rige por sus propias condiciones.<\/li>\n<li>Si un tercero cambia, limita o retira su API, algunas funciones pueden dejar de estar disponibles total o\nparcialmente. Haremos lo razonable para adaptarnos o ofrecer una alternativa manual, pero no respondemos de los\ncambios de terceros.<\/li>\n<li>Nunca te pediremos las contraseñas de tu proveedor ni de Google. Las claves de conexión se guardan cifradas.<\/li>\n<\/ul>\n<h2>9. Exactitud de los datos y responsabilidad fiscal<\/h2>\n<ul>\n<li>Los cálculos dependen de los datos que llegan de las conexiones y de los que introduces tú (costes, gastos, facturas).\nSi esos datos son incompletos o erróneos, los resultados también lo serán.<\/li>\n<li>Los informes de IVA, OSS y cierre de mes son una <strong>ayuda para preparar<\/strong> tus obligaciones. La presentación de\nimpuestos y la contabilidad oficial son responsabilidad tuya y de tu asesor.<\/li>\n<li>Los ejemplos y cifras de la web son ilustrativos y no garantizan ningún resultado económico.<\/li>\n<\/ul>\n<h2>10. Uso aceptable<\/h2>\n<p>No puedes usar el Servicio para actividades ilícitas, para vulnerar derechos de terceros, para intentar acceder a datos\nde otros clientes, para hacer ingeniería inversa del software ni para sobrecargar la plataforma de forma deliberada.<\/p>\n<h2>11. Disponibilidad y soporte<\/h2>\n<ul>\n<li>Trabajamos para que el Servicio esté disponible de forma continuada, pero puede haber interrupciones por\nmantenimiento, actualizaciones o causas ajenas (por ejemplo, caídas de proveedores o de internet). Avisaremos con\nantelación de los mantenimientos programados cuando sea posible.<\/li>\n<li>Salvo en los planes Enterprise con acuerdo de nivel de servicio, no se garantiza una disponibilidad concreta.<\/li>\n<li>Soporte por <mark class=\"pend\">[PENDIENTE: canal de soporte, p. ej. e-mail o chat]<\/mark> en horario de <mark class=\"pend\">[PENDIENTE]<\/mark>. Los planes Scale y\nEnterprise tienen soporte prioritario.<\/li>\n<\/ul>\n<h2>12. Tus datos<\/h2>\n<ul>\n<li>Los datos de tu negocio son tuyos. Nuestro equipo solo accede a lo imprescindible para que tu cuenta funcione y para\nfacturarte, y solo accederá a tu información de negocio para darte soporte cuando tú lo solicites. Cada acceso de\nsoporte queda registrado y visible en tu cuenta.<\/li>\n<li>Respecto a los datos de tu negocio y de tus clientes, actuamos como <strong>encargado del tratamiento<\/strong> según el\n<a href=\"#legal-encargo\">Acuerdo de encargo del tratamiento<\/a>, que forma parte de estas condiciones.<\/li>\n<li>Podemos usar estadísticas <strong>agregadas y anónimas<\/strong> del uso del Servicio para mejorarlo, sin identificarte a ti ni a tu\nnegocio.<\/li>\n<\/ul>\n<h2>13. Duración, cancelación y conservación de datos<\/h2>\n<ul>\n<li>La suscripción se renueva automáticamente al final de cada periodo (mes o año) hasta que la canceles.<\/li>\n<li>Puedes cancelar en cualquier momento desde tu cuenta, con un clic. La cancelación evita la siguiente renovación; el\nServicio sigue activo hasta el final del periodo ya pagado.<\/li>\n<li>Tras la baja, <strong>conservamos tus datos durante dos meses<\/strong> por si vuelves. Durante ese plazo puedes reactivar tu cuenta\no pedir la exportación de tus datos. Pasado ese plazo se eliminan, salvo los que debamos conservar por obligación legal\n(por ejemplo, nuestras facturas).<\/li>\n<li>Lo pagado no se reembolsa, salvo en los casos de la <a href=\"#legal-devoluciones\">Política de devoluciones<\/a>.<\/li>\n<\/ul>\n<h2>14. Suspensión y resolución<\/h2>\n<p>Podemos suspender o cerrar una cuenta, con aviso previo cuando sea posible, si se incumplen estas condiciones o si\nexiste un uso fraudulento. En caso de impago se aplica el apartado 3 de la\n<a href=\"#legal-pagos\">Política de pagos y contracargos<\/a>: bloqueo a los 3 días, recargo por demora y borrado de la cuenta a los\n30 días. En el caso concreto de los contracargos se aplica la\n<a href=\"#legal-pagos\">Política de pagos y contracargos<\/a>.<\/p>\n<h2>15. Propiedad intelectual<\/h2>\n<p>El software, su diseño y su documentación son de nuestra titularidad. Te concedemos una licencia de uso no exclusiva e\nintransferible mientras tu suscripción esté activa. No adquieres ningún derecho sobre el software.<\/p>\n<h2>16. Limitación de responsabilidad<\/h2>\n<ul>\n<li>No respondemos de las decisiones de negocio, fiscales o de inversión publicitaria que tomes con la información del\nServicio, ni del lucro cesante, la pérdida de beneficios o los daños indirectos.<\/li>\n<li>Nuestra responsabilidad total frente a ti por cualquier causa se limita al importe que nos hayas pagado en los\n<strong>12 meses anteriores<\/strong> al hecho que la origine.<\/li>\n<li>Estas limitaciones no se aplican en los casos de dolo o culpa grave ni cuando la ley no permita limitarlas, incluidos\nlos derechos que la normativa de consumo reconozca a los consumidores.<\/li>\n<\/ul>\n<h2>17. Cambios en las condiciones<\/h2>\n<p>Podemos modificar estas condiciones. Te avisaremos por e-mail o en la app con al menos <strong>30 días<\/strong> de antelación si los\ncambios son relevantes. Si no estás de acuerdo, puedes cancelar antes de que entren en vigor.<\/p>\n<h2>18. Consumidores<\/h2>\n<p>Si contratas como consumidor (sin actividad empresarial o profesional), conservas todos los derechos que te reconoce el\nReal Decreto Legislativo 1/2007 (Ley General para la Defensa de los Consumidores y Usuarios). En particular, consulta el\nderecho de desistimiento en la <a href=\"#legal-devoluciones\">Política de devoluciones<\/a>.<\/p>\n<h2>19. Ley aplicable y jurisdicción<\/h2>\n<p>Estas condiciones se rigen por la legislación española. Si contratas como empresa o profesional, las partes se someten\na los juzgados y tribunales de <mark class=\"pend\">[PENDIENTE: ciudad]<\/mark>. Si eres consumidor, serán competentes los de tu domicilio.<\/p>\n<h2>20. Contacto<\/h2>\n<p><mark class=\"pend\">[PENDIENTE: e-mail de contacto y dirección postal]<\/mark><\/p>\n"},"devoluciones":{"title":"Política de devoluciones","html":"<p><em>Última actualización: <mark class=\"pend\">[PENDIENTE: fecha de publicación]<\/mark><\/em><\/p>\n<p>Esta política forma parte de las <a href=\"#legal-condiciones\">Condiciones de uso<\/a>.<\/p>\n<h2>1. Regla general: lo pagado no se reembolsa<\/h2>\n<p>LOOSES &amp; WINS es un servicio digital que empieza a funcionar en el momento en que contratas: tu cuenta se activa, se\nconectan tus tiendas y se procesan tus datos. Por eso, <strong>una vez realizado un pago, no se reembolsa<\/strong>, ni total ni\nparcialmente, tampoco por la parte no usada de un periodo mensual o anual.<\/p>\n<p>Para que puedas comprobar si el Servicio te encaja <strong>antes de pagar<\/strong>, tienes el plan Gratis, sin tarjeta y sin límite de\ntiempo.<\/p>\n<h2>2. Cancelación<\/h2>\n<ul>\n<li>Puedes cancelar tu suscripción cuando quieras, con un clic desde tu cuenta.<\/li>\n<li>La cancelación <strong>evita la siguiente renovación<\/strong>. Mantienes el acceso hasta el final del periodo ya pagado.<\/li>\n<li>No hay permanencia ni penalización por cancelar.<\/li>\n<\/ul>\n<h2>3. Casos en los que sí devolvemos el dinero<\/h2>\n<ul>\n<li><strong>Cobros duplicados<\/strong> por un error técnico.<\/li>\n<li><strong>Cobros posteriores a una cancelación<\/strong> hecha correctamente antes de la renovación.<\/li>\n<li><strong>Cobros de un importe distinto<\/strong> al que aceptaste en el pago.<\/li>\n<li>Cuando la ley lo exija.<\/li>\n<\/ul>\n<p>Escríbenos a <mark class=\"pend\">[PENDIENTE: e-mail de soporte]<\/mark> indicando el e-mail de tu cuenta y el cobro. Respondemos en un plazo máximo\nde <mark class=\"pend\">[PENDIENTE: p. ej. 5 días hábiles]<\/mark>. Si procede, el reembolso se hace al mismo medio de pago.<\/p>\n<h2>4. Puesta en marcha («Te lo dejamos montado»)<\/h2>\n<p>El servicio de puesta en marcha no se reembolsa una vez realizada la videollamada de configuración. Si no se ha\nrealizado y lo cancelas con al menos <mark class=\"pend\">[PENDIENTE: p. ej. 48 horas]<\/mark> de antelación sobre la cita, te devolvemos su importe.<\/p>\n<h2>5. Consumidores: derecho de desistimiento<\/h2>\n<p>Si contratas como <strong>consumidor<\/strong> (sin actividad empresarial o profesional), la ley te reconoce un derecho de\ndesistimiento de <strong>14 días naturales<\/strong> desde la contratación (artículos 102 y siguientes del Real Decreto Legislativo\n1/2007).<\/p>\n<p>Como el Servicio es un contenido y servicio digital que empieza a prestarse de inmediato, al contratar <strong>solicitas\nexpresamente que el servicio comience antes de que termine el plazo de desistimiento y reconoces que, una vez prestado\no iniciado con tu consentimiento, pierdes ese derecho<\/strong> (artículo 103, letras a) y m), del mismo texto legal).<\/p>\n<p><mark class=\"pend\">[PENDIENTE: revisar con el abogado si este consentimiento debe pedirse con una casilla propia en el pago para los\nconsumidores.]<\/mark><\/p>\n<h2>6. Contracargos<\/h2>\n<p>Si no estás de acuerdo con un cobro, <strong>escríbenos antes de abrir un contracargo<\/strong> con tu banco. Lo revisaremos y, si\nprocede, te devolveremos el dinero según esta política. Abrir un contracargo sin contactar antes con soporte tiene las\nconsecuencias descritas en la <a href=\"#legal-pagos\">Política de pagos y contracargos<\/a>.<\/p>\n"},"pagos":{"title":"Política de pagos y contracargos","html":"<p><em>Última actualización: <mark class=\"pend\">[PENDIENTE: fecha de publicación]<\/mark><\/em><\/p>\n<p>Esta política forma parte de las <a href=\"#legal-condiciones\">Condiciones de uso<\/a>. Al contratar un plan de pago la aceptas de\nforma expresa marcando su casilla en el proceso de pago.<\/p>\n<h2>1. Cómo se paga<\/h2>\n<ul>\n<li>Los pagos se procesan a través de <strong>Stripe<\/strong> <mark class=\"pend\">[PENDIENTE: confirmar proveedor de pagos]<\/mark>. Introduces tu tarjeta en la\npágina segura del proveedor de pagos; <strong>nosotros no vemos ni guardamos los datos completos de tu tarjeta<\/strong>.<\/li>\n<li>Las suscripciones se pagan <strong>por adelantado<\/strong> y se renuevan automáticamente al final de cada periodo (mensual o anual)\nhasta que las canceles.<\/li>\n<li>Te enviamos la factura de cada pago al e-mail de tu cuenta.<\/li>\n<\/ul>\n<h2>2. Impuestos<\/h2>\n<p>Los precios publicados no incluyen IVA. El impuesto se calcula en el pago según tu país y tus datos fiscales. Si eres\nuna empresa de otro país de la UE con NIF-IVA intracomunitario válido, se aplica la inversión del sujeto pasivo.<\/p>\n<h2>3. Pagos fallidos e impago<\/h2>\n<ol>\n<li><strong>Reintentos.<\/strong> Si un cobro falla, lo reintentaremos durante <strong>3 días<\/strong> y te avisaremos por e-mail para que puedas\nactualizar tu medio de pago.<\/li>\n<li><strong>Bloqueo.<\/strong> Si pasados esos 3 días no se ha podido cobrar, la cuenta queda <strong>bloqueada<\/strong>: no podrás usar el\nServicio y al entrar solo verás un <strong>aviso de impago<\/strong> con el importe pendiente y el botón para pagarlo. Las\nsincronizaciones se detienen.<\/li>\n<li><strong>Recargo por demora.<\/strong> Mientras dure el impago, el importe pendiente devenga un recargo que crece con el tiempo de\nretraso:<ul>\n<li>Si contratas como <strong>empresa o profesional<\/strong>: los <strong>intereses de demora<\/strong> de la Ley 3/2004, de lucha contra la\nmorosidad en las operaciones comerciales (tipo de interés del Banco Central Europeo más 8 puntos porcentuales,\ncalculado por días de retraso), más una <strong>indemnización de 40 €<\/strong> por costes de cobro (artículo 8 de esa ley).<\/li>\n<li>Si contratas como <strong>consumidor<\/strong>: el interés legal del dinero por los días de retraso.\n<mark class=\"pend\">[PENDIENTE: revisar con el abogado el recargo exacto aplicable.]<\/mark><\/li>\n<\/ul>\n<\/li>\n<li><strong>Reactivación.<\/strong> Si pagas el importe pendiente (y, en su caso, el recargo) antes de que pasen <strong>30 días<\/strong> desde el\nimpago, la cuenta se desbloquea al momento con todos sus datos.<\/li>\n<li><strong>Borrado.<\/strong> Pasados <strong>30 días desde el impago<\/strong> sin regularizarlo, se procederá a <strong>cancelar la cuenta y borrar todos\nsus datos<\/strong>. Te avisaremos por e-mail antes de hacerlo. Como responsable de los datos de tu negocio, eliges desde\nahora la supresión de los datos para este supuesto (artículo 28.3.g del RGPD). La deuda pendiente no se extingue con\nel borrado de la cuenta.<\/li>\n<\/ol>\n<h2>4. Cambios de precio<\/h2>\n<p>Los clientes con suscripción activa mantienen su precio (ver <a href=\"#legal-condiciones\">Condiciones de uso<\/a>, apartado 4).\nCualquier otro cambio de precio que te afecte se avisará con al menos <strong>30 días<\/strong> de antelación.<\/p>\n<h2>5. Si no estás de acuerdo con un cobro: contacta primero con nosotros<\/h2>\n<p>Si crees que un cobro es incorrecto, escríbenos a <mark class=\"pend\">[PENDIENTE: e-mail de soporte]<\/mark> <strong>antes de abrir una reclamación o\ncontracargo en tu banco<\/strong>. Revisaremos el caso y, si procede, te devolveremos el dinero según la\n<a href=\"#legal-devoluciones\">Política de devoluciones<\/a>. Es la forma más rápida de solucionarlo.<\/p>\n<h2>6. Contracargos sin contacto previo<\/h2>\n<p>Un contracargo es la reclamación que haces a tu banco para que anule un cobro. Abrir un contracargo <strong>sin haber\ncontactado antes con nuestro soporte<\/strong> se considera una actuación de mala fe y, al aceptar esta política, aceptas\nexpresamente estas consecuencias:<\/p>\n<ol>\n<li><strong>Bloqueo inmediato de la cuenta.<\/strong> Se cierran las sesiones, se detienen las sincronizaciones y se desconectan las\nintegraciones. No podrás acceder a la cuenta ni a sus datos, tampoco para exportarlos.<\/li>\n<li><strong>Borrado de todos los datos<\/strong> de la cuenta en un plazo de <mark class=\"pend\">[PENDIENTE: nº de días, propuesta 14]<\/mark> días desde la\napertura del contracargo. Durante ese plazo, al intentar entrar solo verás un aviso con la fecha de borrado.<\/li>\n<li><strong>Prohibición permanente<\/strong> de volver a contratar el Servicio, con cualquier cuenta.<\/li>\n<li>Como responsable de los datos de tu negocio, <strong>eliges desde ahora la supresión de los datos (y no su devolución)<\/strong>\npara este supuesto, a efectos del artículo 28.3.g del RGPD y del\n<a href=\"#legal-encargo\">Acuerdo de encargo del tratamiento<\/a>.<\/li>\n<\/ol>\n<p>Recuerda que los datos originales de tu negocio siguen en sus fuentes (tu tienda, tus pasarelas de pago, tus bancos y tu\nGoogle Drive): LOOSES &amp; WINS trabaja con copias de esos datos.<\/p>\n<h2>7. Datos que conservamos aunque se borre la cuenta<\/h2>\n<p>Para cumplir la ley y defendernos en la disputa, conservamos únicamente:<\/p>\n<ul>\n<li>Nuestras facturas emitidas y los datos de facturación, durante los plazos legales (por ejemplo, 6 años según el\nartículo 30 del Código de Comercio y los plazos de la normativa tributaria).<\/li>\n<li>La documentación de la disputa (registros de aceptación de esta política, de uso del Servicio y de comunicaciones),\nhasta que la disputa se resuelva y durante los plazos de prescripción de las acciones legales.<\/li>\n<li>Para hacer efectiva la prohibición del punto 6.3, una lista de exclusión con el <strong>e-mail, el NIF/CIF, los dominios de\nlas tiendas y una huella anónima de la tarjeta<\/strong> facilitada por el proveedor de pagos (no el número de la tarjeta),\ndurante <mark class=\"pend\">[PENDIENTE: plazo, p. ej. 5 años]<\/mark>, sobre la base de nuestro interés legítimo en prevenir el fraude.<\/li>\n<\/ul>\n<h2>8. Fraude<\/h2>\n<p>Si detectamos el uso de una tarjeta robada o de datos falsos, cancelaremos la cuenta de inmediato y colaboraremos con\nel proveedor de pagos y, si procede, con las autoridades.<\/p>\n"},"privacidad":{"title":"Política de privacidad","html":"<p><em>Última actualización: <mark class=\"pend\">[PENDIENTE: fecha de publicación]<\/mark><\/em><\/p>\n<h2>1. Responsable del tratamiento<\/h2>\n<ul>\n<li><strong>Responsable:<\/strong> <mark class=\"pend\">[PENDIENTE: nombre o razón social]<\/mark><\/li>\n<li><strong>NIF / CIF:<\/strong> <mark class=\"pend\">[PENDIENTE]<\/mark><\/li>\n<li><strong>Domicilio:<\/strong> <mark class=\"pend\">[PENDIENTE]<\/mark><\/li>\n<li><strong>E-mail para temas de privacidad:<\/strong> <mark class=\"pend\">[PENDIENTE: p. ej. <a href=\"mailto:privacidad@dominio.com\">privacidad@dominio.com<\/a>]<\/mark><\/li>\n<\/ul>\n<p>No estamos obligados a nombrar un delegado de protección de datos. Para cualquier consulta sobre tus datos, escríbenos\nal e-mail anterior.<\/p>\n<h2>2. A quién se aplica<\/h2>\n<ul>\n<li><strong>Visitantes<\/strong> de la web.<\/li>\n<li>Personas que nos <strong>piden presupuesto<\/strong> o nos escriben.<\/li>\n<li><strong>Clientes<\/strong> que crean una cuenta (gratuita o de pago) y los <strong>usuarios<\/strong> que invitan.<\/li>\n<\/ul>\n<p>Sobre los datos de tu negocio y de los clientes de tu tienda que tratamos al prestarte el Servicio, nosotros somos\n<strong>encargados del tratamiento<\/strong> y tú eres el responsable. Ese tratamiento se rige por el\n<a href=\"#legal-encargo\">Acuerdo de encargo del tratamiento<\/a>, no por esta política.<\/p>\n<h2>3. Qué datos tratamos, para qué y con qué base legal<\/h2>\n<div class=\"tbl\"><table>\n<thead>\n<tr>\n<th>Datos<\/th>\n<th>Finalidad<\/th>\n<th>Base legal<\/th>\n<th>Plazo de conservación<\/th>\n<\/tr>\n<\/thead>\n<tbody><tr>\n<td>E-mail, nombre o empresa, contraseña cifrada, usuarios invitados<\/td>\n<td>Crear y gestionar tu cuenta<\/td>\n<td>Ejecución del contrato (art. 6.1.b RGPD)<\/td>\n<td>Mientras la cuenta exista y 2 meses tras la baja<\/td>\n<\/tr>\n<tr>\n<td>NIF/CIF, país, NIF-IVA, dirección de facturación, historial de pagos<\/td>\n<td>Cobrar y emitir facturas<\/td>\n<td>Ejecución del contrato y obligación legal (art. 6.1.b y c)<\/td>\n<td>Plazos legales mercantiles y tributarios (p. ej. 6 años)<\/td>\n<\/tr>\n<tr>\n<td>Datos del pago (los gestiona el proveedor de pagos; nosotros solo vemos el tipo de tarjeta y sus 4 últimos dígitos)<\/td>\n<td>Procesar el cobro<\/td>\n<td>Ejecución del contrato<\/td>\n<td>Según el proveedor de pagos<\/td>\n<\/tr>\n<tr>\n<td>Nombre, empresa, e-mail, teléfono, volumen de pedidos y franja horaria (formulario Enterprise)<\/td>\n<td>Llamarte y preparar un presupuesto<\/td>\n<td>Tu consentimiento y medidas precontractuales (art. 6.1.a y b)<\/td>\n<td>Hasta 12 meses si no contratas<\/td>\n<\/tr>\n<tr>\n<td>Mensajes a soporte<\/td>\n<td>Atender tu consulta<\/td>\n<td>Ejecución del contrato o interés legítimo<\/td>\n<td>Mientras dure la relación y los plazos de prescripción<\/td>\n<\/tr>\n<tr>\n<td>Registros de acceso y seguridad (IP, fecha, acciones en la cuenta, aceptaciones de condiciones)<\/td>\n<td>Seguridad, prevención de fraude y prueba de la contratación<\/td>\n<td>Interés legítimo (art. 6.1.f) y obligación legal<\/td>\n<td>Hasta <mark class=\"pend\">[PENDIENTE: p. ej. 12 meses]<\/mark>, salvo disputa abierta<\/td>\n<\/tr>\n<tr>\n<td>Lista de exclusión por contracargo (e-mail, NIF/CIF, dominios de tienda, huella anónima de tarjeta)<\/td>\n<td>Prevenir el fraude (ver <a href=\"#legal-pagos\">Política de pagos<\/a>)<\/td>\n<td>Interés legítimo (art. 6.1.f)<\/td>\n<td><mark class=\"pend\">[PENDIENTE: p. ej. 5 años]<\/mark><\/td>\n<\/tr>\n<tr>\n<td>E-mail para comunicaciones del producto (novedades, consejos)<\/td>\n<td>Enviarte comunicaciones comerciales sobre el Servicio<\/td>\n<td>Interés legítimo como cliente (art. 21.2 LSSI-CE) o consentimiento<\/td>\n<td>Hasta que te des de baja (enlace en cada e-mail)<\/td>\n<\/tr>\n<tr>\n<td>Datos de navegación y cookies<\/td>\n<td>Ver la <a href=\"#legal-cookies\">Política de cookies<\/a><\/td>\n<td>Consentimiento, salvo cookies técnicas<\/td>\n<td>Ver la política de cookies<\/td>\n<\/tr>\n<\/tbody><\/table><\/div>\n<p>No tomamos decisiones automatizadas con efectos jurídicos sobre ti ni elaboramos perfiles con ese fin.<\/p>\n<h2>4. A quién se comunican los datos<\/h2>\n<p>No vendemos tus datos. Solo los compartimos con proveedores que nos prestan servicios (encargados del tratamiento), con\ncontrato y garantías:<\/p>\n<ul>\n<li><strong>Alojamiento y base de datos:<\/strong> Supabase <mark class=\"pend\">[PENDIENTE: confirmar región, p. ej. UE – Fráncfort]<\/mark>.<\/li>\n<li><strong>Alojamiento de la web:<\/strong> <mark class=\"pend\">[PENDIENTE: proveedor de hosting de la web]<\/mark>.<\/li>\n<li><strong>Pagos:<\/strong> Stripe <mark class=\"pend\">[PENDIENTE: confirmar]<\/mark>.<\/li>\n<li><strong>Envío de e-mails:<\/strong> <mark class=\"pend\">[PENDIENTE: proveedor de e-mail transaccional]<\/mark>.<\/li>\n<li><strong>Asistente IA (solo si lo usas):<\/strong> Anthropic (modelos Claude).<\/li>\n<li><strong>Analítica y publicidad (solo si aceptas esas cookies):<\/strong> <mark class=\"pend\">[PENDIENTE: p. ej. Google, Meta]<\/mark>.<\/li>\n<\/ul>\n<p>También podremos comunicar datos a las administraciones públicas cuando la ley lo exija.<\/p>\n<h2>5. Transferencias internacionales<\/h2>\n<p>Algunos proveedores (por ejemplo, Stripe o Anthropic) pueden tratar datos fuera del Espacio Económico Europeo,\nprincipalmente en Estados Unidos. En esos casos, las transferencias se amparan en el Marco de Privacidad de Datos\nUE-EE. UU. cuando el proveedor está adherido, o en las cláusulas contractuales tipo aprobadas por la Comisión Europea.\n<mark class=\"pend\">[PENDIENTE: verificar el mecanismo de cada proveedor en su DPA.]<\/mark><\/p>\n<h2>6. Tus derechos<\/h2>\n<p>Puedes ejercer en cualquier momento tus derechos de <strong>acceso, rectificación, supresión, oposición, limitación del\ntratamiento y portabilidad<\/strong>, y retirar tu consentimiento cuando sea la base del tratamiento, escribiendo a\n<mark class=\"pend\">[PENDIENTE: e-mail de privacidad]<\/mark> e indicando qué derecho quieres ejercer. Responderemos en el plazo máximo de un mes.<\/p>\n<p>Si consideras que no hemos atendido bien tu solicitud, puedes reclamar ante la <strong>Agencia Española de Protección de\nDatos<\/strong> (<a href=\"http://www.aepd.es\">www.aepd.es<\/a>).<\/p>\n<h2>7. Seguridad<\/h2>\n<p>Aplicamos medidas técnicas y organizativas adecuadas: cifrado de las comunicaciones, cifrado de las claves de conexión\ncon servicios de terceros, control de accesos por cliente, verificación en dos pasos, copias de seguridad y registros\nde actividad. Nuestro equipo solo accede a la información de negocio de una cuenta para darte soporte cuando tú lo\nsolicitas, y ese acceso queda registrado.<\/p>\n<h2>8. Menores<\/h2>\n<p>El Servicio no está dirigido a menores de 18 años.<\/p>\n<h2>9. Cambios<\/h2>\n<p>Podemos actualizar esta política. Publicaremos la nueva versión con su fecha y, si los cambios son relevantes, te\navisaremos por e-mail o en la app.<\/p>\n"},"cookies":{"title":"Política de cookies","html":"<p><em>Última actualización: <mark class=\"pend\">[PENDIENTE: fecha de publicación]<\/mark><\/em><\/p>\n<h2>1. Qué son las cookies<\/h2>\n<p>Las cookies y tecnologías similares (como el almacenamiento local del navegador) son pequeños archivos que la web guarda\nen tu dispositivo para que funcione, recordar tus preferencias o medir y mejorar el servicio.<\/p>\n<h2>2. Qué cookies usamos<\/h2>\n<h3>Técnicas y de preferencias (siempre activas)<\/h3>\n<p>Son necesarias para que la web funcione y no requieren consentimiento (artículo 22.2 de la LSSI-CE).<\/p>\n<div class=\"tbl\"><table>\n<thead>\n<tr>\n<th>Nombre<\/th>\n<th>Titular<\/th>\n<th>Finalidad<\/th>\n<th>Duración<\/th>\n<\/tr>\n<\/thead>\n<tbody><tr>\n<td><code>lw-consent<\/code><\/td>\n<td>LOOSES &amp; WINS<\/td>\n<td>Guardar tu elección sobre las cookies<\/td>\n<td>12 meses<\/td>\n<\/tr>\n<tr>\n<td><code>lw-period2<\/code><\/td>\n<td>LOOSES &amp; WINS<\/td>\n<td>Recordar si prefieres ver los precios anuales o mensuales<\/td>\n<td>Hasta que borres los datos del navegador<\/td>\n<\/tr>\n<tr>\n<td>Cookies de sesión de la app <mark class=\"pend\">[PENDIENTE: nombres exactos]<\/mark><\/td>\n<td>LOOSES &amp; WINS<\/td>\n<td>Mantener tu sesión iniciada en la app<\/td>\n<td>Sesión / según configuración<\/td>\n<\/tr>\n<tr>\n<td>Cookies del proveedor de pagos <mark class=\"pend\">[PENDIENTE: confirmar]<\/mark><\/td>\n<td>Stripe<\/td>\n<td>Seguridad y prevención del fraude durante el pago<\/td>\n<td>Según el proveedor<\/td>\n<\/tr>\n<\/tbody><\/table><\/div>\n<h3>Analíticas (solo si las aceptas)<\/h3>\n<p>Nos ayudan a saber cuántas personas visitan la web y qué secciones funcionan mejor, de forma agregada.<\/p>\n<div class=\"tbl\"><table>\n<thead>\n<tr>\n<th>Nombre<\/th>\n<th>Titular<\/th>\n<th>Finalidad<\/th>\n<th>Duración<\/th>\n<\/tr>\n<\/thead>\n<tbody><tr>\n<td><mark class=\"pend\">[PENDIENTE: p. ej. <code>_ga<\/code>, <code>_ga_*<\/code>]<\/mark><\/td>\n<td><mark class=\"pend\">[PENDIENTE: p. ej. Google Analytics]<\/mark><\/td>\n<td>Estadísticas de uso<\/td>\n<td>Según el proveedor<\/td>\n<\/tr>\n<\/tbody><\/table><\/div>\n<h3>Publicitarias (solo si las aceptas)<\/h3>\n<p>Permiten medir la eficacia de nuestros anuncios y mostrarte anuncios relevantes en otras plataformas.<\/p>\n<div class=\"tbl\"><table>\n<thead>\n<tr>\n<th>Nombre<\/th>\n<th>Titular<\/th>\n<th>Finalidad<\/th>\n<th>Duración<\/th>\n<\/tr>\n<\/thead>\n<tbody><tr>\n<td><mark class=\"pend\">[PENDIENTE: p. ej. <code>_fbp<\/code>]<\/mark><\/td>\n<td><mark class=\"pend\">[PENDIENTE: p. ej. Meta Platforms]<\/mark><\/td>\n<td>Medición y publicidad en Facebook e Instagram<\/td>\n<td>Según el proveedor<\/td>\n<\/tr>\n<tr>\n<td><mark class=\"pend\">[PENDIENTE: otras, p. ej. TikTok Pixel]<\/mark><\/td>\n<td><mark class=\"pend\">[PENDIENTE]<\/mark><\/td>\n<td>Medición y publicidad<\/td>\n<td>Según el proveedor<\/td>\n<\/tr>\n<\/tbody><\/table><\/div>\n<p><strong>Mientras no aceptes las cookies analíticas o publicitarias, no se cargan.<\/strong><\/p>\n<h2>3. Cómo dar o retirar tu consentimiento<\/h2>\n<ul>\n<li>Al entrar en la web te mostramos un aviso con tres opciones de la misma importancia: <strong>Aceptar todas<\/strong>,\n<strong>Rechazar<\/strong> y <strong>Configurar<\/strong>.<\/li>\n<li>Puedes cambiar tu elección cuando quieras desde el enlace <strong>«Configurar cookies»<\/strong> del pie de página.<\/li>\n<li>También puedes borrar o bloquear las cookies desde la configuración de tu navegador. Si bloqueas las técnicas, puede\nque la web o la app no funcionen bien.<\/li>\n<\/ul>\n<h2>4. Transferencias internacionales<\/h2>\n<p>Algunos proveedores de cookies analíticas o publicitarias pueden tratar datos fuera del Espacio Económico Europeo.\nConsulta la <a href=\"#legal-privacidad\">Política de privacidad<\/a>, apartado 5.<\/p>\n<h2>5. Más información<\/h2>\n<p>Para cualquier duda sobre esta política, escríbenos a <mark class=\"pend\">[PENDIENTE: e-mail de privacidad]<\/mark>.<\/p>\n"},"encargo":{"title":"Acuerdo de encargo del tratamiento","html":"<p><em>Última actualización: <mark class=\"pend\">[PENDIENTE: fecha de publicación]<\/mark><\/em><\/p>\n<p>Este acuerdo forma parte de las <a href=\"#legal-condiciones\">Condiciones de uso<\/a> y regula el tratamiento de datos personales que\nLOOSES &amp; WINS realiza por cuenta del cliente, conforme al artículo 28 del Reglamento (UE) 2016/679 (RGPD) y a la Ley\nOrgánica 3/2018 (LOPDGDD).<\/p>\n<h2>1. Partes<\/h2>\n<ul>\n<li><strong>Responsable del tratamiento:<\/strong> el cliente titular de la cuenta («el Cliente»).<\/li>\n<li><strong>Encargado del tratamiento:<\/strong> <mark class=\"pend\">[PENDIENTE: titular, NIF y domicilio]<\/mark> («LOOSES &amp; WINS»).<\/li>\n<\/ul>\n<h2>2. Objeto, naturaleza y finalidad<\/h2>\n<p>LOOSES &amp; WINS trata los datos necesarios para prestar el Servicio: importar, almacenar, cruzar y analizar la\ninformación del negocio del Cliente (pedidos, reembolsos, costes, gastos, anuncios, movimientos de pago y bancarios,\nfacturas) para calcular su beneficio, preparar informes y mostrarlos en la app.<\/p>\n<h2>3. Tipos de datos y categorías de interesados<\/h2>\n<ul>\n<li><strong>Clientes finales de la tienda del Cliente:<\/strong> datos mínimos de los pedidos (número de pedido, importes, productos,\nfechas, estado, país de envío y facturación). LOOSES &amp; WINS no necesita ni guarda nombres, e-mails, teléfonos ni\ndirecciones completas de los clientes finales <mark class=\"pend\">[PENDIENTE: confirmar que ninguna integración los guarda]<\/mark>.<\/li>\n<li><strong>Usuarios del Cliente<\/strong> (socios, empleados, gestor): nombre, e-mail y registros de actividad.<\/li>\n<li><strong>Proveedores y contrapartes<\/strong> del Cliente: nombres o razones sociales e importes que aparezcan en facturas,\nmovimientos bancarios o de pago.<\/li>\n<\/ul>\n<p>No se tratan categorías especiales de datos.<\/p>\n<h2>4. Duración<\/h2>\n<p>Mientras la cuenta del Cliente esté activa y, tras la baja, durante el plazo de conservación indicado en el apartado 11.<\/p>\n<h2>5. Obligaciones de LOOSES &amp; WINS<\/h2>\n<p>LOOSES &amp; WINS se compromete a:<\/p>\n<ol>\n<li>Tratar los datos <strong>solo siguiendo las instrucciones documentadas del Cliente<\/strong>, que son las que resultan del uso del\nServicio y de estas condiciones. Si considera que una instrucción infringe la normativa, informará al Cliente.<\/li>\n<li>No usar los datos para fines propios, salvo estadísticas <strong>agregadas y anónimas<\/strong> que no permitan identificar al\nCliente ni a los interesados.<\/li>\n<li>Garantizar que las personas autorizadas a tratar los datos se han comprometido a respetar la <strong>confidencialidad<\/strong>.\nEl personal de LOOSES &amp; WINS solo accede a la información de negocio de una cuenta para dar soporte a petición del\nCliente, y cada acceso queda registrado y visible para el Cliente.<\/li>\n<li>Aplicar las <strong>medidas de seguridad<\/strong> del apartado 6.<\/li>\n<li>Respetar las condiciones del apartado 7 para recurrir a <strong>subencargados<\/strong>.<\/li>\n<li>Ayudar al Cliente, en la medida de lo posible, a atender las solicitudes de <strong>ejercicio de derechos<\/strong> de los\ninteresados.<\/li>\n<li>Ayudar al Cliente a cumplir sus obligaciones de seguridad, notificación de brechas y, en su caso, evaluaciones de\nimpacto.<\/li>\n<li><strong>Notificar al Cliente las violaciones de seguridad<\/strong> de los datos sin dilación indebida y, en todo caso, en un plazo\nmáximo de <strong>48 horas<\/strong> desde que tenga constancia, con la información disponible.<\/li>\n<li>Al terminar el servicio, <strong>suprimir o devolver<\/strong> los datos según el apartado 11.<\/li>\n<li>Poner a disposición del Cliente la información necesaria para demostrar el cumplimiento de este acuerdo y permitir\nauditorías razonables, con preaviso y sin acceso a datos de otros clientes.<\/li>\n<\/ol>\n<h2>6. Medidas de seguridad<\/h2>\n<ul>\n<li>Cifrado de las comunicaciones (HTTPS/TLS).<\/li>\n<li>Cifrado de las claves y tokens de conexión con servicios de terceros.<\/li>\n<li>Separación de los datos de cada cliente y control de accesos por cuenta y rol.<\/li>\n<li>Verificación en dos pasos disponible para los usuarios.<\/li>\n<li>Copias de seguridad periódicas.<\/li>\n<li>Registros de actividad y de accesos de soporte.<\/li>\n<li><mark class=\"pend\">[PENDIENTE: completar con las medidas definitivas de la versión multicliente.]<\/mark><\/li>\n<\/ul>\n<h2>7. Subencargados<\/h2>\n<p>El Cliente autoriza a LOOSES &amp; WINS a recurrir a los siguientes subencargados:<\/p>\n<div class=\"tbl\"><table>\n<thead>\n<tr>\n<th>Subencargado<\/th>\n<th>Servicio<\/th>\n<th>Ubicación<\/th>\n<\/tr>\n<\/thead>\n<tbody><tr>\n<td>Supabase<\/td>\n<td>Base de datos, autenticación, almacenamiento y funciones del servidor<\/td>\n<td><mark class=\"pend\">[PENDIENTE: región, p. ej. UE – Fráncfort]<\/mark><\/td>\n<\/tr>\n<tr>\n<td><mark class=\"pend\">[PENDIENTE: hosting de la web]<\/mark><\/td>\n<td>Alojamiento de la web y la app<\/td>\n<td><mark class=\"pend\">[PENDIENTE]<\/mark><\/td>\n<\/tr>\n<tr>\n<td>Anthropic<\/td>\n<td>Asistente IA (solo si el Cliente lo usa)<\/td>\n<td>EE. UU.<\/td>\n<\/tr>\n<tr>\n<td><mark class=\"pend\">[PENDIENTE: proveedor de e-mail]<\/mark><\/td>\n<td>Envío de e-mails transaccionales y avisos<\/td>\n<td><mark class=\"pend\">[PENDIENTE]<\/mark><\/td>\n<\/tr>\n<\/tbody><\/table><\/div>\n<p>LOOSES &amp; WINS informará al Cliente, con al menos <strong>30 días<\/strong> de antelación, de cualquier cambio en los subencargados. El\nCliente podrá oponerse y, si no se llega a un acuerdo, cancelar el Servicio. LOOSES &amp; WINS impondrá a cada subencargado\nlas mismas obligaciones de protección de datos.<\/p>\n<p>Los servicios que el Cliente conecta por su cuenta (por ejemplo, Shopify, plataformas de anuncios, pasarelas de pago,\nbancos, su proveedor o su Google Drive) no son subencargados de LOOSES &amp; WINS: son proveedores del propio Cliente y el\nacceso se hace con su autorización.<\/p>\n<h2>8. Transferencias internacionales<\/h2>\n<p>Cuando un subencargado trate datos fuera del Espacio Económico Europeo, la transferencia se ampara en el Marco de\nPrivacidad de Datos UE-EE. UU. o en las cláusulas contractuales tipo de la Comisión Europea.<\/p>\n<h2>9. Ejercicio de derechos<\/h2>\n<p>Si un interesado se dirige a LOOSES &amp; WINS para ejercer sus derechos sobre datos tratados por cuenta del Cliente,\nLOOSES &amp; WINS lo trasladará al Cliente sin demora para que lo resuelva.<\/p>\n<h2>10. Obligaciones del Cliente<\/h2>\n<p>El Cliente garantiza que tiene base legal para tratar los datos que incorpora al Servicio, que ha informado a los\ninteresados y que las instrucciones que da son lícitas.<\/p>\n<h2>11. Fin del servicio: devolución o supresión<\/h2>\n<ul>\n<li><strong>Baja normal:<\/strong> tras la cancelación, LOOSES &amp; WINS conserva los datos durante <strong>dos meses<\/strong>. En ese plazo el Cliente\npuede reactivar la cuenta o solicitar la <strong>exportación<\/strong> de sus datos. Pasado el plazo, los datos se suprimen.<\/li>\n<li><strong>Impago:<\/strong> pasados 30 días desde un impago sin regularizar, el Cliente <strong>elige desde ahora la supresión de los\ndatos<\/strong>, en los términos de la <a href=\"#legal-pagos\">Política de pagos y contracargos<\/a>, apartado 3.<\/li>\n<li><strong>Contracargo sin contacto previo:<\/strong> el Cliente <strong>elige desde ahora la supresión de los datos, sin devolución<\/strong>, en los\ntérminos de la <a href=\"#legal-pagos\">Política de pagos y contracargos<\/a>.<\/li>\n<li>En ambos casos, LOOSES &amp; WINS podrá conservar, bloqueados, los datos necesarios para cumplir obligaciones legales o\npara la defensa frente a reclamaciones, durante los plazos de prescripción.<\/li>\n<\/ul>\n"}}</script>
+<script src="config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+(function () {
+  var h = React.createElement;
+  var html = htm.bind(h);
+  var useState = React.useState, useEffect = React.useEffect, useRef = React.useRef, useLayoutEffect = React.useLayoutEffect, useCallback = React.useCallback;
+
+  /* ---------- data ---------- */
+  var PLANS = {
+    free: { n: 'Gratis', m: 0, y: 0 },
+    starter: { n: 'Starter', m: 29, y: 290, for: 'Tu primer producto ganador.', feats: ['1 tienda activa', '500 pedidos al mes', '500 facturas al mes', '2 usuarios', 'Todo tu historial', 'Toda la app: IVA y OSS, cierre de mes, bancos, ROAS de equilibrio'] },
+    growth: { n: 'Growth', m: 79, y: 790, for: 'Escalas y cada decisión cuesta dinero.', feats: ['3 tiendas activas', '2.000 pedidos al mes', '2.000 facturas al mes', '5 usuarios', 'Todo tu historial', 'Toda la app: IVA y OSS, cierre de mes, bancos, ROAS de equilibrio'] },
+    scale: { n: 'Scale', m: 179, y: 1790, for: 'Varias tiendas y un equipo.', feats: ['10 tiendas activas', '10.000 pedidos al mes', '10.000 facturas al mes', '15 usuarios', 'Todo tu historial', 'Toda la app: IVA y OSS, cierre de mes, bancos, ROAS de equilibrio'] }
+  };
+  var PAID = ['starter', 'growth', 'scale'];
+  var AI = { none: { n: 'Sin IA', m: 0, y: 0 }, basic: { n: 'IA Básico', m: 9, y: 90 }, pro: { n: 'IA Pro', m: 29, y: 290 } };
+  var SETUP = 149, SETUP_Y = 49;
+  /* Where the app and the public API live (marketing/config.js) */
+  var CFG = window.LW_CONFIG || {};
+  var APP_URL = String(CFG.appUrl || '').replace(/\/+$/, '');
+  var API_URL = String(CFG.apiUrl || '');
+  /* No app address (showcase deployment): sign-ups are not open yet, so nothing redirects */
+  var SHOWCASE = !APP_URL;
+  var MORE_THAN = '10.000';
+  function fmtN(n) { return n == null ? null : Number(n).toLocaleString('es-ES').replace(/(\d)(?=(\d{3})+$)/, '$1.'); }
+  /* Prices and limits on sale come from the platform (admin panel → Planes); the values above are only a fallback */
+  function applyLive(d) {
+    function price(item, per) { var x = (d.prices || []).filter(function (p) { return p.item === item && p.period === per; })[0]; return x ? x.amount_cents / 100 : null; }
+    PAID.forEach(function (id) {
+      var m = price(id, 'month'), y = price(id, 'year');
+      if (m != null) PLANS[id].m = m;
+      if (y != null) PLANS[id].y = y;
+      var l = (d.limits || []).filter(function (x) { return x.plan === id; })[0];
+      if (l) PLANS[id].feats = [
+        l.stores == null ? 'Tiendas ilimitadas' : l.stores + (l.stores === 1 ? ' tienda activa' : ' tiendas activas'),
+        l.orders_month == null ? 'Pedidos ilimitados' : fmtN(l.orders_month) + ' pedidos al mes',
+        l.invoices_month == null ? 'Facturas ilimitadas' : fmtN(l.invoices_month) + ' facturas al mes',
+        l.users == null ? 'Usuarios ilimitados' : l.users + (l.users === 1 ? ' usuario' : ' usuarios'),
+        'Todo tu historial',
+        'Toda la app: IVA y OSS, cierre de mes, bancos, ROAS de equilibrio'];
+      if (id === 'scale' && l && l.orders_month) MORE_THAN = fmtN(l.orders_month);
+    });
+    [['basic', 'ai_basic'], ['pro', 'ai_pro']].forEach(function (a) { var m = price(a[1], 'month'), y = price(a[1], 'year'); if (m != null) AI[a[0]].m = m; if (y != null) AI[a[0]].y = y; });
+    var su = price('setup', 'once'), sy = price('setup_annual', 'once');
+    if (su != null) SETUP = su;
+    if (sy != null) SETUP_Y = sy;
+  }
+  /* Enterprise request → admin panel (Enterprise) */
+  function sendLead(q) {
+    if (!API_URL) return Promise.reject(new Error('El formulario aún no está disponible. Muy pronto podrás pedirnos tu plan Enterprise desde aquí.'));
+    return fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+      action: 'enterprise_lead', company: q.company.trim(), contact_name: q.name.trim(), email: q.email.trim(), phone: q.phone.trim(),
+      orders_month: parseInt(String(q.orders).replace(/\./g, ''), 10) || null, call_slot: q.when,
+      message: (q.msg.trim() ? q.msg.trim() + ' · ' : '') + 'Pedidos al mes: ' + q.orders, website: q.website || '' }) })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'No se pudo enviar'); return j; }); });
+  }
+  /* Demo promotion codes; in production they come from Stripe promotion codes */
+  /* Promotion codes are validated by Stripe in the payment page; here the code is only carried to it */
+  var PROMOS = {};
+  /* Spanish format with thousands dot even for 4-digit amounts (Intl es-ES skips it) */
+  function money(v) { v = Math.round(v * 100) / 100; return eurNum(v, Math.round(v) === v ? 0 : 2); }
+  function r2(v) { return Math.round(v * 100) / 100; }
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  /* ---------- hooks ---------- */
+  function mq(q) { try { return window.matchMedia(q).matches; } catch (e) { return false; } }
+  var REDUCED = mq('(prefers-reduced-motion: reduce)');
+  var FINE = mq('(hover: hover) and (pointer: fine)');
+
+  function useMedia(q) {
+    var s = useState(mq(q)), m = s[0], set = s[1];
+    useEffect(function () {
+      var l = window.matchMedia(q), f = function () { set(l.matches); };
+      f();
+      if (l.addEventListener) l.addEventListener('change', f); else l.addListener(f);
+      return function () { if (l.removeEventListener) l.removeEventListener('change', f); else l.removeListener(f); };
+    }, []);
+    return m;
+  }
+
+  function useInView(ref, threshold) {
+    var s = useState(false), seen = s[0], set = s[1];
+    useEffect(function () {
+      if (!ref.current || seen) return;
+      if (!('IntersectionObserver' in window)) { set(true); return; }
+      var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { set(true); io.disconnect(); } }, { threshold: threshold || 0.5 });
+      io.observe(ref.current);
+      return function () { io.disconnect(); };
+    }, [seen]);
+    return seen;
+  }
+
+  /* Counts from 0 to the final value once `start` is true; the final value is what renders without motion */
+  function useCount(target, start, delay) {
+    var s = useState(REDUCED ? target : 0), v = s[0], set = s[1];
+    useEffect(function () {
+      if (REDUCED || !start) return;
+      var raf, t0 = null, timer = setTimeout(function () {
+        function step(t) {
+          if (!t0) t0 = t;
+          var k = Math.min(1, (t - t0) / 1400), e = 1 - Math.pow(1 - k, 3);
+          set(target * e);
+          if (k < 1) raf = requestAnimationFrame(step);
+        }
+        raf = requestAnimationFrame(step);
+      }, delay || 0);
+      return function () { clearTimeout(timer); cancelAnimationFrame(raf); };
+    }, [start]);
+    return v;
+  }
+  function eurNum(v, dec) {
+    var p = Math.abs(v).toFixed(dec).split('.');
+    p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return (v < 0 ? '−' : '') + p.join(',') + '\u00a0€';
+  }
+
+  /* A number that rolls up when it grows and down when it shrinks */
+  function Roll(props) {
+    var prev = useRef(props.value), s = useState({ k: 0, dir: '' }), st = s[0], set = s[1];
+    useEffect(function () {
+      if (prev.current !== props.value) {
+        set({ k: st.k + 1, dir: props.value > prev.current ? 'up' : 'down' });
+        prev.current = props.value;
+      }
+    }, [props.value]);
+    return html`<span key=${st.k} className=${'amt ' + st.dir + ' ' + (props.className || '')}>${props.children}</span>`;
+  }
+
+  /* Segmented switch with a sliding glass pill */
+  function Seg(props) {
+    var ref = useRef(null), first = useRef(true);
+    var s = useState(null), ind = s[0], setInd = s[1];
+    var place = useCallback(function () {
+      var root = ref.current; if (!root) return;
+      var el = root.querySelector('[data-v="' + props.value + '"]');
+      if (!el || !el.offsetWidth) return;
+      setInd({ w: el.offsetWidth, x: el.offsetLeft });
+    }, [props.value]);
+    useLayoutEffect(function () { place(); }, [place]);
+    useEffect(function () {
+      var t = setTimeout(function () { first.current = false; }, 60);
+      var ro = 'ResizeObserver' in window ? new ResizeObserver(function () { place(); }) : null;
+      if (ro) ro.observe(ref.current);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+      return function () { clearTimeout(t); if (ro) ro.disconnect(); };
+    }, [place]);
+    return html`<div ref=${ref} className=${'seg ' + (props.block ? 'block' : '')} role="radiogroup" aria-label=${props.label}>
+      <span className=${'ind' + (first.current ? ' instant' : '')} aria-hidden="true" style=${ind ? { width: ind.w + 'px', transform: 'translateX(' + ind.x + 'px)' } : { opacity: 0 }}></span>
+      ${props.options.map(function (o) {
+        var on = o.v === props.value;
+        return html`<button type="button" key=${o.v} data-v=${o.v} role="radio" aria-checked=${on} className=${on ? 'on' : ''} onClick=${function () { props.onChange(o.v); }}>${o.label}</button>`;
+      })}
+    </div>`;
+  }
+
+  /* ---------- small pieces ---------- */
+  var ShopifyBag = html`<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#95BF47" d="M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.023zM11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.76-3.406 3.76-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.675 0 .975-.545.975-.932 0-1.619-2.654-1.694-2.654-4.359-.034-2.237 1.571-4.416 4.827-4.416 1.257 0 1.875.361 1.875.361l-.945 2.715-.02.01zM11.17.83c.136 0 .271.038.405.135-.984.465-2.064 1.639-2.508 3.992-.656.213-1.293.405-1.889.578C7.697 3.75 8.951.84 11.17.84V.83zm1.235 2.949v.135c-.754.232-1.583.484-2.394.736.466-1.777 1.333-2.645 2.085-2.971.193.501.309 1.176.309 2.1zm.539-2.234c.694.074 1.141.867 1.429 1.755-.349.114-.735.231-1.158.366v-.252c0-.752-.096-1.371-.271-1.871v.002zm2.992 1.289c-.02 0-.06.021-.078.021s-.289.075-.714.21c-.423-1.233-1.176-2.37-2.508-2.37h-.115C12.135.209 11.669 0 11.265 0 8.159 0 6.675 3.877 6.21 5.846c-1.194.365-2.063.636-2.16.674-.675.213-.694.232-.772.87-.075.462-1.83 14.063-1.83 14.063L15.009 24l.927-21.166z"/><path fill="#5E8E3E" d="M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.023z"/></svg>`;
+
+  function Icon(props) {
+    var paths = {
+      trend: html`<g><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></g>`,
+      stores: html`<g><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/></g>`,
+      doc: html`<g><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></g>`,
+      alert: html`<g><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></g>`,
+      spark: html`<g><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></g>`,
+      link: html`<g><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></g>`,
+      shield: html`<g><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></g>`
+    };
+    return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">${paths[props.name]}</svg>`;
+  }
+
+  /* ---------- sections ---------- */
+  function Nav(props) {
+    var s = useState(false), open = s[0], setOpen = s[1];
+    useEffect(function () {
+      if (!open) return;
+      function close() { setOpen(false); }
+      window.addEventListener('scroll', close, { passive: true });
+      return function () { window.removeEventListener('scroll', close); };
+    }, [open]);
+    var links =[['#como', 'Cómo funciona'], ['#funciones', 'Funciones'], ['#privacidad', 'Privacidad'], ['#precios', 'Precios']];
+    return html`<header className="nav">
+      <div className="wrap" style=${{ position: 'relative' }}>
+        <a className="logo" href="#inicio"><span className="logo-mark" aria-hidden="true">L&W</span><span className="logo-text">LOOSES & WINS</span></a>
+        <nav className="nav-links" aria-label="Secciones">${links.map(function (l) { return html`<a key=${l[0]} href=${l[0]}>${l[1]}</a>`; })}</nav>
+        <div className="nav-right">
+          <button className="btn btn-primary btn-sm nav-cta" type="button" onClick=${function () { props.onFree(); }}>Pruébalo gratis</button>
+          <button className="burger" type="button" aria-label=${open ? 'Cerrar menú' : 'Abrir menú'} aria-expanded=${open} onClick=${function () { setOpen(!open); }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">${open ? html`<path d="M6 6l12 12M18 6L6 18"/>` : html`<path d="M4 7h16M4 12h16M4 17h16"/>`}</svg>
+          </button>
+        </div>
+        ${open && html`<div className="menu">${links.map(function (l) { return html`<a key=${l[0]} href=${l[0]} onClick=${function () { setOpen(false); }}>${l[1]}</a>`; })}</div>`}
+      </div>
+    </header>`;
+  }
+
+  function Stat(props) {
+    var v = useCount(props.to, true, props.delay);
+    return html`<div className=${'stat' + (props.feat ? ' feat' : '')}>
+      <div className="lab">${props.label}<span className=${'ic ' + props.ic}>${props.icon}</span></div>
+      <div className=${'val ' + (props.tone || '')}>${eurNum(v, 2)}</div>
+      <div className="hint">${props.hint}</div>
+    </div>`;
+  }
+
+  function Hero(props) {
+    var frame = useRef(null), stage = useRef(null);
+    useEffect(function () {
+      if (REDUCED || !FINE || !stage.current) return;
+      var st = stage.current, fr = frame.current;
+      function move(e) {
+        var r = st.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        fr.style.transition = 'transform .15s ease-out';
+        fr.style.transform = 'rotateX(' + (-y * 6).toFixed(2) + 'deg) rotateY(' + (x * 8).toFixed(2) + 'deg)';
+      }
+      function leave() { fr.style.transition = ''; fr.style.transform = ''; }
+      st.addEventListener('pointermove', move); st.addEventListener('pointerleave', leave);
+      return function () { st.removeEventListener('pointermove', move); st.removeEventListener('pointerleave', leave); };
+    }, []);
+    /* Touch screens: the dashboard starts tilted back and straightens as you scroll to it */
+    useEffect(function () {
+      if (REDUCED || FINE || !stage.current) return;
+      var st = stage.current, fr = frame.current, raf = 0;
+      function upd() {
+        raf = 0;
+        var r = st.getBoundingClientRect(), vh = window.innerHeight;
+        var p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.9))), e = 1 - Math.pow(1 - p, 2);
+        fr.style.transform = 'perspective(1000px) rotateX(' + ((1 - e) * 18).toFixed(2) + 'deg) scale(' + (0.9 + 0.1 * e).toFixed(3) + ')';
+      }
+      function on() { if (!raf) raf = requestAnimationFrame(upd); }
+      upd();
+      window.addEventListener('scroll', on, { passive: true }); window.addEventListener('resize', on);
+      return function () { window.removeEventListener('scroll', on); window.removeEventListener('resize', on); if (raf) cancelAnimationFrame(raf); };
+    }, []);
+    var tickers = ['Shopify', 'AliExpress', 'Meta Ads', 'TikTok Ads', 'Google Ads', 'PayPal', 'Shopify Payments', 'Revolut', 'Wise', 'Google Drive'];
+    return html`<section className="hero" id="hero">
+      <div className="aurora" aria-hidden="true"><span className="a1"></span><span className="a2"></span><span className="a3"></span></div>
+      <div className="grid-bg" aria-hidden="true"></div>
+      <div className="wrap">
+        <div className="hero-copy">
+          <span className="chip"><i></i>Contabilidad y beneficio real para dropshipping</span>
+          <h1>Vendes mucho.<br/><span className="grad">¿Cuánto te queda?</span></h1>
+          <p className="sub">El beneficio real de cada pedido, después del coste de tu proveedor, anuncios, comisiones, devoluciones y contracargos. De todas tus tiendas, cada hora.</p>
+          <div className="ctas">
+            <button className="btn btn-primary" type="button" onClick=${props.onFree}>Ver mi beneficio real gratis</button>
+            <a className="btn btn-ghost" href="#precios">Ver precios</a>
+          </div>
+          <div className="fine"><span>Gratis</span><span>Sin tarjeta</span><span>Cancela con un clic</span></div>
+        </div>
+
+        <div className="stage" ref=${stage}>
+          <div className="floats">
+            <div className="float f1" aria-label="Ejemplo de notificación de Shopify">
+              <div className="ico" style=${{ background: '#fff', border: '1px solid var(--border)' }}>${ShopifyBag}</div>
+              <div><div className="meta"><span>Shopify</span><span>23:41</span></div><div className="msg">Has vendido hoy</div><div className="amt-big">1.284,50 €</div></div>
+            </div>
+            <div className="float f2" aria-label="Ejemplo de notificación del banco">
+              <div className="ico" style=${{ background: 'var(--night)' }}>€</div>
+              <div><div className="meta"><span>Tu banco</span><span>23:42</span></div><div className="msg">Saldo disponible</div><div className="amt-big neg">312,40 €</div></div>
+            </div>
+          </div>
+          <div className="glass-frame" ref=${frame}>
+            <div className="app" aria-label="Vista de ejemplo de la app">
+              <aside className="app-side">
+                <div className="brandrow"><span className="logo-mark sm" aria-hidden="true">L&W</span>Looses & Wins</div>
+                ${['Dashboard', 'Pedidos', 'Facturas', 'Gastos', 'Bancos', 'Informes', 'Marketing'].map(function (t, i) { return html`<div key=${t} className=${'it' + (i === 0 ? ' on' : '')}>${t}</div>`; })}
+              </aside>
+              <div className="app-main">
+                <div className="app-top"><h4>Dashboard</h4><div className="seg-mini"><span>Hoy</span><span className="on">7 días</span><span>Mes</span></div></div>
+                <div className="stats">
+                  <${Stat} label="Ventas" ic="b" icon="€" to=${9842.10} hint="214 pedidos" delay=${600} />
+                  <${Stat} label="Anuncios" ic="n" icon="↓" to=${-4120.60} hint="ROAS 2,39" tone="neg" delay=${700} />
+                  <${Stat} label="Coste producto" ic="n" icon="↓" to=${-2310.45} hint="Proveedor" tone="neg" delay=${800} />
+                  <${Stat} label="Beneficio neto" ic="p" icon="↑" to=${2264.30} hint="Margen 23,0 %" tone="pos" feat=${true} delay=${900} />
+                </div>
+                <div className="chart-card">
+                  <div className="t"><span>Beneficio por día</span><span>Datos de ejemplo</span></div>
+                  <svg viewBox="0 0 600 150" preserveAspectRatio="none" aria-hidden="true">
+                    <defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="oklch(0.52 0.13 255)" stopOpacity=".28"/><stop offset="1" stopColor="oklch(0.52 0.13 255)" stopOpacity="0"/></linearGradient></defs>
+                    <g stroke="oklch(0.925 0.004 255)" strokeWidth="1"><line x1="0" y1="30" x2="600" y2="30"/><line x1="0" y1="75" x2="600" y2="75"/><line x1="0" y1="120" x2="600" y2="120"/></g>
+                    <path d="M0 98 L50 90 L100 104 L150 80 L200 86 L250 66 L300 72 L350 58 L400 64 L450 46 L500 52 L550 34 L600 28 L600 150 L0 150 Z" fill="url(#ga)"/>
+                    <path className="chart-line" d="M0 98 L50 90 L100 104 L150 80 L200 86 L250 66 L300 72 L350 58 L400 64 L450 46 L500 52 L550 34 L600 28" fill="none" stroke="oklch(0.52 0.13 255)" strokeWidth="2.5" strokeLinejoin="round"/>
+                    <circle className="chart-dot" cx="600" cy="28" r="5" fill="oklch(0.52 0.13 255)"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="stage-caption">Conoces esa sensación: Shopify dice una cosa y el banco otra. Cifras de ejemplo.</p>
+        </div>
+
+        <div className="marquee" aria-label=${'Conexiones: ' + tickers.join(', ')}>
+          <div className="track" aria-hidden="true">${tickers.concat(tickers).map(function (t, i) { return html`<span key=${i}>${t}</span>`; })}</div>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  function Pain(props) {
+    var items = [['08:02', 'Abres Shopify y te sientes rico. Abres el banco y se te pasa.'], ['Cena familiar', 'Te preguntan cuánto ganas y contestas "depende del mes".'], ['Día 30', 'Escalaste la campaña que iba bien. Perdías dinero con cada pedido.'], ['Disputa abierta', 'Te entra un contracargo y no sabes cuánto te ha costado de verdad.'], ['Fin de trimestre', 'Pasas el domingo buscando facturas en el correo para el gestor.'], ['Hace 3 semanas', 'La última vez que actualizaste tu Excel.']];
+    return html`<section className="section" style=${{ paddingTop: 'clamp(24px,4vw,48px)' }}>
+      <div className="wrap">
+        <div className="head reveal"><h2>¿Te suena alguna?</h2></div>
+        <div className="pain-grid">${items.map(function (it) { return html`<div key=${it[0]} className="card spot reveal"><span className="tag">${it[0]}</span><p className="q">${it[1]}</p></div>`; })}</div>
+        <p className="verdict reveal">No tienes un problema de ventas.<br/><span>Tienes un problema de no ver.</span></p>
+        <div className="cta-inline"><button className="btn btn-primary" type="button" onClick=${props.onFree}>Empieza gratis y míralo tú</button><span>Sin tarjeta</span></div>
+      </div>
+    </section>`;
+  }
+
+  function Loss(props) {
+    var ref = useRef(null), seen = useInView(ref, 0.6), v = useCount(-2160, seen, 150);
+    var rows = [['Lo que crees que ganas por pedido', '+3,20 €', 'pos'], ['Comisión de pago y divisa', '−2,10 €', 'neg'], ['Reembolsos que el proveedor no devuelve', '−1,40 €', 'neg'], ['Contracargos repartidos', '−0,90 €', 'neg'], ['Apps y suscripciones repartidas', '−0,60 €', 'neg']];
+    return html`<section className="section pt0">
+      <div className="wrap loss-wrap">
+        <div className="loss-copy">
+          <span className="chip"><i></i>Lo que cuesta no saberlo</span>
+          <h2>Una campaña que parece buena. Un agujero que no ves.</h2>
+          <p>ROAS de 1,6 y 40 pedidos al día. Parece que vas bien. Hasta que sumas lo que el panel de Meta no te enseña.</p>
+          <p style=${{ color: 'var(--ink)', fontWeight: 600 }}>Y mientras lo pierdes, subes el presupuesto.</p>
+          <div className="cta-inline left"><button className="btn btn-primary" type="button" onClick=${props.onFree}>Descubre tus números gratis</button></div>
+        </div>
+        <div className="card spot reveal" aria-label="Ejemplo de pérdida oculta">
+          <div>${rows.map(function (r) { return html`<div key=${r[0]} className="row reveal"><span>${r[0]}</span><span className=${r[2]}>${r[1]}</span></div>`; })}</div>
+          <div className="total-loss"><div><b>Pierdes al mes</b><small>40 pedidos × 30 días × −1,80 €</small></div><span className="big" ref=${ref}>${eurNum(v, 0)}</span></div>
+          <p className="note">Ejemplo ilustrativo. Tus cifras serán otras, y por eso necesitas verlas.</p>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  function How(props) {
+    var rows = [['Producto y envío', '−12,35 €'], ['Anuncios', '−21,40 €'], ['Comisión de pago', '−1,52 €'], ['Divisa', '−0,62 €'], ['Gastos fijos', '−2,10 €']];
+    return html`<section className="section pt0" id="como">
+      <div className="wrap how">
+        <div style=${{ display: 'grid', gap: '22px', minWidth: 0 }}>
+          <span className="chip"><i></i>Cómo funciona</span>
+          <h2>Cada pedido, hasta el último céntimo.</h2>
+          <ol className="steps">
+            <li className="reveal"><div><strong>Conecta tus tiendas</strong><span>Unos 10 minutos con el asistente, o te lo dejamos hecho.</span></div></li>
+            <li className="reveal"><div><strong>Se cruzan tus costes</strong><span>Coste de tu proveedor, anuncios, comisiones, devoluciones y contracargos.</span></div></li>
+            <li className="reveal"><div><strong>Ves lo que te queda</strong><span>Por pedido, producto, campaña, tienda y día.</span></div></li>
+          </ol>
+          <div className="cta-inline left"><button className="btn btn-primary" type="button" onClick=${props.onFree}>Conecta tu tienda gratis</button><span>Hasta 50 pedidos al mes, sin pagar nada</span></div>
+        </div>
+        <figure className="card receipt spot reveal" style=${{ margin: 0 }} aria-label="Ejemplo de desglose de un pedido">
+          <div className="rh"><span>PEDIDO #1042</span><span>EJEMPLO</span></div>
+          <div className="row"><span style=${{ fontWeight: 600 }}>Venta en Shopify</span><span>49,90 €</span></div>
+          ${rows.map(function (r) { return html`<div key=${r[0]} className="row reveal"><span className="mutedt">${r[0]}</span><span className="neg">${r[1]}</span></div>`; })}
+          <div className="rt"><span style=${{ fontWeight: 600 }}>Te queda</span><b>11,91 €</b></div>
+          <figcaption className="note">Margen real 23,9 %.</figcaption>
+        </figure>
+      </div>
+    </section>`;
+  }
+
+  function Features() {
+    return html`<section className="section pt0" id="funciones">
+      <div className="wrap">
+        <div className="head reveal"><span className="chip"><i></i>Funciones</span><h2>Cinco pestañas y un Excel.<br/>Ahora, una sola app.</h2></div>
+        <div className="bento">
+          <div className="card spot s4 reveal">
+            <span className="ficon ic b"><${Icon} name="trend" /></span>
+            <h3>ROAS de equilibrio: sabes qué escalar y qué apagar</h3>
+            <p>Calculado cada día con tu ticket medio y tus costes reales por pedido.</p>
+            <div className="roas" aria-label="Ejemplo de campañas">
+              <div><span>Producto A</span><span>ROAS 2,10</span><span className="badge g">Escalar</span></div>
+              <div><span>Producto B</span><span>ROAS 1,41</span><span className="badge w">Vigilar</span></div>
+              <div><span>Producto C</span><span>ROAS 0,92</span><span className="badge r">Apagar</span></div>
+            </div>
+          </div>
+          <div className="card spot s2 reveal"><span className="ficon ic b"><${Icon} name="stores" /></span><h3>Todas tus tiendas, un panel</h3><p>Juntas o por separado. En euros o dólares, al cambio oficial del BCE de cada día.</p></div>
+          <div className="card spot s2 reveal"><span className="ficon ic b"><${Icon} name="doc" /></span><h3>El cierre de mes, hecho</h3><p>Facturas en tu Google Drive unidas a sus pedidos. Informe de IVA y OSS listo para tu gestor.</p></div>
+          <div className="card spot s2 reveal"><span className="ficon ic n"><${Icon} name="alert" /></span><h3>Contracargos con su coste real</h3><p>Importe, comisión y resultado de cada disputa. Y un aviso en cuanto entra.</p></div>
+          <div className="card spot s2 reveal"><span className="ficon ic b"><${Icon} name="spark" /></span><h3>Pregunta a tus números</h3><p>"¿Qué producto me dejó más en octubre?" El asistente IA responde con tus datos.</p></div>
+          <div className="card spot s3 reveal"><span className="ficon ic b"><${Icon} name="link" /></span><h3>Todo lo que usas, conectado</h3>
+            <div className="pills">${['Shopify', 'Tu proveedor', 'Meta', 'TikTok', 'Google Ads', 'PayPal', 'Shopify Payments', 'Bancos', 'Google Drive'].map(function (t) { return html`<span key=${t}>${t}</span>`; })}</div>
+          </div>
+          <div className="card spot s3 reveal"><span className="ficon ic p"><${Icon} name="shield" /></span><h3>Tus datos, a salvo</h3><p>Copias de seguridad automáticas, verificación en dos pasos y claves de conexión cifradas.</p></div>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  function Privacy() {
+    return html`<section className="section night" id="privacidad">
+      <div className="glow" aria-hidden="true"></div>
+      <div className="wrap">
+        <div className="shield" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 018 0v3"/></svg></div>
+        <h2>Tus números son tuyos.</h2>
+        <p>Sabemos lo que vale un producto ganador. Nuestro equipo solo ve lo imprescindible para que tu cuenta funcione. Nada privado de tu negocio.</p>
+        <div className="night-cards">
+          <div className="reveal"><b>Lo que vemos</b><span>Tu cuenta y tu plan. Lo justo para darte servicio.</span></div>
+          <div className="reveal"><b>Lo que no vemos</b><span>Tus ventas, márgenes, productos ni campañas.</span></div>
+          <div className="reveal"><b>Lo que nunca pedimos</b><span>Las contraseñas de tu proveedor o de Google.</span></div>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  function BeforeAfter() {
+    return html`<section className="section">
+      <div className="wrap">
+        <div className="head reveal"><h2>El lunes que empiezas.</h2></div>
+        <div className="ba">
+          <div className="card before reveal"><h3>Antes</h3><ul>${['Decides el presupuesto por intuición.', 'Miras las ventas y crees que vas bien.', 'El cierre de mes te come un fin de semana.', 'Te enteras de que un producto pierde dinero un mes tarde.'].map(function (t) { return html`<li key=${t} className="reveal">${t}</li>`; })}</ul></div>
+          <div className="card after reveal"><h3>Después</h3><ul>${['Sabes a partir de qué ROAS ganas dinero.', 'Ves lo que te queda de cada pedido, cada hora.', 'El cierre está hecho cuando acaba el mes.', 'Apagas lo que pierde el mismo día.'].map(function (t) { return html`<li key=${t} className="reveal">${t}</li>`; })}</ul></div>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  function Founder() {
+    return html`<section className="section pt0">
+      <div className="wrap">
+        <div className="founder reveal">
+          <span className="chip"><i></i>Por qué existe</span>
+          <h2>La hice para mi tienda.</h2>
+          <p>Vendía, y mucho. Pero para saber cuánto ganaba de verdad necesitaba cinco pestañas abiertas: Shopify, el proveedor, Meta, PayPal y el banco. Y un Excel que nunca cuadraba.</p>
+          <p>Así que construí la herramienta que necesitaba. La he usado con casi 6.000 pedidos de mi propia tienda antes de abrirla a nadie más. Ahora quiero que tú veas tus números como los veo yo. Y puedes empezar gratis.</p>
+          <div className="sig"><span className="avatar">G</span><div><b>Guillermo</b><div className="mutedt" style=${{ fontSize: '.88rem' }}>Fundador de LOOSES & WINS</div></div></div>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  function PlanCard(props) {
+    var p = PLANS[props.id], y = props.period === 'y';
+    var now = y ? r2(p.y / 12) : p.m;
+    return html`<article className=${'card plan ' + (props.id === 'growth' ? 'pick' : 'spot')} data-plan=${props.id}>
+      <div><div className="top"><h3>${p.n}</h3>${props.id === 'growth' && html`<span className="pop">El más elegido</span>`}</div><p className="for">${p.for}</p></div>
+      <div>
+        <div className="price-line">
+          ${y && html`<span key=${'was' + props.period} className="was draw">${p.m} €</span>`}
+          <${Roll} value=${now} className="now">${money(now)}<//>
+          <span className="per">/mes</span>
+        </div>
+        <p className="billed">${y ? html`<span>${money(p.y)} al año · <b key=${'b' + props.period}>ahorras ${money(p.m * 12 - p.y)}</b></span>` : 'Pago mensual'}</p>
+      </div>
+      <ul>${p.feats.map(function (f) { return html`<li key=${f}>${f}</li>`; })}</ul>
+      <p className="addon-note">+ Asistente IA opcional</p>
+      <button className=${'btn ' + (props.id === 'growth' ? 'btn-primary' : 'btn-soft')} type="button" onClick=${function () { props.onBuy(props.id); }}>Elegir ${p.n}</button>
+    </article>`;
+  }
+
+  /* Mobile: a plan switch above one card, like app-store paywalls. Desktop: three cards side by side. */
+  function Pricing(props) {
+    var mobile = useMedia('(max-width: 900px)');
+    var s = useState('growth'), mplan = s[0], setMplan = s[1];
+    var dir = useRef(1);
+    function pick(v) { dir.current = PAID.indexOf(v) > PAID.indexOf(mplan) ? 1 : -1; setMplan(v); }
+    return html`<section className="section pt0" id="precios">
+      <div className="wrap">
+        <div className="head reveal"><span className="chip"><i></i>Precios</span><h2>Cuesta menos que un pedido perdido al día.</h2><p>Pagas según tus pedidos, sumando todas tus tiendas. Sin permanencia.</p></div>
+        <div className="period-row"><${Seg} label="Periodo de pago" value=${props.period} onChange=${props.setPeriod} options=${[{ v: 'y', label: 'Anual' }, { v: 'm', label: 'Mensual' }]} /></div>
+        ${mobile ? html`<div className="mplans">
+            <${Seg} block=${true} label="Plan" value=${mplan} onChange=${pick} options=${PAID.map(function (id) { return { v: id, label: PLANS[id].n }; })} />
+            <div key=${mplan} className=${'mcard ' + (dir.current > 0 ? 'from-r' : 'from-l')}><${PlanCard} id=${mplan} period=${props.period} onBuy=${props.onBuy} /></div>
+          </div>`
+        : html`<div className="plans">${PAID.map(function (id) { return html`<${PlanCard} key=${id} id=${id} period=${props.period} onBuy=${props.onBuy} />`; })}</div>`}
+        <p className="loyal-line">Tu precio nunca sube y baja con los años: hasta ${'−15\u00a0%'}. <a href="#fidelidad">Ver cómo ›</a></p>
+        <div className="more-row">
+          <div><span><b>¿Estás empezando?</b> Plan Gratis: 1 tienda, 50 pedidos al mes y 30 días de historial.</span><button className="linkbtn" type="button" onClick=${props.onFree}>Empezar gratis ›</button></div>
+          <div><span><b>¿Más de ${MORE_THAN} pedidos?</b> Plan Enterprise a tu medida, con gestor dedicado.</span><button className="linkbtn" type="button" onClick=${props.onQuote}>Pide presupuesto ›</button></div>
+        </div>
+        <p className="vat">Precios sin IVA.</p>
+      </div>
+    </section>`;
+  }
+
+  function Loyalty() {
+    var steps = [['0 %', 'Hoy'], ['−5 %', '6 meses'], ['−10 %', '1 año'], ['−15 %', '2 años']];
+    return html`<section className="section pt0" id="fidelidad">
+      <div className="wrap">
+        <div className="card loyal reveal">
+          <div><h3>Tu precio nunca sube. Y cada año, baja.</h3><p>Mientras sigas con nosotros, tu precio queda congelado aunque subamos tarifas. Y cuanto más tiempo te quedas, más descuento tienes. Si te das de baja, pierdes la antigüedad.</p></div>
+          <div className="timeline" aria-label="Descuento por antigüedad">
+            <div className="bar" aria-hidden="true"><i></i></div>
+            ${steps.map(function (s) { return html`<div key=${s[1]} className="step"><span className="off">${s[0]}</span><span className="when">${s[1]}</span></div>`; })}
+          </div>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  function Faq(props) {
+    return html`<section className="section pt0">
+      <div className="wrap">
+        <div className="head reveal"><h2>Lo que te estás preguntando.</h2></div>
+        <div className="faq">
+          <details open className="reveal"><summary>No tengo tiempo para otra herramienta.</summary><p>Conectarla lleva unos 10 minutos y después se actualiza sola cada hora. Lo que te quita tiempo es lo que haces ahora: cuadrar pestañas y Excels. Si no quieres tocar nada, te la dejamos montada.</p></details>
+          <details className="reveal"><summary>Vendo poco, todavía no me hace falta.</summary><p>Entonces no pagas: hasta 50 pedidos al mes es gratis. Y es cuando vendes poco cuando más importa saber si un producto deja margen, antes de meterle dinero en anuncios.</p><p style=${{ paddingTop: 0 }}><button className="btn btn-primary btn-sm" type="button" onClick=${props.onFree}>Empezar gratis</button></p></details>
+          <details className="reveal"><summary>Ya llevo mis números en un Excel.</summary><p>Conecta tu tienda gratis y compara el beneficio de la app con el de tu hoja. Si no coinciden, la diferencia es lo que no estabas viendo.</p></details>
+          <details className="reveal"><summary>¿Alguien puede ver mis productos ganadores?</summary><p>No. Nuestro equipo solo ve lo imprescindible para que tu cuenta funcione, nada privado de tu negocio. Tus claves de conexión se guardan cifradas y nunca te pedimos la contraseña de tu proveedor ni la de Google.</p></details>
+          <details className="reveal"><summary>¿Me vais a subir el precio?</summary><p>No mientras sigas con nosotros. Tu precio queda congelado aunque cambiemos tarifas, y además baja con la antigüedad: −5 % a los 6 meses, −10 % al año y −15 % a los 2 años.</p></details>
+          <details className="reveal"><summary>¿Tengo que pagar la IA?</summary><p>No. El asistente IA es opcional. Todo lo demás funciona igual sin él, y puedes añadirlo o quitarlo cuando quieras.</p></details>
+          <details className="reveal"><summary>¿Y si no me convence?</summary><p>Cancelas con un clic y no se renueva. Sin permanencia. Tus datos se guardan dos meses después de darte de baja, por si vuelves; pasado ese plazo se eliminan. Y con el plan gratis lo pruebas con tu tienda real antes de pagar nada.</p></details>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  function Closing(props) {
+    return html`<section className="section closing">
+      <div className="glow" aria-hidden="true"></div>
+      <div className="wrap">
+        <h2>Esta noche vas a mirar Shopify otra vez.</h2>
+        <p>Puedes seguir mirando cuánto vendes. O saber, hoy, cuánto te queda.</p>
+        <button className="btn btn-primary" type="button" onClick=${props.onFree}>Ver mi beneficio real gratis</button>
+        <p className="ps">P. D.: El plan gratis no caduca. Cuando tu producto despegue, tus números ya estarán ahí, desde el primer pedido.</p>
+      </div>
+    </section>`;
+  }
+
+  function MobileCta(props) {
+    var s = useState(false), show = s[0], set = s[1];
+    useEffect(function () {
+      function on() { var y = window.scrollY, max = document.documentElement.scrollHeight - window.innerHeight; set(y > 640 && y < max - 220); }
+      on(); window.addEventListener('scroll', on, { passive: true });
+      return function () { window.removeEventListener('scroll', on); };
+    }, []);
+    return html`<div className=${'mcta' + (show && !props.hidden ? ' show' : '')} aria-hidden=${!show}>
+      <a className="btn btn-ghost" href="#precios" tabIndex=${show ? 0 : -1}>Precios</a>
+      <button className="btn btn-primary" type="button" tabIndex=${show ? 0 : -1} onClick=${props.onFree}>Empieza gratis</button>
+    </div>`;
+  }
+
+  /* ---------- modals ---------- */
+  var modalStack = [];
+  function useModal(onClose, ref) {
+    var cb = useRef(onClose); cb.current = onClose;
+    useEffect(function () {
+      var me = {}, prev = document.activeElement;
+      modalStack.push(me);
+      document.body.classList.add('locked');
+      function key(e) {
+        if (modalStack[modalStack.length - 1] !== me) return;
+        if (e.key === 'Escape') { cb.current(); return; }
+        if (e.key !== 'Tab' || !ref || !ref.current) return;
+        var list = Array.prototype.filter.call(ref.current.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select, textarea'), function (el) { return el.offsetParent !== null; });
+        if (!list.length) return;
+        var first = list[0], last = list[list.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+      document.addEventListener('keydown', key);
+      return function () {
+        modalStack.splice(modalStack.indexOf(me), 1);
+        if (!modalStack.length) document.body.classList.remove('locked');
+        document.removeEventListener('keydown', key);
+        if (prev && prev.focus && document.contains(prev)) prev.focus();
+      };
+    }, []);
+  }
+
+  function Checkout(props) {
+    var sheetRef = useRef(null), emailRef = useRef(null);
+    useModal(props.onClose, sheetRef);
+    var init = { plan: props.plan, period: props.period, ai: 'none', setup: false, country: 'ES', vat: '', email: '', name: '', tax: '', terms: false, pay: false, done: false, code: '', applied: null, codeErr: '' };
+    var st = useState(init), f = st[0], setF = st[1];
+    var mh = useState(null), minH = mh[0], setMinH = mh[1];
+    var mobile = useMedia('(max-width: 760px)');
+    var po = useState(false), planOpen = po[0], setPlanOpen = po[1];
+    var bo = useState(false), brkOpen = bo[0], setBrkOpen = bo[1];
+    var pr = useState(false), promoOpen = pr[0], setPromoOpen = pr[1];
+    function applyCode() {
+      if (f.applied) { up('applied', null); up('code', ''); return; }
+      var c = f.code.trim().toUpperCase();
+      if (!c) return;
+      up('applied', c); up('codeErr', '');
+    }
+    function up(k, v) { setF(function (o) { var n = Object.assign({}, o); n[k] = v; return n; }); }
+    useEffect(function () { if (FINE && emailRef.current) emailRef.current.focus(); }, []);
+
+    var paid = f.plan !== 'free', p = PLANS[f.plan], yr = f.period === 'y';
+    var per = yr ? ' · anual' : ' · mensual';
+    var planV = paid ? p[f.period] : 0;
+    var saveV = paid && yr ? -(p.m * 12 - p.y) : 0;
+    var aiV = paid && f.ai !== 'none' ? AI[f.ai][f.period] : 0;
+    var setupV = paid && f.setup ? (yr ? SETUP_Y : SETUP) : 0;
+    var discV = paid && f.applied && PROMOS[f.applied] ? -r2(planV * PROMOS[f.applied].pct / 100) : 0;
+    var subtotal = r2(planV + discV + aiV + setupV);
+    var rate = paid && (f.country === 'ES' || (f.country === 'EU' && !f.vat.trim())) ? 0.21 : 0;
+    var vatLabel = f.country === 'ES' ? 'IVA (21 %)' : f.country === 'EU' ? (f.vat.trim() ? 'IVA (inversión del sujeto pasivo)' : 'IVA (21 %)') : 'IVA (fuera de la UE)';
+    var vat = r2(subtotal * rate), total = r2(subtotal + vat);
+    var recurring = r2((paid ? p[f.period] + AI[f.ai][f.period] : 0) * (1 + rate));
+    var gpPrice = !paid ? 0 : yr ? r2(p.y / 12) : p.m;
+    var ok = EMAIL.test(f.email.trim()) && !!f.name.trim() && f.terms && (!paid || f.pay);
+
+    function line(label, v, key, cls) {
+      return html`<div key=${key} className=${cls || ''}><span>${label}</span><${Roll} value=${v}>${typeof v === 'number' ? money(v) : v}<//></div>`;
+    }
+    function submit(e) {
+      e.preventDefault();
+      if (!ok) return;
+      var q = new URLSearchParams({ email: f.email.trim(), company: f.name.trim(), terms: '1' });
+      if (paid) {
+        q.set('plan', f.plan); q.set('period', yr ? 'year' : 'month'); q.set('ai', f.ai === 'none' ? 'none' : 'ai_' + f.ai); q.set('pay', '1');
+        if (f.setup) q.set('setup', '1');
+        if (f.applied) q.set('code', f.applied);
+        if (f.tax.trim()) q.set('tax', f.tax.trim());
+      }
+      if (sheetRef.current) setMinH(sheetRef.current.offsetHeight);
+      up('done', true);
+      if (!SHOWCASE) window.location.href = APP_URL + '/signup/?' + q.toString();
+    }
+
+    return html`<div className="overlay" onClick=${function (e) { if (e.target === e.currentTarget) props.onClose(); }}>
+      <div className="sheet" ref=${sheetRef} role="dialog" aria-modal="true" aria-labelledby="co-title" style=${minH ? { minHeight: minH + 'px' } : null}>
+        <div className="grabber" aria-hidden="true"></div>
+        <button className="x" type="button" aria-label="Cerrar" onClick=${props.onClose}>×</button>
+        ${f.done ? html`<div className="done">
+            <div className="ok" aria-hidden="true">✓</div>
+            <h3>${SHOWCASE ? 'Muy pronto' : paid ? 'Siguiente paso: pago seguro' : 'Cuenta creada'}</h3>
+            <p>${SHOWCASE ? 'Todavía no hemos abierto las altas. En cuanto abramos podrás crear tu cuenta desde aquí con el plan ' + p.n + '.' : paid ? 'Te llevamos a crear tu cuenta con el plan ' + p.n + ' ya elegido; allí terminas el pago seguro con Stripe.' : 'Te llevamos a crear tu cuenta gratis: te llegará un e-mail para confirmarla y entrarás a conectar tu primera tienda.'}</p>
+            <button className="btn btn-primary" type="button" onClick=${props.onClose}>Volver</button>
+          </div>` : [
+          html`<div className="sum" key="sum">
+            <div className="sum-head">
+              <h3 id="co-title">Tu plan</h3>
+              <button type="button" className="chev m-only" aria-expanded=${planOpen} onClick=${function () { setPlanOpen(!planOpen); }}>${planOpen ? 'Listo' : 'Cambiar plan'}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" className=${planOpen ? 'up' : ''} aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+            </div>
+            <div className="glass-plan" aria-live="polite">
+              <div><span className="gp-name">${p.n}</span><span className="gp-sub">${!paid ? 'Para siempre' : yr ? 'Anual · ' + money(p.y) + ' al año' : 'Facturación mensual'}</span></div>
+              <div className="gp-price"><${Roll} value=${gpPrice}>${money(gpPrice)}<//><small>/mes</small></div>
+            </div>
+            <div className=${'acc' + (planOpen || !mobile ? ' open' : '')}><div className="acc-in">
+              <div className="grp"><span>Plan</span><${Seg} block=${true} label="Plan" value=${f.plan} onChange=${function (v) { up('plan', v); }} options=${['free', 'starter', 'growth', 'scale'].map(function (id) { return { v: id, label: PLANS[id].n }; })} /></div>
+              <div className=${'grp' + (paid ? '' : ' ghost')}><span>Pago</span><${Seg} block=${true} label="Periodo de pago" value=${f.period} onChange=${function (v) { up('period', v); }} options=${[{ v: 'y', label: 'Anual' }, { v: 'm', label: 'Mensual' }]} /></div>
+            </div></div>
+            <div className=${'grp' + (paid ? '' : ' ghost')}><span>Asistente IA (opcional)</span><${Seg} block=${true} label="Asistente IA" value=${f.ai} onChange=${function (v) { up('ai', v); }} options=${[{ v: 'none', label: 'Sin IA' }, { v: 'basic', label: 'Básico' }, { v: 'pro', label: 'Pro' }]} /></div>
+            <button type="button" className=${'linkbtn promo-t m-only' + (paid ? '' : ' ghost')} aria-expanded=${promoOpen} onClick=${function () { setPromoOpen(!promoOpen); }}>¿Tienes un código de descuento?</button>
+            <div className=${'acc' + (promoOpen || !mobile ? ' open' : '') + (paid ? '' : ' ghost')}><div className="acc-in">
+              <div className="promo">
+                <input type="text" aria-label="Código de descuento" placeholder="Código de descuento" autoCapitalize="characters" value=${f.code} onInput=${function (e) { up('code', e.target.value); up('codeErr', ''); }} onKeyDown=${function (e) { if (e.key === 'Enter') { e.preventDefault(); applyCode(); } }} />
+                <button type="button" className="btn btn-soft btn-sm" onClick=${applyCode}>${f.applied ? 'Quitar' : 'Aplicar'}</button>
+              </div>
+              <p className=${'promo-msg' + (f.applied ? ' ok' : '')} role="status">${f.applied ? '✓ Código ' + f.applied + ': se aplicará en el pago' : f.codeErr}</p>
+            </div></div>
+            <div className="total-row m-only"><span>Hoy pagas</span><${Roll} value=${total}>${money(total)}<//></div>
+            <p className="then">${paid ? html`<span>Después: <${Roll} value=${recurring}>${money(recurring)}<//>${yr ? ' cada año' : ' cada mes'}${rate ? ' con IVA' : ''}. Cancelas cuando quieras.</span>` : 'Sin tarjeta. Pasas a un plan de pago solo si tú quieres.'}</p>
+            <button type="button" className="linkbtn brk m-only" aria-expanded=${brkOpen} onClick=${function () { setBrkOpen(!brkOpen); }}>${brkOpen ? 'Ocultar desglose' : 'Ver desglose'}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" className=${brkOpen ? 'up' : ''} aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div className=${'acc acc-brk' + (brkOpen || !mobile ? ' open' : '')}><div className="acc-in">
+            <div className="lines">
+              ${line('Plan ' + p.n + (paid ? per : ''), planV, 'plan')}
+              ${line('Ahorro frente a mensual', saveV, 'save', 'sv' + (saveV ? '' : ' ghost'))}
+              ${line('Código de descuento', discV, 'disc', 'sv ghost')}
+              ${line(paid && f.ai !== 'none' ? AI[f.ai].n + per : 'Asistente IA', aiV, 'ai', paid ? '' : 'ghost')}
+              ${line('Puesta en marcha' + (paid && f.setup && yr ? ' (−100 € anual)' : ''), setupV, 'setup', paid ? '' : 'ghost')}
+              ${line('Subtotal', subtotal, 'sub', paid ? '' : 'ghost')}
+              ${line(vatLabel, vat, 'vat', paid ? '' : 'ghost')}
+              ${line('Hoy pagas', total, 'tot', 'tot')}
+            </div>
+            </div></div>
+          </div>`,
+          html`<form className="frm" key="frm" noValidate onSubmit=${submit}>
+            <h3>${paid ? 'Tus datos de facturación' : 'Crea tu cuenta'}</h3>
+            <div className="fld"><label htmlFor="co-email">E-mail</label><input id="co-email" ref=${emailRef} type="email" inputMode="email" autoComplete="email" placeholder="tu@tienda.com" value=${f.email} onInput=${function (e) { up('email', e.target.value); }} /></div>
+            <div className="r2">
+              <div className="fld"><label htmlFor="co-name">Nombre o empresa</label><input id="co-name" type="text" autoComplete="organization" value=${f.name} onInput=${function (e) { up('name', e.target.value); }} /></div>
+              <div className=${'fld' + (paid ? '' : ' ghost')}><label htmlFor="co-tax">NIF / CIF (opcional)</label><input id="co-tax" type="text" autoComplete="off" value=${f.tax} onInput=${function (e) { up('tax', e.target.value); }} /></div>
+            </div>
+            <div className=${'r2' + (paid ? '' : ' ghost')}>
+              <div className="fld"><label htmlFor="co-country">País</label><select id="co-country" value=${f.country} onChange=${function (e) { up('country', e.target.value); }}><option value="ES">España</option><option value="EU">Otro país de la UE</option><option value="XX">Fuera de la UE</option></select></div>
+              <div className=${'fld' + (paid && f.country === 'EU' ? '' : ' ghost')}><label htmlFor="co-vat">NIF-IVA intracomunitario</label><input id="co-vat" type="text" placeholder="Opcional" value=${f.vat} onInput=${function (e) { up('vat', e.target.value); }} /></div>
+            </div>
+            <label className=${'chk opt' + (paid ? '' : ' ghost')}><input type="checkbox" checked=${f.setup} onChange=${function (e) { up('setup', e.target.checked); }} /><span className="opt-t"><b>Te lo dejamos montado</b><small>Conectamos tus tiendas por videollamada e importamos tu historial</small></span><span className="opt-p">${yr ? html`<span><s>${SETUP} €</s>${SETUP_Y} €</span>` : SETUP + ' €'}</span></label>
+            <div className="legal">
+              <label className="chk"><input type="checkbox" checked=${f.terms} onChange=${function (e) { up('terms', e.target.checked); }} /><span>He leído y acepto las <a href="#legal-condiciones">condiciones de uso</a>, incluida la <a href="#legal-devoluciones">política de devoluciones</a>, y la <a href="#legal-privacidad">política de privacidad</a>.</span></label>
+              <label className=${'chk' + (paid ? '' : ' ghost')}><input type="checkbox" checked=${f.pay} onChange=${function (e) { up('pay', e.target.checked); }} /><span>He leído y acepto la <a href="#legal-pagos">política de pagos y contracargos</a>.</span></label>
+            </div>
+            <div className="paybar">
+              <p className=${'err hint'} role="status">${ok ? '' : 'Rellena tus datos y marca ' + (paid ? 'las dos casillas' : 'la casilla') + ' para continuar.'}</p>
+              <button className="btn btn-primary" type="submit" disabled=${!ok}>${paid ? 'Continuar al pago seguro' : 'Crear cuenta gratis'}</button>
+              <p className=${'secure' + (paid ? '' : ' ghost')}>El pago con tarjeta se hace en la página segura de Stripe. Nunca vemos tu tarjeta.</p>
+            </div>
+          </form>`]}
+      </div>
+    </div>`;
+  }
+
+  function Quote(props) {
+    var qRef = useRef(null);
+    useModal(props.onClose, qRef);
+    var st = useState({ name: '', company: '', email: '', phone: '', orders: MORE_THAN + ' – 15.000', when: 'Mañana (9–14 h)', msg: '', terms: false, done: false }), f = st[0], setF = st[1];
+    function up(k, v) { setF(function (o) { var n = Object.assign({}, o); n[k] = v; return n; }); }
+    var ok = f.name.trim() && f.company.trim() && f.phone.trim() && EMAIL.test(f.email.trim()) && f.terms;
+    function field(id, label, type, extra) {
+      return html`<div className="fld"><label htmlFor=${'q-' + id}>${label}</label><input id=${'q-' + id} type=${type} value=${f[id]} onInput=${function (e) { up(id, e.target.value); }} ...${extra || {}} /></div>`;
+    }
+    return html`<div className="overlay" onClick=${function (e) { if (e.target === e.currentTarget) props.onClose(); }}>
+      <div className="sheet single" ref=${qRef} role="dialog" aria-modal="true" aria-labelledby="q-title">
+        <div className="grabber" aria-hidden="true"></div>
+        <button className="x" type="button" aria-label="Cerrar" onClick=${props.onClose}>×</button>
+        ${f.done ? html`<div className="done"><div className="ok" aria-hidden="true">✓</div><h3>¡Recibido!</h3><p>Te llamaremos en la franja que has elegido para preparar tu plan a medida.</p><button className="btn btn-primary" type="button" onClick=${props.onClose}>Volver</button></div>`
+        : html`<form className="frm" noValidate onSubmit=${function (e) { e.preventDefault(); if (!ok || f.sending) return; up('sending', true); sendLead(f).then(function () { up('done', true); }).catch(function (x) { up('sending', false); window.alert(x.message); }); }}>
+          <h3 id="q-title">Pide tu presupuesto Enterprise</h3>
+          <p className="mutedt" style=${{ fontSize: '.88rem' }}>Déjanos tus datos y te llamamos para preparar un plan a tu medida.</p>
+          <div className="r2">${field('name', 'Nombre', 'text', { autoComplete: 'name' })}${field('company', 'Empresa', 'text', { autoComplete: 'organization' })}</div>
+          <div className="r2">${field('email', 'E-mail', 'email', { autoComplete: 'email', inputMode: 'email' })}${field('phone', 'Teléfono', 'tel', { autoComplete: 'tel', inputMode: 'tel', placeholder: '+34' })}</div>
+          <div className="r2">
+            <div className="fld"><label htmlFor="q-orders">Pedidos al mes</label><select id="q-orders" value=${f.orders} onChange=${function (e) { up('orders', e.target.value); }}><option>${MORE_THAN + ' – 15.000'}</option><option>15.000 – 50.000</option><option>Más de 50.000</option></select></div>
+            <div className="fld"><label htmlFor="q-when">Mejor hora para llamarte</label><select id="q-when" value=${f.when} onChange=${function (e) { up('when', e.target.value); }}><option>Mañana (9–14 h)</option><option>Tarde (16–20 h)</option><option>Me da igual</option></select></div>
+          </div>
+          ${field('msg', '¿Qué necesitas? (opcional)', 'text', { placeholder: 'Nº de tiendas, agencia, integraciones…' })}
+          <label className="chk"><input type="checkbox" checked=${f.terms} onChange=${function (e) { up('terms', e.target.checked); }} /><span>Acepto la <a href="#legal-privacidad">política de privacidad</a> y que me contactéis por teléfono o e-mail.</span></label>
+          <div className="paybar">
+            <p className="err hint" role="status">${ok ? '' : 'Rellena tus datos y acepta la política para continuar.'}</p>
+            <button className="btn btn-primary" type="submit" disabled=${!ok}>Quiero que me llaméis</button>
+          </div>
+        </form>`}
+      </div>
+    </div>`;
+  }
+
+  /* ---------- app ---------- */
+  /* ---------- legal ---------- */
+  var LEGAL = {};
+  try { LEGAL = JSON.parse(document.getElementById('legal-data').textContent); } catch (e) {}
+  var LEGAL_ORDER = [['condiciones', 'Condiciones de uso'], ['devoluciones', 'Devoluciones'], ['pagos', 'Pagos y contracargos'], ['privacidad', 'Privacidad'], ['cookies', 'Cookies'], ['encargo', 'Encargo del tratamiento'], ['aviso', 'Aviso legal']];
+
+  function LegalViewer(props) {
+    var ref = useRef(null), body = useRef(null);
+    useModal(props.onClose, ref);
+    useEffect(function () { if (body.current) body.current.scrollTop = 0; }, [props.doc]);
+    var d = LEGAL[props.doc] || { title: 'Documento legal', html: '<p>Este documento no está disponible.</p>' };
+    return html`<div className="overlay legal-ov" onClick=${function (e) { if (e.target === e.currentTarget) props.onClose(); }}>
+      <div className="sheet legal-sheet" ref=${ref} role="dialog" aria-modal="true" aria-label=${d.title}>
+        <div className="grabber" aria-hidden="true"></div>
+        <button className="x" type="button" aria-label="Cerrar" onClick=${props.onClose}>×</button>
+        <nav className="legal-nav" aria-label="Documentos legales">
+          ${LEGAL_ORDER.map(function (s) { return html`<button key=${s[0]} type="button" className=${s[0] === props.doc ? 'on' : ''} aria-current=${s[0] === props.doc ? 'page' : undefined} onClick=${function () { props.onNav(s[0]); }}>${s[1]}</button>`; })}
+        </nav>
+        <article className="legal-doc" ref=${body}>
+          <h2>${d.title}</h2>
+          <p className="draft">Borrador pendiente de revisión legal. Los datos marcados como pendientes se completarán antes de publicar.</p>
+          <div className="legal-body" dangerouslySetInnerHTML=${{ __html: d.html }}></div>
+        </article>
+      </div>
+    </div>`;
+  }
+
+  /* ---------- cookies ---------- */
+  function CookieBanner(props) {
+    var c = props.current || { a: false, p: false };
+    var s = useState(props.mode === 'config'), cfg = s[0], setCfg = s[1];
+    var sa = useState(!!c.a), an = sa[0], setAn = sa[1];
+    var sp = useState(!!c.p), ad = sp[0], setAd = sp[1];
+    return html`<div className="cookie" role="dialog" aria-label="Preferencias de cookies">
+      <p><b>Usamos cookies.</b> Las técnicas son necesarias para que la web funcione. Si nos dejas, usaremos también cookies de análisis y de publicidad para medir y mejorar nuestros anuncios. <a href="#legal-cookies">Política de cookies</a></p>
+      ${cfg && html`<div className="cookie-opts">
+        <label className="tgl"><span><b>Técnicas</b><small>Necesarias. Siempre activas.</small></span><input type="checkbox" checked=${true} disabled=${true} /></label>
+        <label className="tgl"><span><b>Análisis</b><small>Estadísticas de visitas.</small></span><input type="checkbox" checked=${an} onChange=${function (e) { setAn(e.target.checked); }} /></label>
+        <label className="tgl"><span><b>Publicidad</b><small>Medir nuestros anuncios en otras plataformas.</small></span><input type="checkbox" checked=${ad} onChange=${function (e) { setAd(e.target.checked); }} /></label>
+      </div>`}
+      <div className="cookie-btns">
+        <button className="btn btn-dark btn-sm" type="button" onClick=${function () { props.onSave({ a: false, p: false }); }}>Rechazar</button>
+        ${cfg ? html`<button className="btn btn-soft btn-sm" type="button" onClick=${function () { props.onSave({ a: an, p: ad }); }}>Guardar selección</button>`
+              : html`<button className="btn btn-soft btn-sm" type="button" onClick=${function () { setCfg(true); }}>Configurar</button>`}
+        <button className="btn btn-dark btn-sm" type="button" onClick=${function () { props.onSave({ a: true, p: true }); }}>Aceptar todas</button>
+      </div>
+    </div>`;
+  }
+
+  /* Analytics and ad pixels load only after consent. Nothing is loaded yet: add the real snippets here. */
+  function applyConsent(c) {
+    if (c.a) { /* [PENDIENTE] cargar la analítica (p. ej. Google Analytics) */ }
+    if (c.p) { /* [PENDIENTE] cargar los píxeles de publicidad (p. ej. Meta, TikTok) */ }
+  }
+
+  /* ---------- calculator ---------- */
+  function num(x) {
+    x = String(x).trim();
+    if (x.indexOf(',') >= 0) x = x.replace(/\./g, '').replace(',', '.');
+    else if (!/^\d+\.\d{1,2}$/.test(x)) x = x.replace(/\./g, '');
+    var n = parseFloat(x);
+    return isFinite(n) && n > 0 ? n : 0;
+  }
+  var dec2 = new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  function Calc(props) {
+    var s = useState({ ticket: '49,90', product: '12,35', cpa: '21,40', fee: '3', fx: '1,2', loss: '2,5', fixed: '1.200', orders: '600' }), v = s[0], setV = s[1];
+    function up(k, val) { setV(function (o) { var n = Object.assign({}, o); n[k] = val; return n; }); }
+    var t = num(v.ticket), pr = num(v.product), cpa = num(v.cpa), orders = num(v.orders);
+    var fee = t * num(v.fee) / 100, fx = t * num(v.fx) / 100, loss = t * num(v.loss) / 100, fixedPer = orders ? num(v.fixed) / orders : 0;
+    var apparent = r2(t - pr - cpa);
+    var real = r2(apparent - fee - fx - loss - fixedPer);
+    var hidden = Math.round((apparent - real) * orders);
+    var contrib = t - pr - fee - fx - loss - fixedPer;
+    var be = contrib > 0 ? r2(t / contrib) : null, roas = cpa > 0 ? r2(t / cpa) : null;
+    var wins = real > 0;
+    var fields = [
+      ['ticket', 'Ticket medio', '€'], ['product', 'Producto y envío', '€'], ['cpa', 'Coste por compra en anuncios', '€'], ['fee', 'Comisión de la pasarela', '%'],
+      ['fx', 'Cambio de divisa', '%'], ['loss', 'Reembolsos y contracargos', '%'], ['fixed', 'Gastos fijos al mes', '€'], ['orders', 'Pedidos al mes', '']
+    ];
+    return html`<section className="section pt0" id="calculadora">
+      <div className="wrap">
+        <div className="head reveal"><span className="chip"><i></i>Calculadora</span><h2>Calcula lo que no estás viendo.</h2><p>Pon tus números. En 10 segundos sabes cuánto te queda de verdad por pedido.</p></div>
+        <div className="card calc reveal">
+          <div className="calc-in">
+            ${fields.map(function (f) {
+              return html`<div className="fld" key=${f[0]}><label htmlFor=${'c-' + f[0]}>${f[1]}</label><div className="sfx"><input id=${'c-' + f[0]} type="text" inputMode="decimal" value=${v[f[0]]} onInput=${function (e) { up(f[0], e.target.value); }} />${f[2] && html`<span>${f[2]}</span>`}</div></div>`;
+            })}
+            <p className="note" style=${{ gridColumn: '1 / -1' }}>Valores de ejemplo: cámbialos por los tuyos.</p>
+          </div>
+          <div className="calc-out">
+            <div className="co-row"><span>Lo que crees que ganas por pedido</span><${Roll} value=${apparent}>${eurNum(apparent, 2)}<//></div>
+            <div className="co-main"><span>Lo que te queda de verdad</span><${Roll} value=${real} className=${wins ? 'pos' : 'neg'}>${eurNum(real, 2)}<//></div>
+            <div className="co-row warn"><span>Lo que no estabas viendo, al mes</span><${Roll} value=${hidden}>${eurNum(-hidden, 0)}<//></div>
+            <div className="co-roas">
+              <div><small>Tu ROAS</small><${Roll} value=${roas || 0}>${roas ? dec2.format(roas) : '—'}<//></div>
+              <div><small>Tu ROAS de equilibrio</small><${Roll} value=${be || 0}>${be ? dec2.format(be) : '—'}<//></div>
+              <span className=${'badge ' + (wins ? 'g' : 'r')}>${wins ? 'Ganas dinero' : 'Pierdes dinero'}</span>
+            </div>
+            <button className="btn btn-primary" type="button" onClick=${props.onFree}>Ver mis números reales gratis</button>
+            <p className="note">Cálculo orientativo con los datos que pongas. La app lo calcula con tus pedidos reales, uno a uno.</p>
+          </div>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  /* ---------- comparison ---------- */
+  function Mark(props) {
+    var icon = props.k === 'yes' ? '✓' : props.k === 'mid' ? '~' : '✕';
+    return html`<span className=${'mk mk-' + props.k}><i aria-hidden="true">${icon}</i><span>${props.t}</span></span>`;
+  }
+  function Compare() {
+    var rows = [
+      ['Se actualiza solo', ['no', 'A mano'], ['yes', 'Sí'], ['yes', 'Cada hora']],
+      ['Coste real del proveedor en cada pedido', ['mid', 'Si lo copias'], ['mid', 'Coste fijo por producto'], ['yes', 'El de cada pedido']],
+      ['Contracargos, comisiones y divisas', ['no', 'Casi nunca'], ['mid', 'A veces'], ['yes', 'Con su coste real']],
+      ['Facturas, IVA/OSS y cierre de mes', ['no', 'Otro archivo'], ['no', 'Normalmente no'], ['yes', 'Incluido']],
+      ['ROAS de equilibrio', ['mid', 'A mano'], ['mid', 'A veces'], ['yes', 'Cada día']],
+      ['Pensado para España y la UE', ['no', 'No'], ['mid', 'Suelen ser de EE. UU.'], ['yes', 'IVA, OSS y BCE']]
+    ];
+    return html`<section className="section pt0" id="comparacion">
+      <div className="wrap">
+        <div className="head reveal"><span className="chip"><i></i>Comparación</span><h2>Lo que cambia frente a lo que usas hoy.</h2></div>
+        <div className="cmp reveal" role="table" aria-label="Comparación">
+          <div className="cmp-row cmp-h" role="row">
+            <span role="columnheader" className="cmp-t"></span>
+            <span role="columnheader">Tu Excel</span>
+            <span role="columnheader">Otras apps</span>
+            <span role="columnheader" className="us"><span className="logo-mark sm" aria-hidden="true">L&W</span><span className="us-name">LOOSES & WINS</span></span>
+          </div>
+          ${rows.map(function (r) {
+            return html`<div className="cmp-row" role="row" key=${r[0]}>
+              <span role="rowheader" className="cmp-t">${r[0]}</span>
+              <span role="cell"><${Mark} k=${r[1][0]} t=${r[1][1]} /></span>
+              <span role="cell"><${Mark} k=${r[2][0]} t=${r[2][1]} /></span>
+              <span role="cell" className="us"><${Mark} k=${r[3][0]} t=${r[3][1]} /></span>
+            </div>`;
+          })}
+        </div>
+      </div>
+    </section>`;
+  }
+
+  function App() {
+    var saved = 'y';
+    try { saved = localStorage.getItem('lw-period2') === 'm' ? 'm' : 'y'; } catch (e) {}
+    var ps = useState(saved), period = ps[0], setPeriodRaw = ps[1];
+    var cs = useState(null), checkout = cs[0], setCheckout = cs[1];
+    var qs = useState(false), quote = qs[0], setQuote = qs[1];
+    function setPeriod(p) { setPeriodRaw(p); try { localStorage.setItem('lw-period2', p); } catch (e) {} }
+    function openPlan(plan) { setCheckout({ plan: plan, k: Date.now() }); }
+    function onFree() { openPlan('free'); }
+    function onQuote() { setQuote(true); }
+    var ls = useState(null), legal = ls[0], setLegal = ls[1];
+    var stored = null;
+    try { stored = JSON.parse(localStorage.getItem('lw-consent') || 'null'); } catch (e) {}
+    var ks = useState(stored), consent = ks[0], setConsent = ks[1];
+    var bs = useState(stored ? null : 'banner'), cookieMode = bs[0], setCookieMode = bs[1];
+    function saveConsent(c) {
+      var v = { a: !!c.a, p: !!c.p, t: Date.now() };
+      setConsent(v); setCookieMode(null);
+      try { localStorage.setItem('lw-consent', JSON.stringify(v)); } catch (e) {}
+      applyConsent(v);
+    }
+    useEffect(function () { if (stored) applyConsent(stored); }, []);
+
+    /* Any link to #legal-<doc> opens the legal viewer instead of navigating */
+    useEffect(function () {
+      function click(e) {
+        var a = e.target.closest && e.target.closest('a[href^="#legal-"]');
+        if (!a) return;
+        e.preventDefault();
+        setLegal(a.getAttribute('href').slice(7));
+      }
+      document.addEventListener('click', click);
+      // opened from the app with #legal-<doc>
+      if (/^#legal-/.test(window.location.hash)) setLegal(window.location.hash.slice(7));
+      return function () { document.removeEventListener('click', click); };
+    }, []);
+
+    /* Card spotlight follows the pointer (mouse only) */
+    useEffect(function () {
+      if (!FINE) return;
+      function move(e) {
+        var c = e.target.closest && e.target.closest('.spot'); if (!c) return;
+        var r = c.getBoundingClientRect();
+        c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      }
+      document.addEventListener('pointermove', move, { passive: true });
+      return function () { document.removeEventListener('pointermove', move); };
+    }, []);
+
+    return html`<${React.Fragment}>
+      <${Nav} onFree=${onFree} />
+      <main id="inicio">
+        <${Hero} onFree=${onFree} />
+        <${Pain} onFree=${onFree} />
+        <${Loss} onFree=${onFree} />
+        <${Calc} onFree=${onFree} />
+        <${How} onFree=${onFree} />
+        <${Features} />
+        <${Compare} />
+        <${Privacy} />
+        <${BeforeAfter} />
+        <${Founder} />
+        <${Pricing} period=${period} setPeriod=${setPeriod} onBuy=${openPlan} onFree=${onFree} onQuote=${onQuote} />
+        <${Loyalty} />
+        <${Faq} onFree=${onFree} />
+        <${Closing} onFree=${onFree} />
+      </main>
+      <footer>
+        <div className="wrap foot">
+          <div className="foot-brand">
+            <a className="logo" href="#inicio"><span className="logo-mark" aria-hidden="true">L&W</span><span>LOOSES & WINS</span></a>
+            <p>Contabilidad y beneficio real para tiendas de dropshipping.</p>
+            <button className="btn btn-primary btn-sm" type="button" onClick=${onFree}>Empieza gratis</button>
+          </div>
+          <nav className="foot-col" aria-label="Producto">
+            <h4>Producto</h4>
+            <a href="#como">Cómo funciona</a><a href="#calculadora">Calculadora</a><a href="#funciones">Funciones</a><a href="#precios">Precios</a>
+            <button type="button" className="foot-btn" onClick=${onQuote}>Enterprise</button>
+          </nav>
+          <nav className="foot-col" aria-label="Legal">
+            <h4>Legal</h4>
+            <a href="#legal-aviso">Aviso legal</a><a href="#legal-condiciones">Condiciones de uso</a><a href="#legal-devoluciones">Política de devoluciones</a><a href="#legal-pagos">Pagos y contracargos</a>
+          </nav>
+          <nav className="foot-col" aria-label="Privacidad">
+            <h4>Privacidad</h4>
+            <a href="#legal-privacidad">Política de privacidad</a><a href="#legal-cookies">Política de cookies</a><a href="#legal-encargo">Encargo del tratamiento</a>
+            <button type="button" className="foot-btn" onClick=${function () { setCookieMode('config'); }}>Configurar cookies</button>
+          </nav>
+        </div>
+        <div className="wrap foot-bottom"><span>© 2026 LOOSES & WINS. Todos los derechos reservados.</span><span>Las cifras de esta web son ejemplos ilustrativos.</span></div>
+      </footer>
+      <${MobileCta} onFree=${onFree} hidden=${!!checkout || quote || !!cookieMode} />
+      ${checkout && html`<${Checkout} key=${checkout.k} plan=${checkout.plan} period=${period} onClose=${function () { setCheckout(null); }} />`}
+      ${quote && html`<${Quote} onClose=${function () { setQuote(false); }} />`}
+      ${cookieMode && html`<${CookieBanner} key=${cookieMode} mode=${cookieMode} current=${consent} onSave=${saveConsent} />`}
+      ${legal && html`<${LegalViewer} doc=${legal} onNav=${setLegal} onClose=${function () { setLegal(null); }} />`}
+    <//>`;
+  }
+
+  function boot() { ReactDOM.createRoot(document.getElementById('root')).render(h(App)); }
+  if (API_URL && window.fetch) {
+    var booted = false, guard = setTimeout(function () { if (!booted) { booted = true; boot(); } }, 2500);
+    fetch(API_URL).then(function (r) { return r.json(); })
+      .then(function (d) { if (!booted) { applyLive(d); booted = true; clearTimeout(guard); boot(); } })
+      .catch(function () { if (!booted) { booted = true; clearTimeout(guard); boot(); } });
+  } else boot();
+})();
+</script>
+
+</body></html>
