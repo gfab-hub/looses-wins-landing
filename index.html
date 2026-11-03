@@ -150,8 +150,10 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; line-height: 1.25; font-weight
 .app-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
 .app-top h4 { margin: 0; font-size: 1.15rem; letter-spacing: -0.02em; }
 .seg-mini { display: inline-flex; background: var(--card); border: 1px solid var(--border); border-radius: 9px; padding: 3px; font-size: .75rem; }
-.seg-mini span { padding: 5px 10px; border-radius: 6px; color: var(--muted); }
-.seg-mini span.on { background: var(--canvas); color: var(--ink); font-weight: 600; box-shadow: var(--shadow); }
+.seg-mini button { padding: 5px 10px; border-radius: 6px; color: var(--muted); border: 0; background: none; font: inherit; cursor: pointer; transition: color .2s, background-color .2s, box-shadow .2s; }
+.seg-mini button:hover { color: var(--ink); }
+.seg-mini button:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.seg-mini button.on { background: var(--canvas); color: var(--ink); font-weight: 600; box-shadow: var(--shadow); }
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; box-shadow: var(--shadow); min-width: 0; }
 .stat .lab { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: .72rem; color: var(--muted); font-weight: 500; }
@@ -636,6 +638,9 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
   .glass-frame { transform: rotateX(7deg); transition: transform .8s cubic-bezier(.2,.8,.2,1); }
   .chart-line { stroke-dasharray: 1000; animation: draw 2s .7s cubic-bezier(.3,.7,.2,1) both; }
   .chart-dot { animation: fadeUp .4s 2.4s both; }
+  .redraw .chart-line { animation: draw 1.1s cubic-bezier(.3,.7,.2,1) both; }
+  .redraw .chart-area { animation: fadeUp .6s both; }
+  .redraw .chart-dot { animation: fadeUp .35s .9s both; }
   .stat { animation: fadeUp .7s both; }
   .stat:nth-child(1) { animation-delay: .55s; } .stat:nth-child(2) { animation-delay: .65s; } .stat:nth-child(3) { animation-delay: .75s; } .stat:nth-child(4) { animation-delay: .85s; }
   .float.f1 { animation: bob 6s ease-in-out infinite; }
@@ -786,21 +791,24 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
   }
 
   /* Counts from 0 to the final value once `start` is true; the final value is what renders without motion */
+  /* Counts up to target once start is true; later target changes count from the current value (delay only the first time) */
   function useCount(target, start, delay) {
-    var s = useState(REDUCED ? target : 0), v = s[0], set = s[1];
+    var s = useState(REDUCED ? target : 0), v = s[0], set = s[1], cur = useRef(REDUCED ? target : 0), ran = useRef(false);
     useEffect(function () {
-      if (REDUCED || !start) return;
-      var raf, t0 = null, timer = setTimeout(function () {
+      if (!start) return;
+      if (REDUCED) { cur.current = target; set(target); return; }
+      var from = cur.current, raf, t0 = null, timer = setTimeout(function () {
         function step(t) {
           if (!t0) t0 = t;
-          var k = Math.min(1, (t - t0) / 1400), e = 1 - Math.pow(1 - k, 3);
-          set(target * e);
-          if (k < 1) raf = requestAnimationFrame(step);
+          var k = Math.min(1, (t - t0) / (ran.current ? 900 : 1400)), e = 1 - Math.pow(1 - k, 3);
+          cur.current = from + (target - from) * e;
+          set(cur.current);
+          if (k < 1) raf = requestAnimationFrame(step); else ran.current = true;
         }
         raf = requestAnimationFrame(step);
-      }, delay || 0);
-      return function () { clearTimeout(timer); cancelAnimationFrame(raf); };
-    }, [start]);
+      }, ran.current ? 0 : delay || 0);
+      return function () { clearTimeout(timer); cancelAnimationFrame(raf); ran.current = ran.current || t0 !== null; };
+    }, [start, target]);
     return v;
   }
   function eurNum(v, dec) {
@@ -898,8 +906,20 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
     </div>`;
   }
 
+  /* Example figures of the hero dashboard per range (Hoy matches the Shopify notification next to it) */
+  var DASH = {
+    day: { label: 'Hoy', chart: 'Beneficio por hora', sales: 1284.50, orders: 28, ads: -552.40, roas: '2,33', cost: -301.60, net: 287.70, margin: '22,4',
+      line: 'M0 120 L25 122 L50 124 L75 124 L100 123 L125 121 L150 116 L175 110 L200 102 L225 96 L250 92 L275 88 L300 90 L325 86 L350 80 L375 82 L400 76 L425 70 L450 62 L475 56 L500 48 L525 44 L550 40 L575 36 L600 34', y: 34 },
+    week: { label: '7 días', chart: 'Beneficio por día', sales: 9842.10, orders: 214, ads: -4120.60, roas: '2,39', cost: -2310.45, net: 2264.30, margin: '23,0',
+      line: 'M0 98 L50 90 L100 104 L150 80 L200 86 L250 66 L300 72 L350 58 L400 64 L450 46 L500 52 L550 34 L600 28', y: 28 },
+    month: { label: 'Mes', chart: 'Beneficio por día', sales: 41236.80, orders: 896, ads: -16802.40, roas: '2,45', cost: -9684.20, net: 9814.35, margin: '23,8',
+      line: 'M0 104 L20 98 L40 100 L60 92 L80 96 L100 88 L120 94 L140 84 L160 86 L180 90 L200 80 L220 76 L240 82 L260 72 L280 78 L300 70 L320 74 L340 64 L360 68 L380 60 L400 66 L420 58 L440 54 L460 60 L480 50 L500 46 L520 52 L540 42 L560 38 L580 40 L600 32', y: 32 },
+  };
+
   function Hero(props) {
     var frame = useRef(null), stage = useRef(null);
+    var rs = useState('week'), range = rs[0], setRange = rs[1], switched = useRef(false), d = DASH[range];
+    function pick(k) { if (k !== range) { switched.current = true; setRange(k); } }
     useEffect(function () {
       if (REDUCED || !FINE || !stage.current) return;
       var st = stage.current, fr = frame.current;
@@ -961,21 +981,21 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
                 ${['Dashboard', 'Pedidos', 'Facturas', 'Gastos', 'Bancos', 'Informes', 'Marketing'].map(function (t, i) { return html`<div key=${t} className=${'it' + (i === 0 ? ' on' : '')}>${t}</div>`; })}
               </aside>
               <div className="app-main">
-                <div className="app-top"><h4>Dashboard</h4><div className="seg-mini"><span>Hoy</span><span className="on">7 días</span><span>Mes</span></div></div>
+                <div className="app-top"><h4>Dashboard</h4><div className="seg-mini" role="group" aria-label="Periodo">${['day', 'week', 'month'].map(function (k) { return html`<button key=${k} type="button" className=${k === range ? 'on' : ''} aria-pressed=${k === range} onClick=${function () { pick(k); }}>${DASH[k].label}</button>`; })}</div></div>
                 <div className="stats">
-                  <${Stat} label="Ventas" ic="b" icon="€" to=${9842.10} hint="214 pedidos" delay=${600} />
-                  <${Stat} label="Anuncios" ic="n" icon="↓" to=${-4120.60} hint="ROAS 2,39" tone="neg" delay=${700} />
-                  <${Stat} label="Coste producto" ic="n" icon="↓" to=${-2310.45} hint="Proveedor" tone="neg" delay=${800} />
-                  <${Stat} label="Beneficio neto" ic="p" icon="↑" to=${2264.30} hint="Margen 23,0 %" tone="pos" feat=${true} delay=${900} />
+                  <${Stat} label="Ventas" ic="b" icon="€" to=${d.sales} hint=${d.orders + ' pedidos'} delay=${600} />
+                  <${Stat} label="Anuncios" ic="n" icon="↓" to=${d.ads} hint=${'ROAS ' + d.roas} tone="neg" delay=${700} />
+                  <${Stat} label="Coste producto" ic="n" icon="↓" to=${d.cost} hint="Proveedor" tone="neg" delay=${800} />
+                  <${Stat} label="Beneficio neto" ic="p" icon="↑" to=${d.net} hint=${'Margen ' + d.margin + ' %'} tone="pos" feat=${true} delay=${900} />
                 </div>
                 <div className="chart-card">
-                  <div className="t"><span>Beneficio por día</span><span>Datos de ejemplo</span></div>
-                  <svg viewBox="0 0 600 150" preserveAspectRatio="none" aria-hidden="true">
+                  <div className="t"><span>${d.chart}</span><span>Datos de ejemplo</span></div>
+                  <svg viewBox="0 0 600 150" preserveAspectRatio="none" aria-hidden="true" className=${switched.current ? 'redraw' : ''}>
                     <defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="oklch(0.52 0.13 255)" stopOpacity=".28"/><stop offset="1" stopColor="oklch(0.52 0.13 255)" stopOpacity="0"/></linearGradient></defs>
                     <g stroke="oklch(0.925 0.004 255)" strokeWidth="1"><line x1="0" y1="30" x2="600" y2="30"/><line x1="0" y1="75" x2="600" y2="75"/><line x1="0" y1="120" x2="600" y2="120"/></g>
-                    <path d="M0 98 L50 90 L100 104 L150 80 L200 86 L250 66 L300 72 L350 58 L400 64 L450 46 L500 52 L550 34 L600 28 L600 150 L0 150 Z" fill="url(#ga)"/>
-                    <path className="chart-line" d="M0 98 L50 90 L100 104 L150 80 L200 86 L250 66 L300 72 L350 58 L400 64 L450 46 L500 52 L550 34 L600 28" fill="none" stroke="oklch(0.52 0.13 255)" strokeWidth="2.5" strokeLinejoin="round"/>
-                    <circle className="chart-dot" cx="600" cy="28" r="5" fill="oklch(0.52 0.13 255)"/>
+                    <path key=${'a' + range} className="chart-area" d=${d.line + ' L600 150 L0 150 Z'} fill="url(#ga)"/>
+                    <path key=${'l' + range} className="chart-line" d=${d.line} fill="none" stroke="oklch(0.52 0.13 255)" strokeWidth="2.5" strokeLinejoin="round"/>
+                    <circle key=${'c' + range} className="chart-dot" cx="600" cy=${d.y} r="5" fill="oklch(0.52 0.13 255)"/>
                   </svg>
                 </div>
               </div>
