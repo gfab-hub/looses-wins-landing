@@ -494,11 +494,11 @@ footer a:hover, .foot-btn:hover { color: #fff; }
 .done .ok { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; font-size: 1.8rem; font-weight: 700; color: var(--positive); background: color-mix(in oklch, var(--positive) 12%, white); }
 .done p { color: var(--muted); max-width: 46ch; }
 /* Stripe payment inside the sheet (embedded Checkout) */
-.pay { padding: 18px 18px 22px; display: grid; gap: 12px; align-content: start; }
-.pay-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-right: 40px; }
-.pay-head h3 { margin: 0; font-size: 1rem; }
-.pay-box { border-radius: 14px; overflow: hidden; }
-.pay-load { display: grid; place-items: center; min-height: 480px; color: var(--muted); font-size: .9rem; }
+.payf { display: grid; gap: 10px; }
+.payf-t { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: .86rem; font-weight: 600; }
+.payf-t small { font-weight: 400; color: var(--muted); font-size: .76rem; }
+.pay-wait { border: 1px dashed var(--border); border-radius: 12px; padding: 14px; color: var(--muted); font-size: .82rem; text-align: center; }
+.pay-els { display: grid; gap: 12px; }
 @media (max-width: 760px) {
   .overlay { place-items: end center; padding: 0; }
   .sheet { grid-template-columns: 1fr; max-width: none; max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px)); border-radius: 22px 22px 0 0; border-bottom: 0; }
@@ -775,7 +775,8 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
       message: (q.msg.trim() ? q.msg.trim() + ' · ' : '') + 'Pedidos al mes: ' + q.orders, website: q.website || '' }) })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'No se pudo enviar'); return j; }); });
   }
-  /* Paid plans are paid inside the landing (Stripe embedded Checkout); the account is created once Stripe confirms it */
+  /* Paid plans are paid inside the landing form (Stripe Checkout Session in 'elements' mode: Payment Element + billing
+     address in our own form); the account is created once Stripe confirms the payment */
   function api(body) {
     return fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) { var e = new Error(j.error || 'No se pudo continuar'); e.code = j.code; throw e; } return j; }); });
@@ -792,21 +793,41 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
     });
     return stripeJs;
   }
-  function PayBox(props) {
-    var box = useRef(null), ld = useState(true), loading = ld[0], setLoading = ld[1];
+  var STRIPE_LOOK = { theme: 'stripe', variables: { colorPrimary: '#2e69b2', colorText: '#0a0a0a', colorTextSecondary: '#737373', borderRadius: '9px', fontFamily: '-apple-system, "Segoe UI", system-ui, sans-serif', spacingUnit: '3px' } };
+  /* Card and the other payment methods (Payment Element) + billing address, mounted inside the form. Reports up whether
+     the payment can be confirmed, the total Stripe will charge and the confirm function. */
+  function PayFields(props) {
+    var addrBox = useRef(null), payBox = useRef(null), cb = useRef(props);
+    cb.current = props;
+    var ld = useState(true), loading = ld[0], setLoading = ld[1];
     useEffect(function () {
-      var co = null, gone = false;
+      var gone = false, els = [];
+      cb.current.onState(null);
       loadStripe().then(function () {
         if (gone) return null;
-        return window.Stripe(props.pk).createEmbeddedCheckoutPage({ fetchClientSecret: function () { return Promise.resolve(props.secret); } });
-      }).then(function (c) {
-        if (!c) return;
-        if (gone) { c.destroy(); return; }
-        co = c; setLoading(false); c.mount(box.current);
-      }).catch(function (e) { if (!gone) props.onError(e.message); });
-      return function () { gone = true; if (co) co.destroy(); };
+        var checkout = window.Stripe(props.pk).initCheckoutElementsSdk({
+          clientSecret: props.secret, elementsOptions: { appearance: STRIPE_LOOK },
+          defaultValues: { billingAddress: { name: props.company, address: props.country === 'ES' ? { country: 'ES' } : undefined } },
+        });
+        return checkout.loadActions().then(function (r) {
+          if (gone) return;
+          if (r.type !== 'success') throw new Error((r.error && r.error.message) || 'No se pudo cargar el pago seguro.');
+          var addr = checkout.createBillingAddressElement({ display: { name: 'organization' } });
+          var pay = checkout.createPaymentElement();
+          els = [addr, pay];
+          addr.mount(addrBox.current); pay.mount(payBox.current);
+          var report = function (ses) {
+            if (gone) return;
+            cb.current.onState({ canConfirm: !!ses.canConfirm, amount: ses.total && ses.total.total ? ses.total.total.amount : '', confirm: function () { return r.actions.confirm(); } });
+          };
+          report(r.actions.getSession());
+          checkout.on('change', report);
+          setLoading(false);
+        });
+      }).catch(function (e) { if (!gone) cb.current.onError(e.message); });
+      return function () { gone = true; els.forEach(function (el) { try { el.destroy(); } catch (e) {} }); };
     }, [props.secret]);
-    return html`<div>${loading && html`<div className="pay-load">Cargando el pago seguro…</div>`}<div className="pay-box" ref=${box}></div></div>`;
+    return html`<div className="pay-els">${loading && html`<div className="pay-wait">Cargando el pago seguro…</div>`}<div ref=${addrBox}></div><div ref=${payBox}></div></div>`;
   }
   /* Demo promotion codes; in production they come from Stripe promotion codes */
   /* Promotion codes are validated by Stripe in the payment page; here the code is only carried to it */
@@ -1327,7 +1348,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
   function Checkout(props) {
     var sheetRef = useRef(null), emailRef = useRef(null);
     useModal(props.onClose, sheetRef);
-    var init = { plan: props.plan, period: props.period, ai: 'none', setup: false, country: 'ES', vat: '', email: '', name: '', tax: '', terms: false, pay: false, done: false, code: '', applied: null, codeErr: '', secret: null, pk: null, sending: false, err: '', exists: false };
+    var init = { plan: props.plan, period: props.period, ai: 'none', setup: false, country: 'ES', vat: '', email: '', name: '', tax: '', terms: false, pay: false, done: false, code: '', applied: null, codeErr: '', secret: null, pk: null, sesKey: '', sending: false, paying: false, err: '', exists: false };
     var st = useState(init), f = st[0], setF = st[1];
     var mh = useState(null), minH = mh[0], setMinH = mh[1];
     var mobile = useMedia('(max-width: 760px)');
@@ -1357,6 +1378,30 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
     var recurring = r2((paid ? p[f.period] + AI[f.ai][f.period] : 0) * (1 + rate));
     var gpPrice = !paid ? 0 : yr ? r2(p.y / 12) : p.m;
     var ok = EMAIL.test(f.email.trim()) && !!f.name.trim() && f.terms && (!paid || f.pay);
+    /* paid plan with payments open: the card goes in this same form. A Checkout Session is made for exactly what is
+       chosen; when the plan, e-mail or code change, a new one replaces it (the old one is never confirmed). */
+    var live = paid && !SHOWCASE && !!API_URL;
+    var taxV = f.tax.trim() || f.vat.trim();
+    var sesKey = live && ok ? JSON.stringify([f.email.trim().toLowerCase(), f.name.trim(), taxV, f.plan, f.period, f.ai, f.setup, f.applied || '']) : '';
+    var pst = useState(null), payState = pst[0], setPayState = pst[1];
+    useEffect(function () {
+      if (!sesKey) { setF(function (o) { return o.secret || o.sending ? Object.assign({}, o, { secret: null, sesKey: '', sending: false }) : o; }); return; }
+      var gone = false;
+      var t = setTimeout(function () {
+        setF(function (o) { return Object.assign({}, o, { sending: true, err: '', exists: false }); });
+        api({ action: 'checkout', ui: 'elements', email: f.email.trim(), company: f.name.trim(), tax_id: taxV, plan: f.plan, period: yr ? 'year' : 'month',
+          ai_addon: f.ai === 'none' ? 'none' : 'ai_' + f.ai, setup: !!f.setup, code: f.applied || '', terms: true, accept_payments_policy: true, website: '' })
+          .then(function (j) {
+            if (gone) return;
+            if (f.applied && !j.promotion) { setF(function (o) { return Object.assign({}, o, { sending: false, applied: null, codeErr: 'Este código no es válido o ha caducado.' }); }); return; }
+            setF(function (o) { return Object.assign({}, o, { sending: false, secret: j.client_secret, pk: j.publishable_key, sesKey: sesKey }); });
+          })
+          .catch(function (x) { if (!gone) setF(function (o) { return Object.assign({}, o, { sending: false, secret: null, sesKey: '', exists: x.code === 'exists', err: x.code === 'exists' ? 'Ya tienes una cuenta con este e-mail. Entra y paga desde «Plan y facturación».' : x.message }); }); });
+      }, f.secret ? 900 : 300);
+      return function () { gone = true; clearTimeout(t); };
+    }, [sesKey]);
+    var fresh = !!f.secret && f.sesKey === sesKey;
+    var canPay = fresh && !!payState && payState.canConfirm && !f.paying;
 
     function line(label, v, key, cls) {
       return html`<div key=${key} className=${cls || ''}><span>${label}</span><${Roll} value=${v}>${typeof v === 'number' ? money(v) : v}<//></div>`;
@@ -1371,13 +1416,13 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
         if (f.applied) q.set('code', f.applied);
         if (f.tax.trim()) q.set('tax', f.tax.trim());
       }
-      if (paid && !SHOWCASE && API_URL) {
-        if (f.sending) return;
-        setF(function (o) { return Object.assign({}, o, { sending: true, err: '', exists: false }); });
-        api({ action: 'checkout', email: f.email.trim(), company: f.name.trim(), tax_id: f.tax.trim() || f.vat.trim(), plan: f.plan, period: yr ? 'year' : 'month',
-          ai_addon: f.ai === 'none' ? 'none' : 'ai_' + f.ai, setup: !!f.setup, code: f.applied || '', terms: true, accept_payments_policy: true, website: '' })
-          .then(function (j) { setF(function (o) { return Object.assign({}, o, { sending: false, secret: j.client_secret, pk: j.publishable_key }); }); if (sheetRef.current) sheetRef.current.scrollTop = 0; })
-          .catch(function (x) { setF(function (o) { return Object.assign({}, o, { sending: false, exists: x.code === 'exists', err: x.code === 'exists' ? 'Ya tienes una cuenta con este e-mail. Entra y paga desde «Plan y facturación».' : x.message }); }); });
+      if (live) {
+        if (!canPay) return;
+        setF(function (o) { return Object.assign({}, o, { paying: true, err: '' }); });
+        // success: Stripe takes the visitor back to /?pago=<session> ("¡Pago recibido!"); errors stay in the form
+        Promise.resolve(payState.confirm()).then(function (r) {
+          if (r && r.type === 'error') setF(function (o) { return Object.assign({}, o, { paying: false, err: r.error.message }); });
+        }).catch(function (x) { setF(function (o) { return Object.assign({}, o, { paying: false, err: x.message }); }); });
         return;
       }
       if (sheetRef.current) setMinH(sheetRef.current.offsetHeight);
@@ -1386,14 +1431,10 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
     }
 
     return html`<div className="overlay" onClick=${function (e) { if (e.target === e.currentTarget) props.onClose(); }}>
-      <div className=${'sheet' + (f.secret ? ' single' : '')} ref=${sheetRef} role="dialog" aria-modal="true" aria-labelledby="co-title" style=${minH && !f.secret ? { minHeight: minH + 'px' } : null}>
+      <div className="sheet" ref=${sheetRef} role="dialog" aria-modal="true" aria-labelledby="co-title" style=${minH ? { minHeight: minH + 'px' } : null}>
         <div className="grabber" aria-hidden="true"></div>
         <button className="x" type="button" aria-label="Cerrar" onClick=${props.onClose}>×</button>
-        ${f.secret ? html`<div className="pay">
-            <div className="pay-head"><h3 id="co-title">Pago seguro · ${p.n}${yr ? ' anual' : ' mensual'}</h3><button type="button" className="linkbtn" onClick=${function () { setF(function (o) { return Object.assign({}, o, { secret: null, pk: null }); }); }}>← Cambiar datos</button></div>
-            <${PayBox} pk=${f.pk} secret=${f.secret} onError=${function (m) { setF(function (o) { return Object.assign({}, o, { secret: null, pk: null, err: m }); }); }} />
-            <p className="secure">Al pagar creamos tu cuenta y te enviamos un e-mail a <b>${f.email.trim()}</b> para que pongas tu contraseña.</p>
-          </div>` : f.done ? html`<div className="done">
+        ${f.done ? html`<div className="done">
             <div className="ok" aria-hidden="true">✓</div>
             <h3>${SHOWCASE ? 'Muy pronto' : paid ? 'Siguiente paso: pago seguro' : 'Cuenta creada'}</h3>
             <p>${SHOWCASE ? 'Todavía no hemos abierto las altas. En cuanto abramos podrás crear tu cuenta desde aquí con el plan ' + p.n + '.' : paid ? 'Te llevamos a crear tu cuenta con el plan ' + p.n + ' ya elegido; allí terminas el pago seguro con Stripe.' : 'Te llevamos a crear tu cuenta gratis: te llegará un e-mail para confirmarla y entrarás a conectar tu primera tienda.'}</p>
@@ -1453,10 +1494,17 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
               <label className="chk"><input type="checkbox" checked=${f.terms} onChange=${function (e) { up('terms', e.target.checked); }} /><span>He leído y acepto las <a href="#legal-condiciones">condiciones de uso</a>, incluida la <a href="#legal-devoluciones">política de devoluciones</a>, y la <a href="#legal-privacidad">política de privacidad</a>.</span></label>
               <label className=${'chk' + (paid ? '' : ' ghost')}><input type="checkbox" checked=${f.pay} onChange=${function (e) { up('pay', e.target.checked); }} /><span>He leído y acepto la <a href="#legal-pagos">política de pagos y contracargos</a>.</span></label>
             </div>
+            ${live && html`<div className="payf">
+              <div className="payf-t"><span>Pago</span><small>Tarjeta u otro método · seguro con Stripe</small></div>
+              ${!ok ? html`<div className="pay-wait">Rellena tu e-mail y tu nombre y marca las dos casillas: aquí mismo pones la tarjeta o eliges otro método de pago.</div>`
+                : f.secret ? html`<${PayFields} key=${f.secret} pk=${f.pk} secret=${f.secret} company=${f.name.trim()} country=${f.country} onState=${setPayState}
+                    onError=${function (m) { setF(function (o) { return Object.assign({}, o, { secret: null, sesKey: '', err: m }); }); }} />`
+                : html`<div className="pay-wait">${f.sending ? 'Preparando el pago seguro…' : 'No se ha podido preparar el pago.'}</div>`}
+            </div>`}
             <div className="paybar">
-              <p className=${'err' + (f.err ? '' : ' hint')} role="status">${f.err ? html`<span>${f.err}${f.exists && APP_URL ? html` <a href=${APP_URL + '/login/'}>Entrar</a>` : ''}</span>` : ok ? '' : 'Rellena tus datos y marca ' + (paid ? 'las dos casillas' : 'la casilla') + ' para continuar.'}</p>
-              <button className="btn btn-primary" type="submit" disabled=${!ok || f.sending}>${f.sending ? 'Preparando el pago…' : paid ? 'Continuar al pago seguro' : 'Crear cuenta gratis'}</button>
-              <p className=${'secure' + (paid ? '' : ' ghost')}>Pagas aquí mismo, de forma segura con Stripe. Nunca vemos tu tarjeta.</p>
+              <p className=${'err' + (f.err ? '' : ' hint')} role="status">${f.err ? html`<span>${f.err}${f.exists && APP_URL ? html` <a href=${APP_URL + '/login/'}>Entrar</a>` : ''}</span>` : !ok ? 'Rellena tus datos y marca ' + (paid ? 'las dos casillas' : 'la casilla') + ' para continuar.' : live && fresh && payState && !payState.canConfirm ? 'Completa la dirección y el método de pago.' : ''}</p>
+              <button className="btn btn-primary" type="submit" disabled=${!ok || (live && !canPay)}>${!live ? (paid ? 'Continuar al pago seguro' : 'Crear cuenta gratis') : f.paying ? 'Procesando el pago…' : fresh && payState && payState.amount ? 'Pagar ' + payState.amount : f.sending ? 'Preparando el pago…' : 'Pagar'}</button>
+              <p className=${'secure' + (paid ? '' : ' ghost')}>${live ? html`<span>El botón muestra lo que se cobra hoy, calculado por Stripe. Al pagar creamos tu cuenta y te enviamos un e-mail para que pongas tu contraseña. Nunca vemos tu tarjeta.</span>` : 'Pagas aquí mismo, de forma segura con Stripe. Nunca vemos tu tarjeta.'}</p>
             </div>
           </form>`]}
       </div>
