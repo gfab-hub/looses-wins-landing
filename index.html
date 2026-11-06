@@ -493,6 +493,12 @@ footer a:hover, .foot-btn:hover { color: #fff; }
 .done { grid-column: 1 / -1; padding: 32px 24px; display: grid; gap: 14px; justify-items: center; align-content: center; text-align: center; }
 .done .ok { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; font-size: 1.8rem; font-weight: 700; color: var(--positive); background: color-mix(in oklch, var(--positive) 12%, white); }
 .done p { color: var(--muted); max-width: 46ch; }
+/* Stripe payment inside the sheet (embedded Checkout) */
+.pay { padding: 18px 18px 22px; display: grid; gap: 12px; align-content: start; }
+.pay-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-right: 40px; }
+.pay-head h3 { margin: 0; font-size: 1rem; }
+.pay-box { border-radius: 14px; overflow: hidden; }
+.pay-load { display: grid; place-items: center; min-height: 480px; color: var(--muted); font-size: .9rem; }
 @media (max-width: 760px) {
   .overlay { place-items: end center; padding: 0; }
   .sheet { grid-template-columns: 1fr; max-width: none; max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px)); border-radius: 22px 22px 0 0; border-bottom: 0; }
@@ -768,6 +774,39 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
       orders_month: parseInt(String(q.orders).replace(/\./g, ''), 10) || null, call_slot: q.when,
       message: (q.msg.trim() ? q.msg.trim() + ' · ' : '') + 'Pedidos al mes: ' + q.orders, website: q.website || '' }) })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'No se pudo enviar'); return j; }); });
+  }
+  /* Paid plans are paid inside the landing (Stripe embedded Checkout); the account is created once Stripe confirms it */
+  function api(body) {
+    return fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok) { var e = new Error(j.error || 'No se pudo continuar'); e.code = j.code; throw e; } return j; }); });
+  }
+  var stripeJs = null;
+  function loadStripe() {
+    if (window.Stripe) return Promise.resolve();
+    if (!stripeJs) stripeJs = new Promise(function (ok, ko) {
+      var sc = document.createElement('script');
+      sc.src = 'https://js.stripe.com/endive/stripe.js';
+      sc.onload = function () { ok(); };
+      sc.onerror = function () { stripeJs = null; ko(new Error('No se pudo cargar el pago seguro. Revisa tu conexión.')); };
+      document.head.appendChild(sc);
+    });
+    return stripeJs;
+  }
+  function PayBox(props) {
+    var box = useRef(null), ld = useState(true), loading = ld[0], setLoading = ld[1];
+    useEffect(function () {
+      var co = null, gone = false;
+      loadStripe().then(function () {
+        if (gone) return null;
+        return window.Stripe(props.pk).createEmbeddedCheckoutPage({ fetchClientSecret: function () { return Promise.resolve(props.secret); } });
+      }).then(function (c) {
+        if (!c) return;
+        if (gone) { c.destroy(); return; }
+        co = c; setLoading(false); c.mount(box.current);
+      }).catch(function (e) { if (!gone) props.onError(e.message); });
+      return function () { gone = true; if (co) co.destroy(); };
+    }, [props.secret]);
+    return html`<div>${loading && html`<div className="pay-load">Cargando el pago seguro…</div>`}<div className="pay-box" ref=${box}></div></div>`;
   }
   /* Demo promotion codes; in production they come from Stripe promotion codes */
   /* Promotion codes are validated by Stripe in the payment page; here the code is only carried to it */
@@ -1288,7 +1327,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
   function Checkout(props) {
     var sheetRef = useRef(null), emailRef = useRef(null);
     useModal(props.onClose, sheetRef);
-    var init = { plan: props.plan, period: props.period, ai: 'none', setup: false, country: 'ES', vat: '', email: '', name: '', tax: '', terms: false, pay: false, done: false, code: '', applied: null, codeErr: '' };
+    var init = { plan: props.plan, period: props.period, ai: 'none', setup: false, country: 'ES', vat: '', email: '', name: '', tax: '', terms: false, pay: false, done: false, code: '', applied: null, codeErr: '', secret: null, pk: null, sending: false, err: '', exists: false };
     var st = useState(init), f = st[0], setF = st[1];
     var mh = useState(null), minH = mh[0], setMinH = mh[1];
     var mobile = useMedia('(max-width: 760px)');
@@ -1332,16 +1371,29 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
         if (f.applied) q.set('code', f.applied);
         if (f.tax.trim()) q.set('tax', f.tax.trim());
       }
+      if (paid && !SHOWCASE && API_URL) {
+        if (f.sending) return;
+        setF(function (o) { return Object.assign({}, o, { sending: true, err: '', exists: false }); });
+        api({ action: 'checkout', email: f.email.trim(), company: f.name.trim(), tax_id: f.tax.trim() || f.vat.trim(), plan: f.plan, period: yr ? 'year' : 'month',
+          ai_addon: f.ai === 'none' ? 'none' : 'ai_' + f.ai, setup: !!f.setup, code: f.applied || '', terms: true, accept_payments_policy: true, website: '' })
+          .then(function (j) { setF(function (o) { return Object.assign({}, o, { sending: false, secret: j.client_secret, pk: j.publishable_key }); }); if (sheetRef.current) sheetRef.current.scrollTop = 0; })
+          .catch(function (x) { setF(function (o) { return Object.assign({}, o, { sending: false, exists: x.code === 'exists', err: x.code === 'exists' ? 'Ya tienes una cuenta con este e-mail. Entra y paga desde «Plan y facturación».' : x.message }); }); });
+        return;
+      }
       if (sheetRef.current) setMinH(sheetRef.current.offsetHeight);
       up('done', true);
       if (!SHOWCASE) window.location.href = APP_URL + '/signup/?' + q.toString();
     }
 
     return html`<div className="overlay" onClick=${function (e) { if (e.target === e.currentTarget) props.onClose(); }}>
-      <div className="sheet" ref=${sheetRef} role="dialog" aria-modal="true" aria-labelledby="co-title" style=${minH ? { minHeight: minH + 'px' } : null}>
+      <div className=${'sheet' + (f.secret ? ' single' : '')} ref=${sheetRef} role="dialog" aria-modal="true" aria-labelledby="co-title" style=${minH && !f.secret ? { minHeight: minH + 'px' } : null}>
         <div className="grabber" aria-hidden="true"></div>
         <button className="x" type="button" aria-label="Cerrar" onClick=${props.onClose}>×</button>
-        ${f.done ? html`<div className="done">
+        ${f.secret ? html`<div className="pay">
+            <div className="pay-head"><h3 id="co-title">Pago seguro · ${p.n}${yr ? ' anual' : ' mensual'}</h3><button type="button" className="linkbtn" onClick=${function () { setF(function (o) { return Object.assign({}, o, { secret: null, pk: null }); }); }}>← Cambiar datos</button></div>
+            <${PayBox} pk=${f.pk} secret=${f.secret} onError=${function (m) { setF(function (o) { return Object.assign({}, o, { secret: null, pk: null, err: m }); }); }} />
+            <p className="secure">Al pagar creamos tu cuenta y te enviamos un e-mail a <b>${f.email.trim()}</b> para que pongas tu contraseña.</p>
+          </div>` : f.done ? html`<div className="done">
             <div className="ok" aria-hidden="true">✓</div>
             <h3>${SHOWCASE ? 'Muy pronto' : paid ? 'Siguiente paso: pago seguro' : 'Cuenta creada'}</h3>
             <p>${SHOWCASE ? 'Todavía no hemos abierto las altas. En cuanto abramos podrás crear tu cuenta desde aquí con el plan ' + p.n + '.' : paid ? 'Te llevamos a crear tu cuenta con el plan ' + p.n + ' ya elegido; allí terminas el pago seguro con Stripe.' : 'Te llevamos a crear tu cuenta gratis: te llegará un e-mail para confirmarla y entrarás a conectar tu primera tienda.'}</p>
@@ -1402,11 +1454,28 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
               <label className=${'chk' + (paid ? '' : ' ghost')}><input type="checkbox" checked=${f.pay} onChange=${function (e) { up('pay', e.target.checked); }} /><span>He leído y acepto la <a href="#legal-pagos">política de pagos y contracargos</a>.</span></label>
             </div>
             <div className="paybar">
-              <p className=${'err hint'} role="status">${ok ? '' : 'Rellena tus datos y marca ' + (paid ? 'las dos casillas' : 'la casilla') + ' para continuar.'}</p>
-              <button className="btn btn-primary" type="submit" disabled=${!ok}>${paid ? 'Continuar al pago seguro' : 'Crear cuenta gratis'}</button>
-              <p className=${'secure' + (paid ? '' : ' ghost')}>El pago con tarjeta se hace en la página segura de Stripe. Nunca vemos tu tarjeta.</p>
+              <p className=${'err' + (f.err ? '' : ' hint')} role="status">${f.err ? html`<span>${f.err}${f.exists && APP_URL ? html` <a href=${APP_URL + '/login/'}>Entrar</a>` : ''}</span>` : ok ? '' : 'Rellena tus datos y marca ' + (paid ? 'las dos casillas' : 'la casilla') + ' para continuar.'}</p>
+              <button className="btn btn-primary" type="submit" disabled=${!ok || f.sending}>${f.sending ? 'Preparando el pago…' : paid ? 'Continuar al pago seguro' : 'Crear cuenta gratis'}</button>
+              <p className=${'secure' + (paid ? '' : ' ghost')}>Pagas aquí mismo, de forma segura con Stripe. Nunca vemos tu tarjeta.</p>
             </div>
           </form>`]}
+      </div>
+    </div>`;
+  }
+
+  function PaidNote(props) {
+    var r = useRef(null);
+    useModal(props.onClose, r);
+    var n = props.note;
+    return html`<div className="overlay" onClick=${function (e) { if (e.target === e.currentTarget) props.onClose(); }}>
+      <div className="sheet single" ref=${r} role="dialog" aria-modal="true" aria-labelledby="pn-title">
+        <button className="x" type="button" aria-label="Cerrar" onClick=${props.onClose}>×</button>
+        <div className="done">
+          <div className="ok" aria-hidden="true">${n.ok ? '✓' : '!'}</div>
+          <h3 id="pn-title">${n.ok ? '¡Pago recibido!' : 'El pago no se ha completado'}</h3>
+          <p>${n.ok ? html`<span>Te hemos enviado un e-mail a <b>${n.email}</b> para que pongas tu contraseña y entres a conectar tu tienda. Si no lo ves, mira en spam.</span>` : 'No se ha cobrado nada. Puedes volver a intentarlo cuando quieras.'}</p>
+          <button className="btn btn-primary" type="button" onClick=${props.onClose}>${n.ok ? 'Perfecto' : 'Volver'}</button>
+        </div>
       </div>
     </div>`;
   }
@@ -1594,6 +1663,17 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
     try { saved = localStorage.getItem('lw-period2') === 'm' ? 'm' : 'y'; } catch (e) {}
     var ps = useState(saved), period = ps[0], setPeriodRaw = ps[1];
     var cs = useState(null), checkout = cs[0], setCheckout = cs[1];
+    /* back from the payment (bank check / redirect methods): ?pago=<Stripe Checkout Session> */
+    var pg = useState(null), paidNote = pg[0], setPaidNote = pg[1];
+    useEffect(function () {
+      var sid = null;
+      try { sid = new URLSearchParams(window.location.search).get('pago'); } catch (e) {}
+      if (!sid || !API_URL) return;
+      try { window.history.replaceState(null, '', window.location.pathname + window.location.hash); } catch (e) {}
+      api({ action: 'checkout_status', session_id: sid })
+        .then(function (j) { setPaidNote(j.status === 'complete' ? { ok: true, email: j.email } : { ok: false }); })
+        .catch(function () { setPaidNote({ ok: false }); });
+    }, []);
     var qs = useState(false), quote = qs[0], setQuote = qs[1];
     function setPeriod(p) { setPeriodRaw(p); try { localStorage.setItem('lw-period2', p); } catch (e) {} }
     function openPlan(plan) { setCheckout({ plan: plan, k: Date.now() }); }
@@ -1682,6 +1762,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
         <div className="wrap foot-bottom"><span>© 2026 LOOSES & WINS. Todos los derechos reservados.</span><span>Las cifras de esta web son ejemplos ilustrativos.</span></div>
       </footer>
       <${MobileCta} onFree=${onFree} hidden=${!!checkout || quote || !!cookieMode} />
+      ${paidNote && html`<${PaidNote} note=${paidNote} onClose=${function () { setPaidNote(null); }} />`}
       ${checkout && html`<${Checkout} key=${checkout.k} plan=${checkout.plan} period=${period} onClose=${function () { setCheckout(null); }} />`}
       ${quote && html`<${Quote} onClose=${function () { setQuote(false); }} />`}
       ${cookieMode && html`<${CookieBanner} key=${cookieMode} mode=${cookieMode} current=${consent} onSave=${saveConsent} />`}
