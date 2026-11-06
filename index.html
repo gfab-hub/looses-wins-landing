@@ -734,8 +734,9 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
   var API_URL = String(CFG.apiUrl || '');
   /* No app address (showcase deployment): sign-ups are not open yet, so nothing redirects */
   var SHOWCASE = !APP_URL;
-  /* Clients who already have an account log in to the app (hidden in showcase mode: nobody has one yet) */
-  var LOGIN_URL = APP_URL ? APP_URL + '/login/' : '';
+  /* Clients who already have an account log in to the app (showcase mode: nobody has one yet → notice) */
+  var LOGIN_URL = APP_URL ? APP_URL + '/login/' : '#entrar';
+  function onLogin(e) { if (SHOWCASE) { e.preventDefault(); window.alert('Muy pronto: todavía no hemos abierto las cuentas de clientes.'); } }
   var MORE_THAN = '10.000';
   function fmtN(n) { return n == null ? null : Number(n).toLocaleString('es-ES').replace(/(\d)(?=(\d{3})+$)/, '$1.'); }
   /* Prices and limits on sale come from the platform (admin panel → Planes); the values above are only a fallback */
@@ -901,13 +902,13 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
         <a className="logo" href="#inicio"><span className="logo-mark" aria-hidden="true">L&W</span><span className="logo-text">LOOSES & WINS</span></a>
         <nav className="nav-links" aria-label="Secciones">${links.map(function (l) { return html`<a key=${l[0]} href=${l[0]}>${l[1]}</a>`; })}</nav>
         <div className="nav-right">
-          ${LOGIN_URL && html`<a className="nav-login" href=${LOGIN_URL}>Entrar</a>`}
+          <a className="nav-login" href=${LOGIN_URL} onClick=${onLogin}>Entrar</a>
           <button className="btn btn-primary btn-sm nav-cta" type="button" onClick=${function () { props.onFree(); }}>Pruébalo gratis</button>
           <button className="burger" type="button" aria-label=${open ? 'Cerrar menú' : 'Abrir menú'} aria-expanded=${open} onClick=${function () { setOpen(!open); }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">${open ? html`<path d="M6 6l12 12M18 6L6 18"/>` : html`<path d="M4 7h16M4 12h16M4 17h16"/>`}</svg>
           </button>
         </div>
-        ${open && html`<div className="menu">${links.map(function (l) { return html`<a key=${l[0]} href=${l[0]} onClick=${function () { setOpen(false); }}>${l[1]}</a>`; })}${LOGIN_URL && html`<a className="menu-login" href=${LOGIN_URL}>Entrar a mi cuenta</a>`}</div>`}
+        ${open && html`<div className="menu">${links.map(function (l) { return html`<a key=${l[0]} href=${l[0]} onClick=${function () { setOpen(false); }}>${l[1]}</a>`; })}<a className="menu-login" href=${LOGIN_URL} onClick=${function (e) { setOpen(false); onLogin(e); }}>Entrar a mi cuenta</a></div>`}
       </div>
     </header>`;
   }
@@ -1666,7 +1667,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
             <h4>Producto</h4>
             <a href="#como">Cómo funciona</a><a href="#calculadora">Calculadora</a><a href="#funciones">Funciones</a><a href="#precios">Precios</a>
             <button type="button" className="foot-btn" onClick=${onQuote}>Enterprise</button>
-            ${LOGIN_URL && html`<a href=${LOGIN_URL}>Entrar a mi cuenta</a>`}
+            <a href=${LOGIN_URL} onClick=${onLogin}>Entrar a mi cuenta</a>
           </nav>
           <nav className="foot-col" aria-label="Legal">
             <h4>Legal</h4>
