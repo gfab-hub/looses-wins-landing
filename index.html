@@ -738,11 +738,13 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
   var CFG = window.LW_CONFIG || {};
   var APP_URL = String(CFG.appUrl || '').replace(/\/+$/, '');
   var API_URL = String(CFG.apiUrl || '');
-  /* No app address (showcase deployment): sign-ups are not open yet, so nothing redirects */
-  var SHOWCASE = !APP_URL;
-  /* Clients who already have an account log in to the app (showcase mode: nobody has one yet → notice) */
-  var LOGIN_URL = APP_URL ? APP_URL + '/login/' : '#entrar';
-  function onLogin(e) { if (SHOWCASE) { e.preventDefault(); window.alert('Muy pronto: todavía no hemos abierto las cuentas de clientes.'); } }
+  /* No public API (demo deployment, e.g. GitHub Pages): every flow works exactly the same — plan, card, sign-in —
+     but nothing is saved or charged (the card form is Stripe's own, created without a payment, never confirmed) */
+  var DEMO = !API_URL;
+  var STRIPE_PK = String(CFG.stripeKey || '');
+  /* Clients who already have an account log in to the app (demo: the sign-in sheet of the landing) */
+  var LOGIN_URL = APP_URL && !DEMO ? APP_URL + '/login/' : '#entrar';
+  function onLogin(e) { if (DEMO || !APP_URL) { e.preventDefault(); window.dispatchEvent(new Event('lw-login')); } }
   var MORE_THAN = '10.000';
   function fmtN(n) { return n == null ? null : Number(n).toLocaleString('es-ES').replace(/(\d)(?=(\d{3})+$)/, '$1.'); }
   /* Prices and limits on sale come from the platform (admin panel → Planes); the values above are only a fallback */
@@ -768,7 +770,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
   }
   /* Enterprise request → admin panel (Enterprise) */
   function sendLead(q) {
-    if (!API_URL) return Promise.reject(new Error('El formulario aún no está disponible. Muy pronto podrás pedirnos tu plan Enterprise desde aquí.'));
+    if (DEMO) return new Promise(function (ok) { setTimeout(function () { ok({ ok: true, demo: true }); }, 700); });
     return fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
       action: 'enterprise_lead', company: q.company.trim(), contact_name: q.name.trim(), email: q.email.trim(), phone: q.phone.trim(),
       orders_month: parseInt(String(q.orders).replace(/\./g, ''), 10) || null, call_slot: q.when,
@@ -829,6 +831,77 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
     }, [props.secret]);
     return html`<div className="pay-els">${loading && html`<div className="pay-wait">Cargando el pago seguro…</div>`}<div ref=${addrBox}></div><div ref=${payBox}></div></div>`;
   }
+  /* Demo deployment: Stripe's real card form (Elements created without a payment, https://docs.stripe.com/js/elements_object/create_without_intent).
+     elements.submit() only validates what was typed; nothing is sent to be charged. */
+  function DemoPayFields(props) {
+    var addrBox = useRef(null), payBox = useRef(null), cb = useRef(props);
+    cb.current = props;
+    var ld = useState(true), loading = ld[0], setLoading = ld[1];
+    useEffect(function () {
+      var gone = false, els = [];
+      cb.current.onState(null);
+      loadStripe().then(function () {
+        if (gone) return;
+        var elements = window.Stripe(STRIPE_PK).elements({ mode: 'subscription', amount: props.cents, currency: 'eur', appearance: STRIPE_LOOK, locale: 'es' });
+        var addr = elements.create('address', { mode: 'billing', display: { name: 'organization' }, defaultValues: { name: props.company, address: { country: 'ES' } } });
+        var pay = elements.create('payment');
+        els = [addr, pay];
+        addr.mount(addrBox.current); pay.mount(payBox.current);
+        var done = { a: false, p: false };
+        var report = function () {
+          if (gone) return;
+          cb.current.onState({ canConfirm: done.a && done.p, amount: props.label, confirm: function () {
+            return elements.submit().then(function (r) { return r.error ? { type: 'error', error: r.error } : { type: 'demo' }; });
+          } });
+        };
+        addr.on('change', function (e) { done.a = !!e.complete; report(); });
+        pay.on('change', function (e) { done.p = !!e.complete; report(); });
+        pay.on('ready', function () { if (!gone) setLoading(false); });
+        report();
+      }).catch(function (e) { if (!gone) cb.current.onError(e.message); });
+      return function () { gone = true; els.forEach(function (el) { try { el.destroy(); } catch (e) {} }); };
+    }, [props.cents]);
+    return html`<div className="pay-els">${loading && html`<div className="pay-wait">Cargando el pago seguro…</div>`}<div ref=${addrBox}></div><div ref=${payBox}></div></div>`;
+  }
+
+  /* Sign-in sheet of the demo deployment (the real one is the app's /login/) */
+  function Login(props) {
+    var r = useRef(null), em = useRef(null);
+    useModal(props.onClose, r);
+    var st = useState({ email: '', pass: '', err: '', busy: false, reset: false }), f = st[0], setF = st[1];
+    function up(k, v) { setF(function (o) { var n = Object.assign({}, o); n[k] = v; return n; }); }
+    useEffect(function () { if (FINE && em.current) em.current.focus(); }, []);
+    function submit(e) {
+      e.preventDefault();
+      if (!EMAIL.test(f.email.trim())) return up('err', 'Escribe un e-mail válido.');
+      if (!f.reset && !f.pass) return up('err', 'Escribe tu contraseña.');
+      up('busy', true); up('err', '');
+      setTimeout(function () {
+        setF(function (o) { return Object.assign({}, o, { busy: false, err: o.reset ? '' : 'No hay ninguna cuenta con este e-mail. Esta web es una demostración: crea tu cuenta para probarla.', sent: o.reset }); });
+      }, 700);
+    }
+    return html`<div className="overlay" onClick=${function (e) { if (e.target === e.currentTarget) props.onClose(); }}>
+      <div className="sheet single" ref=${r} role="dialog" aria-modal="true" aria-labelledby="lg-title">
+        <button className="x" type="button" aria-label="Cerrar" onClick=${props.onClose}>×</button>
+        ${f.sent ? html`<div className="done">
+            <div className="ok" aria-hidden="true">✓</div>
+            <h3 id="lg-title">Revisa tu e-mail</h3>
+            <p>Si hay una cuenta con <b>${f.email.trim()}</b>, te llegará un enlace para poner una contraseña nueva. Esta web es una demostración: no se envía nada.</p>
+            <button className="btn btn-primary" type="button" onClick=${props.onClose}>Volver</button>
+          </div>` : html`<form className="frm" noValidate onSubmit=${submit}>
+          <h3 id="lg-title">${f.reset ? 'Recuperar la contraseña' : 'Entrar a tu cuenta'}</h3>
+          <div className="fld"><label htmlFor="lg-email">E-mail</label><input id="lg-email" ref=${em} type="email" inputMode="email" autoComplete="email" placeholder="tu@tienda.com" value=${f.email} onInput=${function (e) { up('email', e.target.value); }} /></div>
+          ${!f.reset && html`<div className="fld"><label htmlFor="lg-pass">Contraseña</label><input id="lg-pass" type="password" autoComplete="current-password" value=${f.pass} onInput=${function (e) { up('pass', e.target.value); }} /></div>`}
+          <div className="paybar">
+            <p className=${'err' + (f.err ? '' : ' hint')} role="status">${f.err}</p>
+            <button className="btn btn-primary" type="submit" disabled=${f.busy}>${f.busy ? (f.reset ? 'Enviando…' : 'Entrando…') : f.reset ? 'Enviarme el enlace' : 'Entrar'}</button>
+            <p className="secure"><button type="button" className="linkbtn" onClick=${function () { setF(function (o) { return Object.assign({}, o, { reset: !o.reset, err: '' }); }); }}>${f.reset ? '← Volver a entrar' : '¿Has olvidado la contraseña?'}</button> · <button type="button" className="linkbtn" onClick=${props.onFree}>Crear una cuenta gratis</button></p>
+          </div>
+        </form>`}
+      </div>
+    </div>`;
+  }
+
   /* Demo promotion codes; in production they come from Stripe promotion codes */
   /* Promotion codes are validated by Stripe in the payment page; here the code is only carried to it */
   var PROMOS = {};
@@ -1359,6 +1432,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
       if (f.applied) { up('applied', null); up('code', ''); return; }
       var c = f.code.trim().toUpperCase();
       if (!c) return;
+      if (DEMO) { up('codeErr', 'Este código no es válido o ha caducado.'); return; } // demo: no Stripe to check codes against
       up('applied', c); up('codeErr', '');
     }
     function up(k, v) { setF(function (o) { var n = Object.assign({}, o); n[k] = v; return n; }); }
@@ -1380,7 +1454,8 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
     var ok = EMAIL.test(f.email.trim()) && !!f.name.trim() && f.terms && (!paid || f.pay);
     /* paid plan with payments open: the card goes in this same form. A Checkout Session is made for exactly what is
        chosen; when the plan, e-mail or code change, a new one replaces it (the old one is never confirmed). */
-    var live = paid && !SHOWCASE && !!API_URL;
+    var live = paid && !DEMO;
+    var demoPay = paid && DEMO && !!STRIPE_PK;
     var taxV = f.tax.trim() || f.vat.trim();
     var sesKey = live && ok ? JSON.stringify([f.email.trim().toLowerCase(), f.name.trim(), taxV, f.plan, f.period, f.ai, f.setup, f.applied || '']) : '';
     var pst = useState(null), payState = pst[0], setPayState = pst[1];
@@ -1401,7 +1476,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
       return function () { gone = true; clearTimeout(t); };
     }, [sesKey]);
     var fresh = !!f.secret && f.sesKey === sesKey;
-    var canPay = fresh && !!payState && payState.canConfirm && !f.paying;
+    var canPay = (demoPay || fresh) && !!payState && payState.canConfirm && !f.paying;
 
     function line(label, v, key, cls) {
       return html`<div key=${key} className=${cls || ''}><span>${label}</span><${Roll} value=${v}>${typeof v === 'number' ? money(v) : v}<//></div>`;
@@ -1416,18 +1491,21 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
         if (f.applied) q.set('code', f.applied);
         if (f.tax.trim()) q.set('tax', f.tax.trim());
       }
-      if (live) {
+      if (live || demoPay) {
         if (!canPay) return;
         setF(function (o) { return Object.assign({}, o, { paying: true, err: '' }); });
-        // success: Stripe takes the visitor back to /?pago=<session> ("¡Pago recibido!"); errors stay in the form
+        // success: Stripe takes the visitor back to /?pago=<session> ("¡Pago recibido!"); errors stay in the form.
+        // Demo: only the typed data is checked, then the same "all done" screen as the free plan
         Promise.resolve(payState.confirm()).then(function (r) {
           if (r && r.type === 'error') setF(function (o) { return Object.assign({}, o, { paying: false, err: r.error.message }); });
+          else if (r && r.type === 'demo') { setF(function (o) { return Object.assign({}, o, { paying: false, done: true }); }); }
         }).catch(function (x) { setF(function (o) { return Object.assign({}, o, { paying: false, err: x.message }); }); });
         return;
       }
       if (sheetRef.current) setMinH(sheetRef.current.offsetHeight);
+      if (DEMO) { up('sending', true); setTimeout(function () { up('sending', false); up('done', true); }, 700); return; }
       up('done', true);
-      if (!SHOWCASE) window.location.href = APP_URL + '/signup/?' + q.toString();
+      window.location.href = APP_URL + '/signup/?' + q.toString();
     }
 
     return html`<div className="overlay" onClick=${function (e) { if (e.target === e.currentTarget) props.onClose(); }}>
@@ -1436,8 +1514,8 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
         <button className="x" type="button" aria-label="Cerrar" onClick=${props.onClose}>×</button>
         ${f.done ? html`<div className="done">
             <div className="ok" aria-hidden="true">✓</div>
-            <h3>${SHOWCASE ? 'Muy pronto' : paid ? 'Siguiente paso: pago seguro' : 'Cuenta creada'}</h3>
-            <p>${SHOWCASE ? 'Todavía no hemos abierto las altas. En cuanto abramos podrás crear tu cuenta desde aquí con el plan ' + p.n + '.' : paid ? 'Te llevamos a crear tu cuenta con el plan ' + p.n + ' ya elegido; allí terminas el pago seguro con Stripe.' : 'Te llevamos a crear tu cuenta gratis: te llegará un e-mail para confirmarla y entrarás a conectar tu primera tienda.'}</p>
+            <h3>${DEMO ? '¡Todo listo!' : paid ? 'Siguiente paso: pago seguro' : 'Cuenta creada'}</h3>
+            <p>${DEMO ? (paid ? 'Así de fácil es contratar el plan ' + p.n + '. Esta web es una demostración: no se ha cobrado nada ni se ha guardado ningún dato.' : 'Así de fácil es crear tu cuenta gratis. Esta web es una demostración: no se ha guardado ningún dato.') : paid ? 'Te llevamos a crear tu cuenta con el plan ' + p.n + ' ya elegido; allí terminas el pago seguro con Stripe.' : 'Te llevamos a crear tu cuenta gratis: te llegará un e-mail para confirmarla y entrarás a conectar tu primera tienda.'}</p>
             <button className="btn btn-primary" type="button" onClick=${props.onClose}>Volver</button>
           </div>` : [
           html`<div className="sum" key="sum">
@@ -1494,17 +1572,19 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
               <label className="chk"><input type="checkbox" checked=${f.terms} onChange=${function (e) { up('terms', e.target.checked); }} /><span>He leído y acepto las <a href="#legal-condiciones">condiciones de uso</a>, incluida la <a href="#legal-devoluciones">política de devoluciones</a>, y la <a href="#legal-privacidad">política de privacidad</a>.</span></label>
               <label className=${'chk' + (paid ? '' : ' ghost')}><input type="checkbox" checked=${f.pay} onChange=${function (e) { up('pay', e.target.checked); }} /><span>He leído y acepto la <a href="#legal-pagos">política de pagos y contracargos</a>.</span></label>
             </div>
-            ${live && html`<div className="payf">
+            ${(live || demoPay) && html`<div className="payf">
               <div className="payf-t"><span>Pago</span><small>Tarjeta u otro método · seguro con Stripe</small></div>
               ${!ok ? html`<div className="pay-wait">Rellena tu e-mail y tu nombre y marca las dos casillas: aquí mismo pones la tarjeta o eliges otro método de pago.</div>`
+                : demoPay ? html`<${DemoPayFields} key=${'d' + Math.round(total * 100)} cents=${Math.round(total * 100)} label=${money(total)} company=${f.name.trim()} onState=${setPayState}
+                    onError=${function (m) { up('err', m); }} />`
                 : f.secret ? html`<${PayFields} key=${f.secret} pk=${f.pk} secret=${f.secret} company=${f.name.trim()} country=${f.country} onState=${setPayState}
                     onError=${function (m) { setF(function (o) { return Object.assign({}, o, { secret: null, sesKey: '', err: m }); }); }} />`
                 : html`<div className="pay-wait">${f.sending ? 'Preparando el pago seguro…' : 'No se ha podido preparar el pago.'}</div>`}
             </div>`}
             <div className="paybar">
-              <p className=${'err' + (f.err ? '' : ' hint')} role="status">${f.err ? html`<span>${f.err}${f.exists && APP_URL ? html` <a href=${APP_URL + '/login/'}>Entrar</a>` : ''}</span>` : !ok ? 'Rellena tus datos y marca ' + (paid ? 'las dos casillas' : 'la casilla') + ' para continuar.' : live && fresh && payState && !payState.canConfirm ? 'Completa la dirección y el método de pago.' : ''}</p>
-              <button className="btn btn-primary" type="submit" disabled=${!ok || (live && !canPay)}>${!live ? (paid ? 'Continuar al pago seguro' : 'Crear cuenta gratis') : f.paying ? 'Procesando el pago…' : fresh && payState && payState.amount ? 'Pagar ' + payState.amount : f.sending ? 'Preparando el pago…' : 'Pagar'}</button>
-              <p className=${'secure' + (paid ? '' : ' ghost')}>${live ? html`<span>El botón muestra lo que se cobra hoy, calculado por Stripe. Al pagar creamos tu cuenta y te enviamos un e-mail para que pongas tu contraseña. Nunca vemos tu tarjeta.</span>` : 'Pagas aquí mismo, de forma segura con Stripe. Nunca vemos tu tarjeta.'}</p>
+              <p className=${'err' + (f.err ? '' : ' hint')} role="status">${f.err ? html`<span>${f.err}${f.exists && APP_URL ? html` <a href=${APP_URL + '/login/'}>Entrar</a>` : ''}</span>` : !ok ? 'Rellena tus datos y marca ' + (paid ? 'las dos casillas' : 'la casilla') + ' para continuar.' : (live && fresh || demoPay) && payState && !payState.canConfirm ? 'Completa la dirección y el método de pago.' : ''}</p>
+              <button className="btn btn-primary" type="submit" disabled=${!ok || f.sending || ((live || demoPay) && !canPay)}>${!(live || demoPay) ? (f.sending ? 'Creando tu cuenta…' : paid ? 'Continuar al pago seguro' : 'Crear cuenta gratis') : f.paying ? 'Procesando el pago…' : (demoPay || fresh) && payState && payState.amount ? 'Pagar ' + payState.amount : f.sending ? 'Preparando el pago…' : 'Pagar'}</button>
+              <p className=${'secure' + (paid ? '' : ' ghost')}>${demoPay ? 'Demostración: no se cobra nada ni se guarda ningún dato. Nunca vemos tu tarjeta.' : live ? html`<span>El botón muestra lo que se cobra hoy, calculado por Stripe. Al pagar creamos tu cuenta y te enviamos un e-mail para que pongas tu contraseña. Nunca vemos tu tarjeta.</span>` : 'Pagas aquí mismo, de forma segura con Stripe. Nunca vemos tu tarjeta.'}</p>
             </div>
           </form>`]}
       </div>
@@ -1541,7 +1621,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
       <div className="sheet single" ref=${qRef} role="dialog" aria-modal="true" aria-labelledby="q-title">
         <div className="grabber" aria-hidden="true"></div>
         <button className="x" type="button" aria-label="Cerrar" onClick=${props.onClose}>×</button>
-        ${f.done ? html`<div className="done"><div className="ok" aria-hidden="true">✓</div><h3>¡Recibido!</h3><p>Te llamaremos en la franja que has elegido para preparar tu plan a medida.</p><button className="btn btn-primary" type="button" onClick=${props.onClose}>Volver</button></div>`
+        ${f.done ? html`<div className="done"><div className="ok" aria-hidden="true">✓</div><h3>¡Recibido!</h3><p>${DEMO ? 'Así de fácil es pedir tu plan a medida. Esta web es una demostración: no se ha enviado ningún dato.' : 'Te llamaremos en la franja que has elegido para preparar tu plan a medida.'}</p><button className="btn btn-primary" type="button" onClick=${props.onClose}>Volver</button></div>`
         : html`<form className="frm" noValidate onSubmit=${function (e) { e.preventDefault(); if (!ok || f.sending) return; up('sending', true); sendLead(f).then(function () { up('done', true); }).catch(function (x) { up('sending', false); window.alert(x.message); }); }}>
           <h3 id="q-title">Pide tu presupuesto Enterprise</h3>
           <p className="mutedt" style=${{ fontSize: '.88rem' }}>Déjanos tus datos y te llamamos para preparar un plan a tu medida.</p>
@@ -1723,6 +1803,12 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
         .catch(function () { setPaidNote({ ok: false }); });
     }, []);
     var qs = useState(false), quote = qs[0], setQuote = qs[1];
+    var lg = useState(false), login = lg[0], setLogin = lg[1];
+    useEffect(function () {
+      function show() { setLogin(true); }
+      window.addEventListener('lw-login', show);
+      return function () { window.removeEventListener('lw-login', show); };
+    }, []);
     function setPeriod(p) { setPeriodRaw(p); try { localStorage.setItem('lw-period2', p); } catch (e) {} }
     function openPlan(plan) { setCheckout({ plan: plan, k: Date.now() }); }
     function onFree() { openPlan('free'); }
@@ -1810,6 +1896,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
         <div className="wrap foot-bottom"><span>© 2026 LOOSES & WINS. Todos los derechos reservados.</span><span>Las cifras de esta web son ejemplos ilustrativos.</span></div>
       </footer>
       <${MobileCta} onFree=${onFree} hidden=${!!checkout || quote || !!cookieMode} />
+      ${login && html`<${Login} onClose=${function () { setLogin(false); }} onFree=${function () { setLogin(false); openPlan('free'); }} />`}
       ${paidNote && html`<${PaidNote} note=${paidNote} onClose=${function () { setPaidNote(null); }} />`}
       ${checkout && html`<${Checkout} key=${checkout.k} plan=${checkout.plan} period=${period} onClose=${function () { setCheckout(null); }} />`}
       ${quote && html`<${Quote} onClose=${function () { setQuote(false); }} />`}
