@@ -106,10 +106,14 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; line-height: 1.25; font-weight
 .menu { position: absolute; left: var(--gutter-l); right: var(--gutter-r); top: calc(100% + 8px); background: rgb(255 255 255 / .9); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-lg); padding: 8px; display: grid; }
 .menu a { padding: 14px 14px; border-radius: 10px; color: var(--ink); font-weight: 500; }
 .menu a:active { background: var(--canvas); }
+.nav-login { padding: 8px 10px; color: var(--muted); font-size: .9rem; font-weight: 500; border-radius: 10px; }
+.nav-login:hover { color: var(--ink); }
+.menu .menu-login { margin-top: 4px; border-top: 1px solid var(--border); border-radius: 0 0 10px 10px; color: var(--brand); font-weight: 600; }
 @media (max-width: 760px) {
   .nav-links { display: none; }
   .burger { display: grid; }
   .logo-text { font-size: .95rem; }
+  .nav-login { display: none; }
 }
 
 /* Hero */
@@ -730,6 +734,8 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
   var API_URL = String(CFG.apiUrl || '');
   /* No app address (showcase deployment): sign-ups are not open yet, so nothing redirects */
   var SHOWCASE = !APP_URL;
+  /* Clients who already have an account log in to the app (hidden in showcase mode: nobody has one yet) */
+  var LOGIN_URL = APP_URL ? APP_URL + '/login/' : '';
   var MORE_THAN = '10.000';
   function fmtN(n) { return n == null ? null : Number(n).toLocaleString('es-ES').replace(/(\d)(?=(\d{3})+$)/, '$1.'); }
   /* Prices and limits on sale come from the platform (admin panel → Planes); the values above are only a fallback */
@@ -895,12 +901,13 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
         <a className="logo" href="#inicio"><span className="logo-mark" aria-hidden="true">L&W</span><span className="logo-text">LOOSES & WINS</span></a>
         <nav className="nav-links" aria-label="Secciones">${links.map(function (l) { return html`<a key=${l[0]} href=${l[0]}>${l[1]}</a>`; })}</nav>
         <div className="nav-right">
+          ${LOGIN_URL && html`<a className="nav-login" href=${LOGIN_URL}>Entrar</a>`}
           <button className="btn btn-primary btn-sm nav-cta" type="button" onClick=${function () { props.onFree(); }}>Pruébalo gratis</button>
           <button className="burger" type="button" aria-label=${open ? 'Cerrar menú' : 'Abrir menú'} aria-expanded=${open} onClick=${function () { setOpen(!open); }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">${open ? html`<path d="M6 6l12 12M18 6L6 18"/>` : html`<path d="M4 7h16M4 12h16M4 17h16"/>`}</svg>
           </button>
         </div>
-        ${open && html`<div className="menu">${links.map(function (l) { return html`<a key=${l[0]} href=${l[0]} onClick=${function () { setOpen(false); }}>${l[1]}</a>`; })}</div>`}
+        ${open && html`<div className="menu">${links.map(function (l) { return html`<a key=${l[0]} href=${l[0]} onClick=${function () { setOpen(false); }}>${l[1]}</a>`; })}${LOGIN_URL && html`<a className="menu-login" href=${LOGIN_URL}>Entrar a mi cuenta</a>`}</div>`}
       </div>
     </header>`;
   }
@@ -1659,6 +1666,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
             <h4>Producto</h4>
             <a href="#como">Cómo funciona</a><a href="#calculadora">Calculadora</a><a href="#funciones">Funciones</a><a href="#precios">Precios</a>
             <button type="button" className="foot-btn" onClick=${onQuote}>Enterprise</button>
+            ${LOGIN_URL && html`<a href=${LOGIN_URL}>Entrar a mi cuenta</a>`}
           </nav>
           <nav className="foot-col" aria-label="Legal">
             <h4>Legal</h4>
