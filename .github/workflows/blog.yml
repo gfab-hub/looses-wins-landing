@@ -1,0 +1,34 @@
+# Builds the static blog of loosesandwins.com from the platform (copy of marketing/blog/blog.yml of the private repo).
+# Runs when the admin panel publishes (workflow_dispatch) and every hour as a safety net; commits only when it changed.
+name: blog
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 * * * *'
+permissions:
+  contents: write
+concurrency:
+  group: blog
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build the blog
+        env:
+          BLOG_API: https://duqwwdhxjxzklasscszh.supabase.co/functions/v1/public-api
+        run: |
+          npm install --no-save marked@15
+          node scripts/build-blog.mjs
+      - name: Publish
+        run: |
+          git config user.name "LOOSES & WINS blog"
+          git config user.email "blog@loosesandwins.com"
+          git add -A blog sitemap.xml robots.txt
+          if git diff --cached --quiet; then echo "nothing changed"; exit 0; fi
+          git commit -m "blog: update $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push

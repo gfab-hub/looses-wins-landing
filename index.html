@@ -1078,7 +1078,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
       window.addEventListener('scroll', close, { passive: true });
       return function () { window.removeEventListener('scroll', close); };
     }, [open]);
-    var links =[['#como', 'Cómo funciona'], ['#funciones', 'Funciones'], ['#privacidad', 'Privacidad'], ['#precios', 'Precios']];
+    var links =[['#como', 'Cómo funciona'], ['#funciones', 'Funciones'], ['#privacidad', 'Privacidad'], ['#precios', 'Precios'], ['/blog/', 'Blog']];
     return html`<header className="nav">
       <div className="wrap" style=${{ position: 'relative' }}>
         <a className="logo" href="#inicio"><span className="logo-mark" aria-hidden="true">L&W</span><span className="logo-text">LOOSES & WINS</span></a>
