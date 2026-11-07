@@ -702,6 +702,22 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
 @keyframes drop { from { opacity: 0; transform: translateY(-8px) scale(.98); } }
 @keyframes pop { from { transform: translateY(14px) scale(.98); opacity: .6; } }
 @keyframes slideUp { from { transform: translateY(100%); } }
+
+/* ---------- Mobile review (2026-11-08): readable text, finger-sized targets, solid menu, cleaner plan cards ---------- */
+.nav-cta { white-space: nowrap; }
+html, body { overflow-x: clip; }
+@media (max-width: 380px) { .nav-cta { padding: 8px 11px; font-size: .76rem; } .logo-text { font-size: .8rem; } .logo-mark { width: 30px; height: 30px; } }
+@media (max-width: 760px) {
+  .menu { background: #fff; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .stat .lab, .stat .hint, .float .msg, .float .meta, .pain-grid .tag, .fld label, .grp > span, .gp-sub, .then, .promo-msg,
+  .legal .chk, .secure, .opt .opt-t small, .tgl small, .badge, .pop, .chev, .seg-mini, .chart-card .t, .receipt .rh { font-size: .76rem; }
+  .seg-mini button { padding: 8px 12px; min-height: 36px; }
+  .cmp-row, .cmp-row span, .cmp-row small, .mk { font-size: .78rem; }
+  .foot-col a, .foot-col .foot-btn { display: block; padding: 10px 0; }
+  .loyal-line a { display: inline-block; padding: 10px 2px; }
+  .more-row a, .more-row button { min-height: 40px; display: inline-flex; align-items: center; }
+  .mcard .plan ul { justify-items: stretch; text-align: left; max-width: 340px; margin-inline: auto; width: 100%; }
+}
 </style>
 
 </head><body>
@@ -1469,9 +1485,16 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
   function MobileCta(props) {
     var s = useState(false), show = s[0], set = s[1];
     useEffect(function () {
-      function on() { var y = window.scrollY, max = document.documentElement.scrollHeight - window.innerHeight; set(y > 640 && y < max - 220); }
-      on(); window.addEventListener('scroll', on, { passive: true });
-      return function () { window.removeEventListener('scroll', on); };
+      /* hidden over the hero, the plans (they have their own buttons), the closing call and the footer */
+      function covered() {
+        return ['#precios', '.closing', 'footer'].some(function (q) {
+          var el = document.querySelector(q); if (!el) return false;
+          var r = el.getBoundingClientRect(); return r.top < window.innerHeight * 0.85 && r.bottom > 80;
+        });
+      }
+      function on() { set(window.scrollY > 640 && !covered()); }
+      on(); window.addEventListener('scroll', on, { passive: true }); window.addEventListener('resize', on);
+      return function () { window.removeEventListener('scroll', on); window.removeEventListener('resize', on); };
     }, []);
     return html`<div className=${'mcta' + (show && !props.hidden ? ' show' : '')} aria-hidden=${!show}>
       <a className="btn btn-ghost" href="#precios" tabIndex=${show ? 0 : -1}>Precios</a>
