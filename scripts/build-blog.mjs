@@ -23,7 +23,11 @@ const topicOf = (slug) => topics.find((t) => t.slug === slug) ?? { slug, label: 
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const date = (iso) => new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Madrid' });
 // Markdown → HTML; raw HTML in the article is escaped (articles come from an automatic writer)
-marked.use({ renderer: { html: ({ text }) => esc(text) }, gfm: true });
+// photos inside an article: only https, shown as a figure with the description and the licence credit (title)
+const image = ({ href, title, text }) => /^https:\/\//.test(href ?? '')
+  ? `<figure class="fig"><img src="${esc(href)}" alt="${esc(text)}" loading="lazy">${text || title ? `<figcaption>${esc(text)}${title ? `<span>${esc(title)}</span>` : ''}</figcaption>` : ''}</figure>`
+  : '';
+marked.use({ renderer: { html: ({ text }) => esc(text), image }, gfm: true });
 const md = (s) => marked.parse(String(s ?? ''));
 
 const CSS = `
@@ -50,7 +54,7 @@ h1{font-size:clamp(2rem,4.4vw,3.1rem);line-height:1.08;letter-spacing:-.035em;ma
 .feature{grid-column:1/-1;display:grid;grid-template-columns:1.3fr 1fr}.feature .cover{aspect-ratio:auto;min-height:280px}.feature h2{font-size:1.6rem}@media(max-width:760px){.feature{grid-template-columns:1fr}.nav-links{display:none}}
 .article{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px;padding:36px 0 70px}@media(max-width:960px){.article{grid-template-columns:1fr}}
 .prose{font-size:1.06rem;line-height:1.75}.prose h2{font-size:1.45rem;letter-spacing:-.02em;margin:2em 0 .6em}.prose h3{font-size:1.15rem;margin:1.6em 0 .5em}.prose p{margin:0 0 1.1em}.prose ul,.prose ol{padding-left:1.3em;margin:0 0 1.2em}.prose li{margin:.35em 0}.prose blockquote{margin:1.4em 0;padding:12px 18px;border-left:4px solid var(--brand);background:#fff;border-radius:0 10px 10px 0;color:var(--muted)}.prose a{text-decoration:underline}.prose table{border-collapse:collapse;width:100%;margin:1.2em 0;font-size:.95rem}.prose th,.prose td{border:1px solid var(--border);padding:8px 10px;text-align:left}.prose code{background:#eef1f6;padding:2px 6px;border-radius:6px;font-size:.9em}
-.art-cover{border-radius:var(--r);overflow:hidden;margin:18px 0 6px;box-shadow:var(--shadow)}.credit{font-size:.78rem;color:var(--muted);margin:0 0 22px}
+.art-cover{border-radius:var(--r);overflow:hidden;margin:18px 0 6px;box-shadow:var(--shadow)}.credit{font-size:.78rem;color:var(--muted);margin:0 0 22px}.prose p:has(>figure){margin:0}.fig{margin:1.8em 0}.fig img{width:100%;border-radius:var(--r);box-shadow:var(--shadow);display:block}.fig figcaption{font-size:.85rem;color:var(--muted);margin-top:8px}.fig figcaption span{display:block;font-size:.75rem;opacity:.8}
 .side{position:sticky;top:84px;align-self:start;display:grid;gap:14px}
 .cta{background:linear-gradient(160deg,var(--brand),oklch(0.42 0.16 285));color:#fff;border-radius:18px;padding:22px;box-shadow:0 24px 50px -24px color-mix(in oklch,var(--brand) 80%,transparent)}.cta h3{margin:0 0 6px;font-size:1.2rem;letter-spacing:-.01em}.cta p{margin:0 0 14px;color:rgb(255 255 255/.85);font-size:.93rem}.cta .btn{width:100%}.cta .btn-primary{background:#fff;color:var(--brand-deep);box-shadow:none}.cta .btn-ghost{background:transparent;color:#fff;border-color:rgb(255 255 255/.45);margin-top:8px}
 .box{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;font-size:.92rem}.box h4{margin:0 0 8px;font-size:.95rem}.box ul{margin:0;padding-left:1.1em}.box li{margin:.3em 0}
