@@ -95,16 +95,16 @@ footer{border-top:1px solid var(--border);background:#fff;padding:30px 0 40px;co
   document.getElementById('y').textContent = new Date().getFullYear();
 
   var COLS = [
-    { key: 'in_progress', title: 'En desarrollo', sub: 'Lo estamos construyendo ahora mismo.', color: '#2563eb' },
-    { key: 'planned', title: 'Próximamente', sub: 'Decidido: es lo siguiente.', color: '#7c3aed' },
     { key: 'idea', title: 'Ideas', sub: 'Vota para que lo hagamos antes.', color: '#d97706' },
+    { key: 'planned', title: 'Próximamente', sub: 'Decidido: es lo siguiente.', color: '#7c3aed' },
+    { key: 'in_progress', title: 'En desarrollo', sub: 'Lo estamos construyendo ahora mismo.', color: '#2563eb' },
     { key: 'released', title: 'Lanzado', sub: 'Ya disponible en la app.', color: '#16a34a' }
   ];
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var voted = {}; try { voted = JSON.parse(localStorage.getItem('lw-roadmap-votes') || '{}'); } catch (e) {}
   var date = function (iso) { return new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }); };
   var UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
-  var items = [], tab = 'in_progress';
+  var items = [], tab = 'idea';
 
   function toast(t) { var el = document.getElementById('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('show'); }, 2200); }
 
