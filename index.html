@@ -744,7 +744,56 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
   var STRIPE_PK = String(CFG.stripeKey || '');
   /* Clients who already have an account log in to the app (demo: the sign-in sheet of the landing) */
   var LOGIN_URL = APP_URL && !DEMO ? APP_URL + '/login/' : '#entrar';
-  function onLogin(e) { if (DEMO || !APP_URL) { e.preventDefault(); window.dispatchEvent(new Event('lw-login')); } }
+  function onLogin(e) { track('login_click'); if (DEMO || !APP_URL) { e.preventDefault(); window.dispatchEvent(new Event('lw-login')); } }
+  /* Visit statistics for the admin panel (Web): no cookies and nothing stored on the device — only which buttons are
+     pressed, where on the page (heatmap) and how far down people read. The platform never sees who the visitor is. */
+  var trackQ = [], trackDepth = 0, trackSection = 'hero', trackSent = false;
+  /* not counted: the demo, and the page shown inside the admin panel's heatmap */
+  var TRACK_OFF = DEMO; try { TRACK_OFF = DEMO || window.top !== window.self; } catch (x) { TRACK_OFF = true; }
+  function trackVw() { return Math.round(window.innerWidth || document.documentElement.clientWidth || 0); }
+  function trackDh() { return Math.round(document.documentElement.scrollHeight || 0); }
+  function track(t, extra) {
+    if (TRACK_OFF) return;
+    var e = { t: t, path: location.pathname, vw: trackVw(), dh: trackDh() };
+    if (extra) for (var k in extra) e[k] = extra[k];
+    trackQ.push(e);
+    if (t !== 'click') trackFlush();
+  }
+  function trackFlush() {
+    if (!trackQ.length || TRACK_OFF) return;
+    var body = { action: 'track', events: trackQ.splice(0, 40) };
+    if (!trackSent) {
+      trackSent = true;
+      body.referrer = document.referrer || '';
+      try { body.utm = new URLSearchParams(location.search).get('utm_source') || ''; } catch (x) {}
+    }
+    var text = JSON.stringify(body);
+    try { if (navigator.sendBeacon && navigator.sendBeacon(API_URL, text)) return; } catch (x) {}
+    try { fetch(API_URL, { method: 'POST', body: text, keepalive: true }); } catch (x) {}
+  }
+  function sectionAt(y) {
+    var found = null, list = document.querySelectorAll('section[id]');
+    for (var i = 0; i < list.length; i++) { if (list[i].getBoundingClientRect().top + window.scrollY <= y) found = list[i].id; }
+    return found;
+  }
+  if (!TRACK_OFF) {
+    document.addEventListener('click', function (ev) {
+      var el = ev.target && ev.target.closest ? ev.target.closest('a,button,[role=radio],input,summary,label') : null;
+      var sec = ev.target && ev.target.closest ? ev.target.closest('section[id]') : null;
+      var label = el ? (el.getAttribute('aria-label') || el.textContent || el.getAttribute('href') || '').replace(/\s+/g, ' ').trim().slice(0, 60) : '';
+      track('click', { x: Math.round(ev.clientX / Math.max(1, trackVw()) * 1000), y: Math.round(ev.pageY), target: label || null, section: sec ? sec.id : null });
+    }, true);
+    window.addEventListener('scroll', function () {
+      var bottom = window.scrollY + window.innerHeight, d = Math.min(100, Math.round(bottom / Math.max(1, trackDh()) * 100));
+      if (d > trackDepth) { trackDepth = d; trackSection = sectionAt(bottom - window.innerHeight / 2) || trackSection; }
+    }, { passive: true });
+    setInterval(trackFlush, 5000);
+    var trackLeft = false;
+    function trackLeave() { if (trackLeft) return; trackLeft = true; track('leave', { depth: trackDepth, section: trackSection }); }
+    window.addEventListener('pagehide', trackLeave);
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') { trackLeave(); trackFlush(); } });
+    track('view');
+  }
   var MORE_THAN = '10.000';
   function fmtN(n) { return n == null ? null : Number(n).toLocaleString('es-ES').replace(/(\d)(?=(\d{3})+$)/, '$1.'); }
   /* Prices and limits on sale come from the platform (admin panel → Planes); the values above are only a fallback */
@@ -1493,6 +1542,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
       }
       if (live || demoPay) {
         if (!canPay) return;
+        track('pay_click', { plan: f.plan });
         setF(function (o) { return Object.assign({}, o, { paying: true, err: '' }); });
         // success: Stripe takes the visitor back to /?pago=<session> ("¡Pago recibido!"); errors stay in the form.
         // Demo: only the typed data is checked, then the same "all done" screen as the free plan
@@ -1505,6 +1555,8 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
       if (sheetRef.current) setMinH(sheetRef.current.offsetHeight);
       if (DEMO) { up('sending', true); setTimeout(function () { up('sending', false); up('done', true); }, 700); return; }
       up('done', true);
+      track(paid ? 'pay_click' : 'free_click', { plan: f.plan });
+      trackFlush();
       window.location.href = APP_URL + '/signup/?' + q.toString();
     }
 
@@ -1622,7 +1674,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
         <div className="grabber" aria-hidden="true"></div>
         <button className="x" type="button" aria-label="Cerrar" onClick=${props.onClose}>×</button>
         ${f.done ? html`<div className="done"><div className="ok" aria-hidden="true">✓</div><h3>¡Recibido!</h3><p>${DEMO ? 'Así de fácil es pedir tu plan a medida. Esta web es una demostración: no se ha enviado ningún dato.' : 'Te llamaremos en la franja que has elegido para preparar tu plan a medida.'}</p><button className="btn btn-primary" type="button" onClick=${props.onClose}>Volver</button></div>`
-        : html`<form className="frm" noValidate onSubmit=${function (e) { e.preventDefault(); if (!ok || f.sending) return; up('sending', true); sendLead(f).then(function () { up('done', true); }).catch(function (x) { up('sending', false); window.alert(x.message); }); }}>
+        : html`<form className="frm" noValidate onSubmit=${function (e) { e.preventDefault(); if (!ok || f.sending) return; up('sending', true); sendLead(f).then(function () { track('enterprise', { plan: 'enterprise' }); up('done', true); }).catch(function (x) { up('sending', false); window.alert(x.message); }); }}>
           <h3 id="q-title">Pide tu presupuesto Enterprise</h3>
           <p className="mutedt" style=${{ fontSize: '.88rem' }}>Déjanos tus datos y te llamamos para preparar un plan a tu medida.</p>
           <div className="r2">${field('name', 'Nombre', 'text', { autoComplete: 'name' })}${field('company', 'Empresa', 'text', { autoComplete: 'organization' })}</div>
@@ -1799,7 +1851,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
       if (!sid || !API_URL) return;
       try { window.history.replaceState(null, '', window.location.pathname + window.location.hash); } catch (e) {}
       api({ action: 'checkout_status', session_id: sid })
-        .then(function (j) { setPaidNote(j.status === 'complete' ? { ok: true, email: j.email } : { ok: false }); })
+        .then(function (j) { if (j.status === 'complete') track('paid'); setPaidNote(j.status === 'complete' ? { ok: true, email: j.email } : { ok: false }); })
         .catch(function () { setPaidNote({ ok: false }); });
     }, []);
     var qs = useState(false), quote = qs[0], setQuote = qs[1];
@@ -1810,7 +1862,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
       return function () { window.removeEventListener('lw-login', show); };
     }, []);
     function setPeriod(p) { setPeriodRaw(p); try { localStorage.setItem('lw-period2', p); } catch (e) {} }
-    function openPlan(plan) { setCheckout({ plan: plan, k: Date.now() }); }
+    function openPlan(plan) { track('plan_open', { plan: plan }); setCheckout({ plan: plan, k: Date.now() }); }
     function onFree() { openPlan('free'); }
     function onQuote() { setQuote(true); }
     var ls = useState(null), legal = ls[0], setLegal = ls[1];
