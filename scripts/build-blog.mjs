@@ -110,10 +110,10 @@ const head = (o) => `<!doctype html><html lang="es"><head><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
 <style>${CSS}</style>${o.jsonld ? `<script type="application/ld+json">${JSON.stringify(o.jsonld)}</script>` : ''}</head><body>
 <header class="nav"><div class="wrap"><a class="logo" href="/"><b>L&amp;W</b>LOOSES &amp; WINS</a>
-<nav class="nav-links"><a href="/#como">Cómo funciona</a><a href="/#funciones">Funciones</a><a href="/#precios">Precios</a><a href="/blog/" class="on">Blog</a></nav>
+<nav class="nav-links"><a href="/#como">Cómo funciona</a><a href="/#funciones">Funciones</a><a href="/#precios">Precios</a><a href="/blog/" class="on">Blog</a><a href="/roadmap/">Roadmap</a></nav>
 <a class="btn btn-primary" href="${APP}/signup/?plan=free">Empieza gratis</a></div></header>`;
 
-const foot = () => `<footer><div class="wrap"><span>© ${new Date().getFullYear()} LOOSES &amp; WINS · El beneficio real de tu tienda online</span><span><a href="/">Inicio</a> · <a href="/#precios">Planes</a> · <a href="/blog/">Blog</a> · <a href="/blog/rss.xml">RSS</a></span></div></footer></body></html>`;
+const foot = () => `<footer><div class="wrap"><span>© ${new Date().getFullYear()} LOOSES &amp; WINS · El beneficio real de tu tienda online</span><span><a href="/">Inicio</a> · <a href="/#precios">Planes</a> · <a href="/blog/">Blog</a> · <a href="/roadmap/">Roadmap</a> · <a href="/blog/rss.xml">RSS</a></span></div></footer></body></html>`;
 
 const badge = (slug) => `<span class="badge" style="--c:${accent(slug)}">${esc(topicOf(slug).label)}</span>`;
 const byline = (p, long = false) => `<div class="by"><span class="av">L&amp;W</span><span><b>Redacción LOOSES &amp; WINS</b> · ${date(p.published_at)} · ${p.reading_minutes} min${long ? ' de lectura' : ''}</span></div>`;
@@ -184,7 +184,7 @@ const rss = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><
 ${posts.slice(0, 50).map((p) => `<item><title>${esc(p.title)}</title><link>${SITE}/blog/${p.slug}/</link><guid>${SITE}/blog/${p.slug}/</guid><pubDate>${new Date(p.published_at).toUTCString()}</pubDate><description>${esc(p.excerpt)}</description><category>${esc(topicOf(p.topic).label)}</category></item>`).join('\n')}
 </channel></rss>`;
 writeFileSync('blog/rss.xml', rss);
-const urls = [`${SITE}/`, `${SITE}/blog/`, ...topics.map((t) => `${SITE}/blog/tema/${t.slug}/`), ...posts.map((p) => `${SITE}/blog/${p.slug}/`)];
+const urls = [`${SITE}/`, `${SITE}/blog/`, `${SITE}/roadmap/`, ...topics.map((t) => `${SITE}/blog/tema/${t.slug}/`), ...posts.map((p) => `${SITE}/blog/${p.slug}/`)];
 writeFileSync('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((u) => `<url><loc>${u}</loc></url>`).join('')}</urlset>`);
 if (!existsSync('robots.txt') || !readFileSync('robots.txt', 'utf8').includes('Sitemap')) writeFileSync('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 console.log(`blog: ${posts.length} articles, ${topics.length} topics`);

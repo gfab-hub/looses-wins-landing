@@ -1118,7 +1118,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
       window.addEventListener('scroll', close, { passive: true });
       return function () { window.removeEventListener('scroll', close); };
     }, [open]);
-    var links =[['#como', 'Cómo funciona'], ['#funciones', 'Funciones'], ['#privacidad', 'Privacidad'], ['#precios', 'Precios'], ['/blog/', 'Blog']];
+    var links =[['#como', 'Cómo funciona'], ['#funciones', 'Funciones'], ['#privacidad', 'Privacidad'], ['#precios', 'Precios'], ['/blog/', 'Blog'], ['/roadmap/', 'Roadmap']];
     return html`<header className="nav">
       <div className="wrap" style=${{ position: 'relative' }}>
         <a className="logo" href="#inicio"><span className="logo-mark" aria-hidden="true">L&W</span><span className="logo-text">LOOSES & WINS</span></a>
@@ -1972,7 +1972,7 @@ mark.pend { background: #fff3c4; color: #7a5a00; padding: 0 3px; border-radius: 
           </div>
           <nav className="foot-col" aria-label="Producto">
             <h4>Producto</h4>
-            <a href="#como">Cómo funciona</a><a href="#calculadora">Calculadora</a><a href="#funciones">Funciones</a><a href="#precios">Precios</a>
+            <a href="#como">Cómo funciona</a><a href="#calculadora">Calculadora</a><a href="#funciones">Funciones</a><a href="#precios">Precios</a><a href="/blog/">Blog</a><a href="/roadmap/">Roadmap</a>
             <button type="button" className="foot-btn" onClick=${onQuote}>Enterprise</button>
             <a href=${LOGIN_URL} onClick=${onLogin}>Entrar a mi cuenta</a>
           </nav>
